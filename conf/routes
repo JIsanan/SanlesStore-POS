@@ -3,8 +3,8 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                           controllers.HomeController.index
-GET     /result                     controllers.HomeController.wowow
+GET     /                           controllers.HomeController.retrieveUsers
+GET     /result/:id                 controllers.HomeController.getUser(id: Integer)
 # An example controller showing how to use dependency injection
 GET     /count                      controllers.CountController.count
 # An example controller showing how to write asynchronous code
