@@ -1,0 +1,42 @@
+<div class='container'>
+        <div class='row'>
+           
+            <div class='matCardCustom'>
+              <mat-card >
+                <mat-toolbar color='primary'>Update Product</mat-toolbar>
+                <form #addProds='ngForm'>
+    
+                    <div class='form-group'>
+                        <mat-form-field appearance='legacy'>
+                            <mat-label for='prodName'>Product Name</mat-label>
+                            <input matInput class='inputField'  placeholder='here' [(ngModel)]='prod.prodName' name='prodName' id='prodName' required>
+                        </mat-form-field>
+                    </div>
+    
+                    <div class='form-group'>
+                        <mat-form-field appearance='legacy'>
+                            <mat-label for='category'>Product Category</mat-label>
+                            <input matInput class='inputField' placeholder='here' [(ngModel)]='prod.category' name='category' id='category' required>
+                        </mat-form-field>
+                    </div>
+    
+                    <div class='form-group'>
+                            <mat-form-field appearance='legacy'>
+                                <mat-label for='price'>Product Price</mat-label>
+                                <input matInput class='inputField' placeholder='here' [(ngModel)]='prod.prodPrice' name='price' id='price' required>
+                            </mat-form-field>
+                    </div>
+    
+                    
+                        
+                        <div class='row btn-style'>
+                            <button mat-raised-button color='primary' type='submit' class='btn  btn-success btn-lg'>SUBMIT</button>
+                        </div>
+                        
+                </form>
+                
+              </mat-card>
+            </div>
+        </div>
+        
+    </div>

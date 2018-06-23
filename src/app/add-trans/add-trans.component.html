@@ -1,0 +1,42 @@
+<div class='container'>
+    <div class='row'>
+       
+        <div class='matCardCustom'>
+          <mat-card >
+            <mat-toolbar color='primary'>Add Transaction</mat-toolbar>
+            <form #addTrans='ngForm'>
+                <div class="form-group">
+                    <mat-form-field appearace='legacy'>
+                        <mat-label for='buyer'>Name of Buyer</mat-label>
+                        <input matInput class='inputField' placeholder='here' [(ngModel)]='trans.buyer' name='buyer' id='buyer' required>
+                    </mat-form-field>
+                </div>
+                <div class='form-group'>
+                    <mat-form-field appearance='legacy'>
+                        <mat-label for='quantity'>Product Qty.</mat-label>
+                        <input matInput class='inputField'  placeholder='here' [(ngModel)]='trans.qty' name='quantity' id='quantity' required>
+                    </mat-form-field>
+                </div>
+                <div class='form-group'>
+                    <mat-form-field appearance='legacy'>
+                        <mat-label for='product'>Product Name</mat-label>
+                        <input matInput class='inputField' placeholder='here' [(ngModel)]='trans.prodName' name='product' id='product' required>
+                    </mat-form-field>
+                </div> 
+
+                <div class='form-group'>
+                        <mat-form-field appearance='legacy'>
+                            <mat-label for='co'>Company Name</mat-label>
+                            <input matInput class='inputField' placeholder='here' [(ngModel)]='trans.company' name='co' id='co' required>
+                        </mat-form-field>
+                </div> 
+                    
+                    <div class='row btn-style'>
+                        <button mat-raised-button color='primary' type='submit' class='btn  btn-success btn-lg'>SUBMIT</button>
+                    </div>
+            </form>
+          </mat-card>
+        </div>
+    </div>
+    
+</div>
