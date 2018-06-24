@@ -12,12 +12,9 @@ import play.mvc.*;
 import views.html.*;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 
-/**
- * This controller contains an action to handle HTTP requests
- * to the application's home page.
- */
 public class HomeController extends Controller {
     private final FormFactory formFactory;
 
@@ -25,12 +22,6 @@ public class HomeController extends Controller {
     public HomeController(final FormFactory formFactory) {
         this.formFactory = formFactory;
     }
-    /**
-     * An action that renders an HTML page with a welcome message.
-     * The configuration in the <code>routes</code> file means that
-     * this method will be called when the application receives a
-     * <code>GET</code> request with a path of <code>/</code>.
-     */
 
     public Result login(){
         DynamicForm requestData = formFactory.form().bindFromRequest();
@@ -68,6 +59,7 @@ public class HomeController extends Controller {
                     L.setPassword(requestData.get("password"));
                     L.setCreatedBy(user);
                     L.setIsdeleted(false);
+                    L.setAddedDate(new Date());
                     node.put("message", "user created successfully");
                     L.save();
                 }else{
@@ -100,6 +92,7 @@ public class HomeController extends Controller {
                 toedit.setPassword(requestData.get("password"));
                 toedit.setPosition(requestData.get("position"));
                 toedit.setUpdatedBy(user);
+                toedit.setUpdatedDate(new Date());
                 toedit.update();
             }else{
                 node.put("message", "information inputted maybe lacking or incorrect");
@@ -120,6 +113,7 @@ public class HomeController extends Controller {
                 node.put("message", "successfully deleted");
                 toedit.setIsdeleted(true);
                 toedit.setUpdatedBy(user);
+                toedit.setUpdatedDate(new Date());
                 toedit.update();
             }else{
                 node.put("message", "user already deleted");

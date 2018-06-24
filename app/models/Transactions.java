@@ -1,36 +1,27 @@
 package models;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import play.data.format.Formats;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Entity
-public class User extends Model{
+public class Transactions extends Model{
     @Id
     public Integer id;
 
     @NotNull
-    @Size(max = 50)
-    public String user;
+    @Size(max = 10)
+    public Integer quantity;
 
-    @NotNull
     @Size(max = 50)
-    public String position;
-
-    @NotNull
-    @Size(max = 50)
-    public String password;
+    public String buyerName;
 
     @NotNull
     public boolean isdeleted;
@@ -38,17 +29,19 @@ public class User extends Model{
     @ManyToOne
     public User updatedBy;
 
+    @NotNull
     @ManyToOne
-    public User createdBy;
+    public User issuedBy;
 
+    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     @Formats.DateTime(pattern = "yyyy-MM-dd")
-    public Date addedDate;
+    public Date issuedDate;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     @Formats.DateTime(pattern = "yyyy-MM-dd")
     public Date updatedDate;
 
-    public static Finder<Integer, User> find = new Finder<>(User.class);
+    public static Finder<Integer, Transactions> find = new Finder<>(Transactions.class);
 
 }
