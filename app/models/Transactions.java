@@ -34,6 +34,10 @@ public class Transactions extends Model{
     public User issuedBy;
 
     @NotNull
+    @ManyToOne
+    public Product product;
+
+    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     @Formats.DateTime(pattern = "yyyy-MM-dd")
     public Date issuedDate;

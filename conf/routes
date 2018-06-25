@@ -4,14 +4,29 @@
 
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.retrieveUsers
-GET     /logout                     controllers.HomeController.logout
-GET     /getuser                    controllers.HomeController.getUser
+GET     /logout/                    controllers.HomeController.logout
+GET     /getuser/                   controllers.HomeController.getUser
 GET     /delete/:id/                controllers.HomeController.deleteUser(id: Integer)
 POST    /edit/:id/                  controllers.HomeController.editUser(id: Integer)
 POST    /login/                     controllers.HomeController.login
 POST    /adduser/                   controllers.HomeController.createUser
 # An example controller showing how to use dependency injection
-GET     /count                      controllers.CountController.count
+GET     /productType/               controllers.ProductTypeController.retrieveProductType
+GET     /deleteProductType/:id/     controllers.ProductTypeController.deleteProductType(id: Integer)
+POST    /editProductType/:id/       controllers.ProductTypeController.editProductType(id: Integer)
+POST    /addProductType/            controllers.ProductTypeController.createProductType
+
+GET     /product/                   controllers.ProductController.retrieveProduct
+GET     /product/:id/               controllers.ProductController.retrieveCertainProduct(id: Integer)
+GET     /deleteProduct/:id/         controllers.ProductController.deleteProduct(id: Integer)
+POST    /editProduct/:id/           controllers.ProductController.editProduct(id: Integer)
+POST    /addProduct/                controllers.ProductController.createProduct
+
+GET     /transaction/               controllers.TransactionController.retrieveTransaction
+GET     /transaction/:id/           controllers.TransactionController.retrieveCertainTransaction(id: Integer)
+GET     /deleteTransaction/:id/     controllers.TransactionController.deleteTransaction(id: Integer)
+POST    /editTransaction/:id/       controllers.TransactionController.editTransaction(id: Integer)
+POST    /addTransaction/            controllers.TransactionController.createTransaction
 # An example controller showing how to write asynchronous code
 GET     /message                    controllers.AsyncController.message
 

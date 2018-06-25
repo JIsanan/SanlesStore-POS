@@ -52,7 +52,7 @@ public class HomeController extends Controller {
         if(!requestData.get("username").equals("") && !requestData.get("password").equals("") && !requestData.get("position").equals("") && user.getPosition().equals("admin")){
             User checker = User.find.where().eq("user", requestData.get("username")).findUnique();
             if(checker==null){
-                if(requestData.get("position").equals("admin") || requestData.get("position").equals("user")){
+                if(requestData.get("position").equals("admin") || requestData.get("position").equals("manager") || requestData.get("position").equals("employee")){
                     User L = new User();
                     L.setUser(requestData.get("username"));
                     L.setPosition(requestData.get("position"));
@@ -75,9 +75,16 @@ public class HomeController extends Controller {
     }
 
     public Result retrieveUsers() {
-        List<User> users = User.find.all();
-        JsonNode userlist = Json.toJson(users);
-        return ok(userlist);
+        User user = User.find.where().eq("user", session().get("user")).findUnique();
+        ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user.getPosition().equals("admin")){
+            node.put("message", "successfully retrieved");
+            List<User> users = User.find.where().ne("isdeleted", true).findList();
+            node.put("users", Json.toJson(users));
+        }else{
+            node.put("message", "not authorized to access");
+        }
+        return ok(node);
     }
 
     public Result editUser(Integer x) {
@@ -133,12 +140,6 @@ public class HomeController extends Controller {
         }else{
             node.put("message", "not found");
         }
-//        ObjectNode node = JsonNodeFactory.instance.objectNode();
-//        node.put("x", 224);
-//        node.put("username", 500);
-//  List<User> users = User.find.where().eq("user", requestData.get("username")).setMaxRows(1).findList();
-//        user.setUser("owner");
-//        user.update();
         return ok(node);
     }
 }

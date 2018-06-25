@@ -34,6 +34,7 @@ create table transactions (
   isdeleted                     tinyint(1) default 0 not null,
   updated_by_id                 integer,
   issued_by_id                  integer not null,
+  product_id                    integer not null,
   issued_date                   datetime(6) not null,
   updated_date                  datetime(6),
   constraint pk_transactions primary key (id)
@@ -73,6 +74,9 @@ create index ix_transactions_updated_by_id on transactions (updated_by_id);
 alter table transactions add constraint fk_transactions_issued_by_id foreign key (issued_by_id) references user (id) on delete restrict on update restrict;
 create index ix_transactions_issued_by_id on transactions (issued_by_id);
 
+alter table transactions add constraint fk_transactions_product_id foreign key (product_id) references product (id) on delete restrict on update restrict;
+create index ix_transactions_product_id on transactions (product_id);
+
 alter table user add constraint fk_user_updated_by_id foreign key (updated_by_id) references user (id) on delete restrict on update restrict;
 create index ix_user_updated_by_id on user (updated_by_id);
 
@@ -102,6 +106,9 @@ drop index ix_transactions_updated_by_id on transactions;
 
 alter table transactions drop foreign key fk_transactions_issued_by_id;
 drop index ix_transactions_issued_by_id on transactions;
+
+alter table transactions drop foreign key fk_transactions_product_id;
+drop index ix_transactions_product_id on transactions;
 
 alter table user drop foreign key fk_user_updated_by_id;
 drop index ix_user_updated_by_id on user;

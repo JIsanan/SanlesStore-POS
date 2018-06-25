@@ -3,7 +3,6 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.Product;
 import models.ProductType;
 import models.User;
 import play.data.DynamicForm;
@@ -16,33 +15,34 @@ import javax.inject.Inject;
 import java.util.Date;
 import java.util.List;
 
-public class ProductController extends Controller {
+public class ProductTypeController extends Controller {
     private final FormFactory formFactory;
 
     @Inject
-    public ProductController(final FormFactory formFactory) {
+    public ProductTypeController(final FormFactory formFactory) {
         this.formFactory = formFactory;
     }
 
-    public Result createProduct(){
+    public static Result createProduct() {
+        return play.mvc.Results.TODO;
+    }
+
+    public Result createProductType(){
         DynamicForm requestData = formFactory.form().bindFromRequest();
         User user = User.find.where().eq("user", session().get("user")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
         if(user.getPosition().equals("admin") || user.getPosition().equals("manager")){
-            ProductType typecheck = ProductType.find.where().eq("id", requestData.get("type_id")).ne("isdeleted", true).findUnique();
-            Product checker = Product.find.where().eq("name", requestData.get("product_name")).findUnique();
-            if(checker==null && typecheck!=null && Integer.parseInt(requestData.get("price")) > 0){
-                Product L = new Product();
-                L.setName(requestData.get("product_name"));
-                L.setType(typecheck);
+            ProductType checker = ProductType.find.where().eq("typeName", requestData.get("type_name")).findUnique();
+            if(checker==null){
+                ProductType L = new ProductType();
+                L.setTypeName(requestData.get("type_name"));
                 L.setCreatedBy(user);
                 L.setIsdeleted(false);
-                L.setPrice(Integer.parseInt(requestData.get("price")));
                 L.setAddedDate(new Date());
-                node.put("message", "product created successfully");
+                node.put("message", "productType created successfully");
                 L.save();
             }else{
-                node.put("message", "product exists already or product type does not exist or price is an incorrect value");
+                node.put("message", "product type exists already");
             }
         }else{
             node.put("message", "not authorized to add productType");
@@ -50,20 +50,16 @@ public class ProductController extends Controller {
         return ok(node);
     }
 
-
-    public Result editProduct(Integer x) {
+    public Result editProductType(Integer x) {
         DynamicForm requestData = formFactory.form().bindFromRequest();
         User user = User.find.where().eq("user", session().get("user")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
         if(user.getPosition().equals("admin") || user.getPosition().equals("manager")){
-            ProductType typecheck = ProductType.find.where().eq("id", requestData.get("type_id")).ne("isdeleted", true).findUnique();
-            Product checker = Product.find.byId(x);
-            if(checker.getIsdeleted() == false && !requestData.get("product_name").equals("") && Integer.parseInt(requestData.get("price")) > 0 && typecheck!=null){
+            ProductType checker = ProductType.find.byId(x);
+            if(checker.getIsdeleted() == false && !requestData.get("type_name").equals("")){
                 node.put("message", "successfully edited");
-                checker.setName(requestData.get("product_name"));
+                checker.setTypeName(requestData.get("type_name"));
                 checker.setUpdatedBy(user);
-                checker.setType(typecheck);
-                checker.setPrice(Integer.parseInt(requestData.get("price")));
                 checker.setUpdatedDate(new Date());
                 checker.update();
             }else{
@@ -75,13 +71,12 @@ public class ProductController extends Controller {
         return ok(node);
     }
 
-
-    public Result deleteProduct(Integer x) {
+    public Result deleteProductType(Integer x) {
         DynamicForm requestData = formFactory.form().bindFromRequest();
         User user = User.find.where().eq("user", session().get("user")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
         if(user.getPosition().equals("admin") || user.getPosition().equals("manager")){
-            Product checker = Product.find.byId(x);
+            ProductType checker = ProductType.find.byId(x);
             if(checker.getIsdeleted() == false){
                 node.put("message", "successfully deleted");
                 checker.setIsdeleted(true);
@@ -89,7 +84,7 @@ public class ProductController extends Controller {
                 checker.setUpdatedDate(new Date());
                 checker.update();
             }else{
-                node.put("message", "product already deleted");
+                node.put("message", "productType already deleted");
             }
         }else{
             node.put("message", "not authorized to delete");
@@ -97,25 +92,9 @@ public class ProductController extends Controller {
         return ok(node);
     }
 
-
-    public Result retrieveProduct() {
-        List<Product> products = Product.find.where().ne("isdeleted", true).findList();
+    public Result retrieveProductType() {
+        List<ProductType> products = ProductType.find.where().ne("isdeleted", true).findList();
         JsonNode product = Json.toJson(products);
         return ok(product);
-    }
-
-    public Result retrieveCertainProduct(Integer x) {
-        DynamicForm requestData = formFactory.form().bindFromRequest();
-        ObjectNode node = JsonNodeFactory.instance.objectNode();
-        User user = User.find.where().eq("user", session().get("user")).findUnique();
-        if(user != null){
-            Product products = Product.find.where().ne("isdeleted", true).eq("id", x).findUnique();
-            node.put("message", "successfully retrieved");
-            JsonNode product = Json.toJson(products);
-            node.put("product", product);
-        }else{
-            node.put("message", "not authenticated");
-        }
-        return ok(node);
     }
 }
