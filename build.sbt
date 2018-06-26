@@ -10,5 +10,6 @@ libraryDependencies += jdbc
 libraryDependencies += javaJdbc
 libraryDependencies += cache
 libraryDependencies += javaWs
+libraryDependencies += filters
 
 libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.36"

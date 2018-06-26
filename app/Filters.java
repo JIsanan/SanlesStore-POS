@@ -5,6 +5,7 @@ import play.http.HttpFilters;
 import play.mvc.*;
 
 import filters.ExampleFilter;
+import play.filters.cors.CORSFilter;
 
 /**
  * This class configures filters that run on every request. This
@@ -31,16 +32,14 @@ public class Filters implements HttpFilters {
         this.exampleFilter = exampleFilter;
     }
 
+    @Inject
+    CORSFilter corsFilter;
     @Override
     public EssentialFilter[] filters() {
       // Use the example filter if we're running development mode. If
       // we're running in production or test mode then don't use any
       // filters at all.
-      if (env.mode().equals(Mode.DEV)) {
-          return new EssentialFilter[] { exampleFilter };
-      } else {
-         return new EssentialFilter[] {};
-      }
+          return new EssentialFilter[] { corsFilter.asJava() };
     }
 
 }
