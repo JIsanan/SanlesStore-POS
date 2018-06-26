@@ -7,13 +7,31 @@ import {
   state,
   style,
   animate,
-  transition
+  transition,
+  query,
+  group
 } from '@angular/animations';
+
 @Component({
   selector: 'my-nav',
   templateUrl: './my-nav.component.html',
   styleUrls: ['./my-nav.component.css'],
   animations: [
+    trigger('routerTransition',[
+      transition("*<=>*",[
+        query(':enter,:leave',style({position:'fixed',width:'100%'}),{optional:true}),
+        group([
+          query(":enter",[
+             style({transform:'translateX(100%)'}),
+             animate('0.5s ease-in',style({transform:'translateX(0%)'}))
+          ],{optional:true}),
+          query(':leave',[
+            style({transform:'translateX(0%)'}),
+            animate('0.5s ease-in-out',style({transform:'translateX(100%)'}))
+          ],{optional:true}),
+        ])
+      ])
+    ]),
     trigger('heroState', [
       state('inactive', style({
         backgroundColor: '#FFFFFF',
@@ -42,13 +60,18 @@ export class MyNavComponent {
     
   constructor(private breakpointObserver: BreakpointObserver) {
     this.linkBatch = [
-      new links("/addTrans","Add New Transaction",'inactive'),
-      new links("/addProd","Add Product",'inactive'),
-      new links("/viewProd","View Products",'inactive'),
-      new links("/viewTrans","View Transactions",'inactive')
+      new links("/mynav/dashb","Dashboard",'inactive'),
+      new links("/mynav/addTrans","Add New Transaction",'inactive'),
+      new links("/mynav/addProd","Add Product",'inactive'),
+      new links("/mynav/viewProd","View Products",'inactive'),
+      new links("/mynav/viewTrans","View Transactions",'inactive')
     ]
   }
   
+  getState(outlet){
+    console.log(outlet.activatedRouteData.state);
+    return outlet.activatedRouteData.state;
+  }
   
   
   }

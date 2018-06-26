@@ -8,7 +8,7 @@
     [opened]="!(isHandset$ | async)">
     <mat-toolbar color="accent">Menu</mat-toolbar>
     <mat-nav-list>
-      <a *ngFor='let link of linkBatch' [@heroState]='link.state' (mouseover)='link.toggleState()' (mouseout)='link.toggleState()' mat-list-item routerLink={{link.route}}>{{link.linkName}}</a>
+      <a *ngFor='let link of linkBatch' [@heroState]='link.state' (mouseover)='link.toggleState()' (mouseout)='link.toggleState()' routerLinkActive='active' mat-list-item routerLink={{link.route}}>{{link.linkName}}</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -21,8 +21,11 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>Sanles Store</span>
+      <span class='btnSpace'>Sanles Store</span>
+      <a routerLink='/login' class='color'>LOG OUT</a>
     </mat-toolbar>
-    <router-outlet></router-outlet>
+    <div [@routerTransition]='getState(o)'>
+        <router-outlet #o='outlet'></router-outlet>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
