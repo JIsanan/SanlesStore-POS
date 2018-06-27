@@ -10,12 +10,15 @@ import {  ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { LogInPageModule} from './LOGINPAGE/loginpage.module';
 import { POSModule } from './POS/pos.module';
+import { HttpClientModule } from '@angular/common/http';
+import { AdminService } from './admin.service';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
+    HttpClientModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
     MatDialogModule,
@@ -42,7 +45,7 @@ import { POSModule } from './POS/pos.module';
     MatOptionModule,
     MatSelectModule
   ],
-  providers: [],
+  providers: [AdminService],
   bootstrap: [AppComponent],
   entryComponents:[]
 })

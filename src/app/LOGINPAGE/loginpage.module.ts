@@ -8,6 +8,7 @@ import { MatSelectModule, MatInputModule, MatFormFieldModule, MatToolbarModule, 
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from '@angular/cdk/layout';
+import { AdminService } from '../admin.service';
 
 @NgModule({
   imports: [
@@ -34,7 +35,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     LoginPageComponent
   ],
   providers: [
-    
+    AdminService
   ]
 })
 export class LogInPageModule {}

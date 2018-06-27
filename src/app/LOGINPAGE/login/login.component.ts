@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AdminService } from '../../admin.service';
 
 @Component({
   selector: 'app-login',
@@ -12,12 +13,17 @@ export class LoginComponent implements OnInit {
     width: number = 100;
     height: number = 100;
     
-  constructor(public router:Router) { }
+  constructor(public router:Router ,public admin:AdminService) { }
 
   ngOnInit() {
   }
 
   nav(){
      this.router.navigate(['/mynav/dashb']);
+     this.admin.postFunc().subscribe(
+       res=>{
+         console.log(res[0].addedDate);
+       }
+     );
   }
 }
