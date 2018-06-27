@@ -38,15 +38,35 @@
               <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
             </ng-container>
         
-            <ng-container matColumnDef="category">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Product Category</mat-header-cell>
-                <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
-            </ng-container>
-        
             <ng-container matColumnDef="price">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Product Price</mat-header-cell>
-                <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
+                <mat-cell *matCellDef="let row">{{row.price}}</mat-cell>
             </ng-container>
+        
+            <!-- <ng-container matColumnDef="update_by_id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>\Updated By</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.updated_by_id}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="typeID">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>\Updated By</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.type_id}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="created_by_id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>\Updated By</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.created_by_id}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="addedDate">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>\Updated By</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.added_date}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="updatedDate">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>\Updated By</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.updated_date}}</mat-cell>
+            </ng-container> -->
         
             <ng-container matColumnDef='update'>
               <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
@@ -55,17 +75,17 @@
             
             <ng-container matColumnDef='delete'>
                 <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
-                <mat-cell *matCellDef='let row'><button mat-raised-button color='accent' (click)='openDeleteDialog($event)'>DELETE</button></mat-cell>
+                <mat-cell *matCellDef='let row'><button mat-raised-button color='accent' id={{row.id}} name={{row.id}} (click)='openDeleteDialog($event)'>DELETE</button></mat-cell>
             </ng-container>
         
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let rico; columns: displayedColumns;"></mat-row>
           </mat-table>
         
-          <mat-paginator #paginator
+          <!-- <mat-paginator #paginator
             [length]="dataSource.data.length"
             [pageIndex]="0"
             [pageSize]="10"
             [pageSizeOptions]="[5, 10, 25, 50]">
-          </mat-paginator>
+          </mat-paginator> -->
   </mat-card>

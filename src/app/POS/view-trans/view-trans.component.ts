@@ -6,6 +6,7 @@ import { DeleteTransactionComponent } from '../delete-transaction/delete-transac
 import { FormControl } from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { AdminService } from '../../admin.service';
 
 @Component({
   selector: 'view-trans',
@@ -51,7 +52,7 @@ export class ViewTransComponent implements OnInit {
   filteredOptions: Observable<string[]>;
 
   ngOnInit() {
-    this.dataSource = new ViewTransDataSource(this.paginator, this.sort);
+    this.dataSource = new ViewTransDataSource(this.admin);
     this.filteredOptions = this.search.valueChanges
     .pipe(
       startWith(''),
@@ -63,8 +64,16 @@ export class ViewTransComponent implements OnInit {
     return this.options.filter(option =>
       option.toLowerCase().includes(val.toLowerCase()));
   }
-  constructor(public updateDialog:MatDialog,public deleteDialog:MatDialog){
 
+  constructor(public updateDialog:MatDialog,public deleteDialog:MatDialog,public admin:AdminService){
+    this.admin.getTransactionsFunc().subscribe(
+      res=>{
+        console.log(res);
+      },
+      err=>{
+        console.log(err);
+      }
+    );
   }
 
   openUpdateDialog(e:any):void{

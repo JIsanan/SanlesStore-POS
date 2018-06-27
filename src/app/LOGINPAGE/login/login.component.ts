@@ -20,10 +20,11 @@ export class LoginComponent implements OnInit {
 
   nav(){
      this.router.navigate(['/mynav/dashb']);
-     this.admin.postFunc().subscribe(
+     this.admin.loginFunc().subscribe(
        res=>{
-         console.log(res[0].addedDate);
+         console.log(res);
        }
      );
+     
   }
 }

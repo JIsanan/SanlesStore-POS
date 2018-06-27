@@ -7,6 +7,7 @@ import { DeleteProductComponent } from '../delete-product/delete-product.compone
 import { FormControl } from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { AdminService } from '../../admin.service';
 
 @Component({
   selector: 'view-prod',
@@ -16,24 +17,30 @@ import { Observable } from 'rxjs';
 export class ViewProdComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  dataSource: ViewProdDataSource;
+  // @ViewChild(AdminService) admin:AdminService;
 
+  dataSource =  new ViewProdDataSource(this.admin);
+  data:Object[];
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'name','category','price','update','delete'];
+  displayedColumns = ['id', 'name','price','update','delete'];
+  
   searchCategory = [
     {value: 'Product Name', viewValue: 'Product Name'},
     {value: 'Product Category', viewValue: 'Product Category'},
     {value: 'Product Name', viewValue: 'Product Price'}
   ];
+
   search = new FormControl();
+
   ngOnInit() {
-    this.dataSource = new ViewProdDataSource(this.paginator, this.sort);
+    
     this.filteredOptions = this.search.valueChanges
       .pipe(
         startWith(''),
         map(val => this.filter(val))
       );
   }
+
   options = [
     'Hydrogen',
    'Helium',
@@ -64,8 +71,14 @@ export class ViewProdComponent implements OnInit {
       option.toLowerCase().includes(val.toLowerCase()));
   }
 
-  constructor(public updateDialog:MatDialog,public deleteDialog:MatDialog){
-
+  constructor(public updateDialog:MatDialog,public deleteDialog:MatDialog,public admin:AdminService){
+    this.admin.getProductsFunc().subscribe(
+      res=>{
+        this.data = res;
+        console.log(this.data);
+       
+      }
+    );
   }
 
   openUpdateDialog(e:any):void{
@@ -83,10 +96,11 @@ export class ViewProdComponent implements OnInit {
   }
 
   openDeleteDialog(e:any):void{
+    console.log(e.target.name);
     let dialogRef = this.deleteDialog.open(DeleteProductComponent,{
       width:'20%',
       height:'100',
-      data:{}
+      data:{ID:e.target.name}
     });
 
     dialogRef.afterClosed().subscribe(result => {
