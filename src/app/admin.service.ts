@@ -25,13 +25,14 @@ export class AdminService {
     username:'admin',
     password:'test1234'
   }
+  
   getProductsUrl = 'http://localhost:9000/product/';
 
   loginUrl = 'http://localhost:9000/login/';
 
   getTransactionsUrl = 'http://localhost:9000/transaction/';
 
-  deleteProductURL = 'http://localhost:9000/product/gay/';
+  deleteProductURL = 'http://localhost:9000/product/:id/';
 
   getTransactionsFunc():Observable<any>{
     return this.http.get(this.getTransactionsUrl,this.httpOptions);

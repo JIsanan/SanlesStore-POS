@@ -22,6 +22,8 @@ export class LoginComponent implements OnInit {
      this.router.navigate(['/mynav/dashb']);
      this.admin.loginFunc().subscribe(
        res=>{
+         localStorage.setItem('token',res.user.authToken);
+         this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
          console.log(res);
        }
      );

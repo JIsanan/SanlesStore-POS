@@ -12,6 +12,7 @@ import { LogInPageModule} from './LOGINPAGE/loginpage.module';
 import { POSModule } from './POS/pos.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AdminService } from './admin.service';
+import { AuthService } from './interceptors/auth.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,7 @@ import { AdminService } from './admin.service';
     MatOptionModule,
     MatSelectModule
   ],
-  providers: [AdminService],
+  providers: [AdminService,AuthService],
   bootstrap: [AppComponent],
   entryComponents:[]
 })
