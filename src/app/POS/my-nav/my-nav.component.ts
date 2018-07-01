@@ -62,9 +62,10 @@ export class MyNavComponent {
     this.linkBatch = [
       new links("/mynav/dashb","Dashboard",'inactive'),
       new links("/mynav/addTrans","Add New Transaction",'inactive'),
-      new links("/mynav/addProd","Add Product",'inactive'),
+      new links("/mynav/addProd","Add NewProduct",'inactive'),
+      new links("/mynav/addProdType","Add New Product Type",'inactive'),
       new links("/mynav/viewProd","View Products",'inactive'),
-      new links("/mynav/viewTrans","View Transactions",'inactive')
+      new links("/mynav/viewTrans","View Transactions",'inactive'),
     ]
   }
   

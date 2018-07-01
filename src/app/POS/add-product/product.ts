@@ -1,8 +1,8 @@
 export class Product {
     constructor(
         public prodID:number,
-        public prodName:String,
-        public category:String,
-        public prodPrice:number
+        public type_name:String,
+        public type_id:number,
+        public price:number
     ){}
 }

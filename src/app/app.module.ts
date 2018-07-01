@@ -14,9 +14,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { AdminService } from './admin.service';
 import { AuthService } from './interceptors/auth.service';
 
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     HttpClientModule,

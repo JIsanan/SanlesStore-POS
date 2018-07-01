@@ -18,6 +18,7 @@ import { MyNavComponent } from './my-nav/my-nav.component';
 import { AddTransComponent } from './add-trans/add-trans.component';
 import { FormsModule } from '@angular/forms';
 import { PosRoutingModule } from './posRouting.module';
+import { AddProductTypeComponent } from './add-product-type/add-product-type.component';
 
 @NgModule({
     imports: [
@@ -57,12 +58,12 @@ import { PosRoutingModule } from './posRouting.module';
       DashboardComponent,
       AddTransComponent,
       AddProductComponent,
-      AddProductComponent,
       UpdateProdComponent,
       ViewProdComponent,
       ViewTransComponent,
       DeleteProductComponent,
-      DeleteTransactionComponent
+      DeleteTransactionComponent,
+      AddProductTypeComponent
     ],
     providers: [
       

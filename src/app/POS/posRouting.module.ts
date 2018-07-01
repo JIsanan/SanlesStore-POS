@@ -10,7 +10,7 @@ import { UpdateTransactionComponent } from './update-transaction/update-transact
 import { DeleteTransactionComponent } from './delete-transaction/delete-transaction.component';
 import { MyNavComponent } from './my-nav/my-nav.component';
 import { AddTransComponent } from './add-trans/add-trans.component';
-
+import { AddProductTypeComponent } from './add-product-type/add-product-type.component';
 
 const appRoutes:Routes = [
     {path:'mynav',component:MyNavComponent,children:[
@@ -19,7 +19,8 @@ const appRoutes:Routes = [
         {path:'addProd',component:AddProductComponent,data:{state:'addProd'}},
         {path:'updateProd',component:UpdateProdComponent},
         {path:'viewProd',component:ViewProdComponent,data:{state:'viewProd'}},
-        {path:'viewTrans',component:ViewTransComponent,data:{state:'viewTrans'}}
+        {path:'viewTrans',component:ViewTransComponent,data:{state:'viewTrans'}},
+        {path:'addProdType',component:AddProductTypeComponent,data:{state:'addProdType'}}
         ]
     }
 ]
