@@ -19,6 +19,7 @@ import { AddTransComponent } from './add-trans/add-trans.component';
 import { FormsModule } from '@angular/forms';
 import { PosRoutingModule } from './posRouting.module';
 import { AddProductTypeComponent } from './add-product-type/add-product-type.component';
+import { ViewProdtypeComponent } from './view-prodtype/view-prodtype.component';
 
 @NgModule({
     imports: [
@@ -49,9 +50,9 @@ import { AddProductTypeComponent } from './add-product-type/add-product-type.com
       MatSortModule,
       MatOptionModule,
       MatSelectModule,
-      
     ],
     declarations: [
+      ViewProdtypeComponent,
       PosComponent,
       MyNavComponent,
       UpdateTransactionComponent,

@@ -15,9 +15,11 @@ import { AdminService } from './admin.service';
 import { AuthService } from './interceptors/auth.service';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
+    
   ],
   imports: [
     HttpClientModule,

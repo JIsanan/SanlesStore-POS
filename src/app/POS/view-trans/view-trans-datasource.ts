@@ -6,8 +6,10 @@ import { AdminService } from '../../admin.service';
 
 // TODO: Replace this with your own data model type
 export interface ViewTransItem {
-  name: string;
   id: number;
+  buyer_name: string;
+  prodQty:number;
+  prodName:string;
 }
 
 // TODO: replace this with real data from your application

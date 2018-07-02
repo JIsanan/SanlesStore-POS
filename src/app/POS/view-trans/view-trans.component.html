@@ -34,22 +34,17 @@
           <!-- Name Column -->
           <ng-container matColumnDef="buyerName">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Name of Buyer</mat-header-cell>
-            <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
+            <mat-cell *matCellDef="let row">{{row.buyer_name}}</mat-cell>
           </ng-container>
-      
-          <ng-container matColumnDef="companyName">
-              <mat-header-cell *matHeaderCellDef mat-sort-header>Company Name</mat-header-cell>
-              <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
-          </ng-container>
-      
-          <ng-container matColumnDef="prodQuant">
+
+          <ng-container matColumnDef="prodQty">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Product Qty.</mat-header-cell>
-                <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
+                <mat-cell *matCellDef="let row">{{row.prodQty}}</mat-cell>
           </ng-container>
       
           <ng-container matColumnDef="prodName">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Product Name</mat-header-cell>
-                  <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
+                  <mat-cell *matCellDef="let row">{{row.prodName}}</mat-cell>
           </ng-container>
       
           <ng-container matColumnDef='update'>
@@ -66,10 +61,10 @@
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
       
-        <mat-paginator #paginator
+        <!-- <mat-paginator #paginator
           [length]="dataSource.data.length"
           [pageIndex]="0"
           [pageSize]="10"
           [pageSizeOptions]="[5, 10, 25, 50]">
-        </mat-paginator>
+        </mat-paginator> -->
   </mat-card>

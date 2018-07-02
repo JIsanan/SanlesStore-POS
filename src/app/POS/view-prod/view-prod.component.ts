@@ -72,13 +72,14 @@ export class ViewProdComponent implements OnInit {
   }
 
   constructor(public updateDialog:MatDialog,public deleteDialog:MatDialog,public admin:AdminService){
-    this.admin.getProductsFunc().subscribe(
-      res=>{
-        this.data = res;
-        console.log(this.data);
+    this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
+    // this.admin.getProductsFunc().subscribe(
+    //   res=>{
+    //     this.data = res;
+    //     console.log(this.data);
        
-      }
-    );
+    //   }
+    // );
   }
 
   openUpdateDialog(e:any):void{
@@ -86,7 +87,7 @@ export class ViewProdComponent implements OnInit {
     let dialogRef = this.updateDialog.open(UpdateProdComponent, {
       width: '80%',
       height:'350',
-      data: { }
+      data: {ID:e.target.name}
     });
 
     dialogRef.afterClosed().subscribe(result => {

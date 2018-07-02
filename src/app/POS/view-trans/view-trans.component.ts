@@ -16,10 +16,11 @@ import { AdminService } from '../../admin.service';
 export class ViewTransComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+
   dataSource: ViewTransDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'buyerName','companyName','prodQuant','prodName','update','delete'];
+  displayedColumns = ['id', 'buyerName','prodQty','prodName','update','delete'];
   search = new FormControl();
   searchCategory = [
     {value: 'Product Name', viewValue: 'Product Name'},
@@ -66,14 +67,17 @@ export class ViewTransComponent implements OnInit {
   }
 
   constructor(public updateDialog:MatDialog,public deleteDialog:MatDialog,public admin:AdminService){
-    this.admin.getTransactionsFunc().subscribe(
-      res=>{
-        console.log(res);
-      },
-      err=>{
-        console.log(err);
-      }
-    );
+    if(localStorage.getItem('token')){
+      this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
+      this.admin.getTransactionsFunc().subscribe(
+        res=>{
+          console.log(res);
+        },
+        err=>{
+          console.log(err);
+        }
+      );
+    }
   }
 
   openUpdateDialog(e:any):void{
