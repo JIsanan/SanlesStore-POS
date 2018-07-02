@@ -1,4 +1,29 @@
-<div class="mat-elevation-z8">
+<mat-card >
+  <div class='center '>
+    <mat-form-field appearance="outline" class='length'>
+      <mat-label >Search here</mat-label>
+      <input type="text" matInput [formControl]='search' [matAutocomplete]="auto"><mat-icon matSuffix>search</mat-icon>
+      <mat-autocomplete #auto='matAutocomplete'>
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{ option }}
+          </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    &nbsp;
+    <button mat-raised-button color='primary'>Search!</button>
+    &nbsp;
+    <mat-form-field>
+        <mat-label>Search By:</mat-label>
+        <mat-select placeholder="Search Options">
+          <mat-option *ngFor="let item of searchCategory" [value]="item.value" >
+            {{ item.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  </div>
+</mat-card>
+
+<mat-card class="mat-elevation-z8 cardBorders">
   <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
 
     <!-- Id Column -->
@@ -8,19 +33,31 @@
     </ng-container>
 
     <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
+    <ng-container matColumnDef="type_name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Product Type Name</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.typeName}}</mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef='update'>
+      <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+      <mat-cell *matCellDef='let row'><button mat-raised-button color='primary' id={{row.typeName}} name={{row.id}} (click)='openUpdateDialog($event)'>UPDATE</button></mat-cell>
+    </ng-container>
+    
+    <ng-container matColumnDef='delete'>
+        <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+        <mat-cell *matCellDef='let row'><button mat-raised-button color='accent' id={{row.id}} name={{row.id}} (click)='openDeleteDialog($event)'>DELETE</button></mat-cell>
+    </ng-container>
+    
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 
-  <mat-paginator #paginator
+  
+
+  <!-- <mat-paginator #paginator
     [length]="dataSource.data.length"
     [pageIndex]="0"
     [pageSize]="50"
     [pageSizeOptions]="[25, 50, 100, 250]">
-  </mat-paginator>
-</div>
+  </mat-paginator> -->
+</mat-card>

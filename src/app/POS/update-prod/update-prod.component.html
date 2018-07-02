@@ -14,6 +14,7 @@
                     </div>
 
                     <mat-form-field>
+                        <mat-label for='prodName'>Product Type Name</mat-label>
                         <mat-select color='primary' [(value)]='uProd.type_id' [(ngModel)]='uProd.type_id' name='type_id' id='type_id'>
                             <mat-option *ngFor="let item of prodTypes" [value]="item.id" >
                               {{ item.typeName }}

@@ -34,6 +34,8 @@ export class AdminService {
 
   updatedProductBody:Product;
 
+  updatedProductTypeBody:product_type;
+
   getProductsUrl = 'http://localhost:9000/product/';
 
   loginUrl = 'http://localhost:9000/login/';
@@ -41,6 +43,8 @@ export class AdminService {
   getTransactionsUrl = 'http://localhost:9000/transaction/';
 
   deleteProductURL = 'http://localhost:9000/deleteProduct/:id/';
+
+  deleteProductTypeURL = 'http://localhost:9000/deleteProductType/:id/';
 
   addProdTypeURL = 'http://localhost:9000/addProductType/';
 
@@ -52,6 +56,15 @@ export class AdminService {
 
   updateProductURL = 'http://localhost:9000/editProduct/:id/';
 
+  updateProductTypeURL = 'http://localhost:9000/editProductType/:id/';
+
+  updateProductTypeFunc():Observable<any>{
+    return this.http.post(this.updateProductTypeURL,this.updatedProductTypeBody,this.httpOptions);
+  }
+
+  deleteProductTypeFunc():Observable<any>{
+    return this.http.get(this.deleteProductTypeURL,this.httpOptions);
+  }
   updateProductFunc():Observable<any>{
     return this.http.post(this.updateProductURL,this.updatedProductBody,this.httpOptions);
   }

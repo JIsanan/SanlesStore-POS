@@ -20,6 +20,8 @@ import { FormsModule } from '@angular/forms';
 import { PosRoutingModule } from './posRouting.module';
 import { AddProductTypeComponent } from './add-product-type/add-product-type.component';
 import { ViewProdtypeComponent } from './view-prodtype/view-prodtype.component';
+import { DeleteProductTypeComponent } from './delete-product-type/delete-product-type.component';
+import { UpdateProductTypeComponent } from './update-product-type/update-product-type.component';
 
 @NgModule({
     imports: [
@@ -52,6 +54,8 @@ import { ViewProdtypeComponent } from './view-prodtype/view-prodtype.component';
       MatSelectModule,
     ],
     declarations: [
+      UpdateProductTypeComponent,    
+      DeleteProductTypeComponent,
       ViewProdtypeComponent,
       PosComponent,
       MyNavComponent,
@@ -70,6 +74,8 @@ import { ViewProdtypeComponent } from './view-prodtype/view-prodtype.component';
       
     ],
     entryComponents:[
+      UpdateProductTypeComponent,
+      DeleteProductTypeComponent,
       UpdateTransactionComponent,
       DeleteProductComponent,
       DeleteTransactionComponent

@@ -33,7 +33,6 @@ export class ViewProdComponent implements OnInit {
   search = new FormControl();
 
   ngOnInit() {
-    
     this.filteredOptions = this.search.valueChanges
       .pipe(
         startWith(''),

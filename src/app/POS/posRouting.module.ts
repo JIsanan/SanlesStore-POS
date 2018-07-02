@@ -11,6 +11,7 @@ import { DeleteTransactionComponent } from './delete-transaction/delete-transact
 import { MyNavComponent } from './my-nav/my-nav.component';
 import { AddTransComponent } from './add-trans/add-trans.component';
 import { AddProductTypeComponent } from './add-product-type/add-product-type.component';
+import { ViewProdtypeComponent } from './view-prodtype/view-prodtype.component';
 
 const appRoutes:Routes = [
     {path:'mynav',component:MyNavComponent,children:[
@@ -20,7 +21,8 @@ const appRoutes:Routes = [
         {path:'updateProd',component:UpdateProdComponent},
         {path:'viewProd',component:ViewProdComponent,data:{state:'viewProd'}},
         {path:'viewTrans',component:ViewTransComponent,data:{state:'viewTrans'}},
-        {path:'addProdType',component:AddProductTypeComponent,data:{state:'addProdType'}}
+        {path:'addProdType',component:AddProductTypeComponent,data:{state:'addProdType'}},
+        {path:'viewProdtype',component:ViewProdtypeComponent,data:{state:'viewProdType'}}
         ]
     }
 ]

@@ -66,6 +66,7 @@ export class MyNavComponent {
       new links("/mynav/addProdType","Add New Product Type",'inactive'),
       new links("/mynav/viewProd","View Products",'inactive'),
       new links("/mynav/viewTrans","View Transactions",'inactive'),
+      new links('/mynav/viewProdtype',"View Product Types",'inactive')
     ]
   }
   
