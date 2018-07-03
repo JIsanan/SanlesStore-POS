@@ -26,7 +26,7 @@ public class ProductController extends Controller {
 
     public Result createProduct(){
         DynamicForm requestData = formFactory.form().bindFromRequest();
-        User user = User.find.where().eq("user", session().get("user")).findUnique();
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
         if(user.getPosition().equals("admin") || user.getPosition().equals("manager")){
             ProductType typecheck = ProductType.find.where().eq("id", requestData.get("type_id")).ne("isdeleted", true).findUnique();
@@ -53,7 +53,7 @@ public class ProductController extends Controller {
 
     public Result editProduct(Integer x) {
         DynamicForm requestData = formFactory.form().bindFromRequest();
-        User user = User.find.where().eq("user", session().get("user")).findUnique();
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
         if(user.getPosition().equals("admin") || user.getPosition().equals("manager")){
             ProductType typecheck = ProductType.find.where().eq("id", requestData.get("type_id")).ne("isdeleted", true).findUnique();
@@ -76,10 +76,13 @@ public class ProductController extends Controller {
     }
 
 
-    public Result deleteProduct(Integer x) {
-        DynamicForm requestData = formFactory.form().bindFromRequest();
-        User user = User.find.where().eq("user", session().get("user")).findUnique();
+    public Result deleteProduct(Integer x) {        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
+        DynamicForm requestData = formFactory.form().bindFromRequest();
         if(user.getPosition().equals("admin") || user.getPosition().equals("manager")){
             Product checker = Product.find.byId(x);
             if(checker.getIsdeleted() == false){
@@ -99,23 +102,29 @@ public class ProductController extends Controller {
 
 
     public Result retrieveProduct() {
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
+        ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
         List<Product> products = Product.find.where().ne("isdeleted", true).findList();
         JsonNode product = Json.toJson(products);
         return ok(product);
     }
 
     public Result retrieveCertainProduct(Integer x) {
-        DynamicForm requestData = formFactory.form().bindFromRequest();
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
-        User user = User.find.where().eq("user", session().get("user")).findUnique();
-        if(user != null){
-            Product products = Product.find.where().ne("isdeleted", true).eq("id", x).findUnique();
-            node.put("message", "successfully retrieved");
-            JsonNode product = Json.toJson(products);
-            node.put("product", product);
-        }else{
-            node.put("message", "not authenticated");
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
         }
+        DynamicForm requestData = formFactory.form().bindFromRequest();
+        Product products = Product.find.where().ne("isdeleted", true).eq("id", x).findUnique();
+        node.put("message", "successfully retrieved");
+        JsonNode product = Json.toJson(products);
+        node.put("product", product);
         return ok(node);
     }
 }

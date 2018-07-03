@@ -25,6 +25,9 @@ public class User extends Model{
     public String user;
 
     @NotNull
+    public String authToken;
+
+    @NotNull
     @Size(max = 50)
     public String position;
 

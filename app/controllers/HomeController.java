@@ -14,6 +14,7 @@ import views.html.*;
 import javax.inject.Inject;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class HomeController extends Controller {
     private final FormFactory formFactory;
@@ -28,8 +29,6 @@ public class HomeController extends Controller {
         User users = User.find.where().eq("user", requestData.get("username")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
         if(users != null && users.getPassword().equals(requestData.get("password")) && users.getIsdeleted() == false){
-            session().clear();
-            session("user", users.getUser());
             node.put("message", "login successful");
             node.put("user", Json.toJson(users));
         }else{
@@ -47,8 +46,12 @@ public class HomeController extends Controller {
 
     public Result createUser(){
         DynamicForm requestData = formFactory.form().bindFromRequest();
-        User user = User.find.where().eq("user", session().get("user")).findUnique();
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
         if(!requestData.get("username").equals("") && !requestData.get("password").equals("") && !requestData.get("position").equals("") && user.getPosition().equals("admin")){
             User checker = User.find.where().eq("user", requestData.get("username")).findUnique();
             if(checker==null){
@@ -60,6 +63,13 @@ public class HomeController extends Controller {
                     L.setCreatedBy(user);
                     L.setIsdeleted(false);
                     L.setAddedDate(new Date());
+                    String authToken = UUID.randomUUID().toString();
+                    User check = User.find.where().eq("authToken", authToken).findUnique();
+                    while(check != null){
+                        authToken = UUID.randomUUID().toString();
+                        check = User.find.where().eq("authToken", authToken).findUnique();
+                    }
+                    L.setAuthToken(authToken);
                     node.put("message", "user created successfully");
                     L.save();
                 }else{
@@ -75,8 +85,13 @@ public class HomeController extends Controller {
     }
 
     public Result retrieveUsers() {
-        User user = User.find.where().eq("user", session().get("user")).findUnique();
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
+
         if(user.getPosition().equals("admin")){
             node.put("message", "successfully retrieved");
             List<User> users = User.find.where().ne("isdeleted", true).findList();
@@ -89,8 +104,12 @@ public class HomeController extends Controller {
 
     public Result editUser(Integer x) {
         DynamicForm requestData = formFactory.form().bindFromRequest();
-        User user = User.find.where().eq("user", session().get("user")).findUnique();
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
         if(user.getPosition().equals("admin")){
             User toedit = User.find.byId(x);
             if(toedit.getIsdeleted() == false && !requestData.get("username").equals("") && !requestData.get("password").equals("") && (requestData.get("position").equals("admin") || requestData.get("position").equals("user"))){
@@ -112,8 +131,12 @@ public class HomeController extends Controller {
 
     public Result deleteUser(Integer x) {
         DynamicForm requestData = formFactory.form().bindFromRequest();
-        User user = User.find.where().eq("user", session().get("user")).findUnique();
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
         if(user.getPosition().equals("admin")){
             User toedit = User.find.byId(x);
             if(toedit.getIsdeleted() == false){
@@ -132,13 +155,30 @@ public class HomeController extends Controller {
     }
 
     public Result getUser() {
-        User user = User.find.where().eq("user", session().get("user")).findUnique();
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
-        if(user != null){
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
+        node.put("message", "user found");
+        node.put("user", Json.toJson(user));
+        return ok(node);
+    }
+
+    public Result getSpecificUser(Integer x) {
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
+        ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
+        User toOpen = User.find.where().eq("id", x).ne("isDeleted", true).findUnique();
+        if(toOpen != null){
             node.put("message", "user found");
-            node.put("user", Json.toJson(user));
+            node.put("user", Json.toJson(toOpen));
         }else{
-            node.put("message", "not found");
+            node.put("message", "user not found");
         }
         return ok(node);
     }

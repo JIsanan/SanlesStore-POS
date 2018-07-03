@@ -27,8 +27,12 @@ public class TransactionController extends Controller {
 
     public Result createTransaction(){
         DynamicForm requestData = formFactory.form().bindFromRequest();
-        User user = User.find.where().eq("user", session().get("user")).findUnique();
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
         if(user.getPosition().equals("admin") || user.getPosition().equals("manager") || user.getPosition().equals("employee")){
             Product productcheck = Product.find.where().eq("id", requestData.get("product_id")).ne("isdeleted", true).findUnique();
             if(productcheck!=null && Integer.parseInt(requestData.get("quantity")) > 0 ){
@@ -53,8 +57,12 @@ public class TransactionController extends Controller {
 
     public Result editTransaction(Integer x) {
         DynamicForm requestData = formFactory.form().bindFromRequest();
-        User user = User.find.where().eq("user", session().get("user")).findUnique();
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
         Transactions checker = Transactions.find.where().eq("id", requestData.get("transaction_id")).ne("isdeleted", true).findUnique();
         if(user.getPosition().equals("admin") || user.getPosition().equals("manager") || (user.getPosition().equals("employee") && checker.getIssuedBy().getId() == user.getId())){
             Product productcheck = Product.find.where().eq("id", requestData.get("product_id")).ne("isdeleted", true).findUnique();
@@ -78,8 +86,12 @@ public class TransactionController extends Controller {
 
     public Result deleteTransaction(Integer x) {
         DynamicForm requestData = formFactory.form().bindFromRequest();
-        User user = User.find.where().eq("user", session().get("user")).findUnique();
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
         Transactions checker = Transactions.find.where().eq("id", requestData.get("transaction_id")).ne("isdeleted", true).findUnique();
         if(user.getPosition().equals("admin") || user.getPosition().equals("manager") || (user.getPosition().equals("employee") && checker.getIssuedBy().getId() == user.getId())){
             if(checker.getIsdeleted() == false){
@@ -99,8 +111,12 @@ public class TransactionController extends Controller {
 
 
     public Result retrieveTransaction() {
-        User user = User.find.where().eq("user", session().get("user")).findUnique();
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
         if(user.getPosition().equals("admin") || user.getPosition().equals("manager")){
             List<Transactions> transactions = Transactions.find.where().ne("isdeleted", true).findList();
             node.put("transactions",Json.toJson(transactions));
@@ -115,9 +131,12 @@ public class TransactionController extends Controller {
 
     public Result retrieveCertainTransaction(Integer x) {
         DynamicForm requestData = formFactory.form().bindFromRequest();
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
-        User user = User.find.where().eq("user", session().get("user")).findUnique();
-        if(user != null){
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
             Transactions products = Transactions.find.where().ne("isdeleted", true).eq("id", x).findUnique();
             if(products.getIssuedBy().getId() == user.getId()){
                 node.put("message", "successfully retrieved");
@@ -126,9 +145,6 @@ public class TransactionController extends Controller {
             }else{
                 node.put("message", "not authorized");
             }
-        }else{
-            node.put("message", "not authenticated");
-        }
         return ok(node);
     }
 }

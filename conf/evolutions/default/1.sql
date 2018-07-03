@@ -43,6 +43,7 @@ create table transactions (
 create table user (
   id                            integer auto_increment not null,
   user                          varchar(50) not null,
+  auth_token                    varchar(255) not null,
   position                      varchar(50) not null,
   password                      varchar(50) not null,
   isdeleted                     tinyint(1) default 0 not null,

@@ -6,6 +6,7 @@
 GET     /                           controllers.HomeController.retrieveUsers
 GET     /logout/                    controllers.HomeController.logout
 GET     /getuser/                   controllers.HomeController.getUser
+GET     /getuser/:id/               controllers.HomeController.getSpecificUser(id: Integer)
 GET     /delete/:id/                controllers.HomeController.deleteUser(id: Integer)
 POST    /edit/:id/                  controllers.HomeController.editUser(id: Integer)
 POST    /login/                     controllers.HomeController.login
