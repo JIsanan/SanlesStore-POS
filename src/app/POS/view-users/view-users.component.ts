@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { ViewUsersDataSource } from './view-users-datasource';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith,map } from 'rxjs/operators';
 import { AdminService } from '../../admin.service';
+import { DeleteUserComponent } from 'src/app/POS/delete-user/delete-user.component';
 
 @Component({
   selector: 'view-users',
@@ -14,10 +15,9 @@ import { AdminService } from '../../admin.service';
 export class ViewUsersComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  dataSource: ViewUsersDataSource;
-
+  dataSource: ViewUsersDataSource = new ViewUsersDataSource(this.admin);
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'name'];
+  displayedColumns = ['id', 'user','position','password','update','delete'];
 
   searchCategory = [
     {value: 'Product Name', viewValue: 'Product Name'},
@@ -25,12 +25,13 @@ export class ViewUsersComponent implements OnInit {
     {value: 'Product Name', viewValue: 'Product Price'}
   ];
 
-  constructor(public admin:AdminService){
+  constructor(public admin:AdminService,public updateDialog:MatDialog,public deleteDialog:MatDialog){
+    this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
 
   }
   search = new FormControl();
   ngOnInit() {
-    this.dataSource = new ViewUsersDataSource(this.admin);
+    
     this.filteredOptions = this.search.valueChanges
       .pipe(
         startWith(''),
@@ -68,4 +69,31 @@ export class ViewUsersComponent implements OnInit {
       option.toLowerCase().includes(val.toLowerCase()));
   }
 
+  // openUpdateDialog(e:any):void{
+  //   console.log(e);
+  //   let dialogRef = this.updateDialog.open(UpdateProdComponent, {
+  //     width: '80%',
+  //     height:'350',
+  //     data: {ID:e.target.name}
+  //   });
+
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     console.log('The dialog was closed');
+      
+  //   });
+  // }
+
+  openDeleteDialog(e:any):void{
+    console.log(e.target.name);
+    let dialogRef = this.deleteDialog.open(DeleteUserComponent,{
+      width:'20%',
+      height:'100',
+      data:{ID:e.target.name}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      
+    });
+  }
 }

@@ -24,6 +24,7 @@ import { DeleteProductTypeComponent } from './delete-product-type/delete-product
 import { UpdateProductTypeComponent } from './update-product-type/update-product-type.component';
 import { ViewUsersComponent } from './view-users/view-users.component';
 import { AddUsersComponent } from './add-users/add-users.component';
+import { DeleteUserComponent } from './delete-user/delete-user.component';
 
 @NgModule({
     imports: [
@@ -58,6 +59,7 @@ import { AddUsersComponent } from './add-users/add-users.component';
       MatSelectModule,
     ],
     declarations: [
+      DeleteUserComponent,
       AddUsersComponent,
       ViewUsersComponent,
       UpdateProductTypeComponent,    
@@ -84,7 +86,8 @@ import { AddUsersComponent } from './add-users/add-users.component';
       DeleteProductTypeComponent,
       UpdateTransactionComponent,
       DeleteProductComponent,
-      DeleteTransactionComponent
+      DeleteTransactionComponent,
+      DeleteUserComponent
     ]
   })
   export class POSModule {}

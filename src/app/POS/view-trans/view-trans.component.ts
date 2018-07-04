@@ -85,7 +85,7 @@ export class ViewTransComponent implements OnInit {
     let dialogRef = this.updateDialog.open(UpdateTransactionComponent, {
       width: '80%',
       height:'350',
-      data: { }
+      data: {ID:e.target.id }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -98,7 +98,7 @@ export class ViewTransComponent implements OnInit {
     let dialogRef = this.deleteDialog.open(DeleteTransactionComponent,{
       width:'20%',
       height:'100',
-      data:{}
+      data:{ID:e.target.id}
     });
 
     dialogRef.afterClosed().subscribe(result => {

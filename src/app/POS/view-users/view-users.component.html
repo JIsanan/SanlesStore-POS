@@ -22,8 +22,9 @@
       </mat-form-field>
     </div>
 </mat-card>
+
 <mat-card class="mat-elevation-z8 cardBorders">
-  <mat-table #table matSort aria-label="Elements">
+  <mat-table [dataSource]="dataSource" #table matSort aria-label="Elements">
 
     <!-- Id Column -->
     <ng-container matColumnDef="id">
@@ -32,10 +33,30 @@
     </ng-container>
 
     <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
+    <ng-container matColumnDef="user">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Username</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.user}}</mat-cell>
     </ng-container>
+
+    <ng-container matColumnDef="position">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Position</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.position}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="password">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Password</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{row.password}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef='update'>
+          <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+          <mat-cell *matCellDef='let row'><button mat-raised-button color='primary' id={{row.id}} name={{row.id}} (click)='openUpdateDialog($event)'>UPDATE</button></mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef='delete'>
+            <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+            <mat-cell *matCellDef='let row'><button mat-raised-button color='accent' id={{row.id}} name={{row.id}} (click)='openDeleteDialog($event)'>DELETE</button></mat-cell>
+        </ng-container>
+    
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

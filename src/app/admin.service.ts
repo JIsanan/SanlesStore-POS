@@ -40,6 +40,8 @@ export class AdminService {
 
   transactionBody:Transaction;
 
+  updatedTransBody:Transaction;
+
   userBody:User;
 
   getProductsUrl = 'http://localhost:9000/product/';
@@ -48,9 +50,13 @@ export class AdminService {
 
   getTransactionsUrl = 'http://localhost:9000/transaction/';
 
+  deleteTransactionsURL = 'http://localhost:9000/deleteTransaction/:id/';
+
   deleteProductURL = 'http://localhost:9000/deleteProduct/:id/';
 
   deleteProductTypeURL = 'http://localhost:9000/deleteProductType/:id/';
+
+  deleteUserURL = 'http://localhost:9000/delete/:id/';
 
   addProdTypeURL = 'http://localhost:9000/addProductType/';
 
@@ -70,6 +76,19 @@ export class AdminService {
 
   adduserURL = 'http://localhost:9000/adduser/';
 
+  getCertainTransURL = 'http://localhost:9000/transaction/:id/';
+
+  updateCertainTransURL = 'http://localhost:9000/editTransaction/:id/';
+
+  updateCertainTransFunc():Observable<any>{
+    return this.http.post(this.updateCertainTransURL,this.updatedTransBody,this.httpOptions);
+  }
+  getCertainTransFunc():Observable<any>{
+    return this.http.get(this.getCertainTransURL,this.httpOptions);
+  }
+  deleteTransFunc():Observable<any>{
+    return this.http.get(this.deleteTransactionsURL,this.httpOptions);
+  }
   addUserFunc():Observable<any>{
     return this.http.post(this.adduserURL,this.userBody,this.httpOptions);
   }
@@ -118,6 +137,11 @@ export class AdminService {
 
   getCertainProductFunc():Observable<any>{
     return this.http.get(this.getCertainProductUrl,this.httpOptions);
+  }
+
+  
+  deleteUserFunc():Observable<any>{
+    return this.http.get(this.deleteUserURL,this.httpOptions);
   }
 
 }

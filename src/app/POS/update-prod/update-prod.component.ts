@@ -39,7 +39,6 @@ export class UpdateProdComponent implements OnInit {
         }
       );
     }
-    
   }
 
   showCertainProd(){

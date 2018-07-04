@@ -3,37 +3,33 @@
         <div class='matCardCustom'>
           <mat-card >
             <mat-toolbar color='primary'>Update Transaction</mat-toolbar>
-            <form #addTrans='ngForm'>
+            <form #updateTrans='ngForm' (ngSubmit)='onSubmit()'>
                 <div class="form-group">
                     <mat-form-field appearace='legacy'>
                         <mat-label for='buyer'>Name of Buyer</mat-label>
-                        <input matInput class='inputField' placeholder='here' [(ngModel)]='trans.buyer' name='buyer' id='buyer' required>
+                        <input matInput class='inputField' placeholder='here' [(ngModel)]='uTrans.buyer_name' name='buyer' id='buyer' required>
                     </mat-form-field>
                 </div>
                 <div class='form-group'>
                     <mat-form-field appearance='legacy'>
                         <mat-label for='quantity'>Product Qty.</mat-label>
-                        <input matInput class='inputField'  placeholder='here' [(ngModel)]='trans.qty' name='quantity' id='quantity' required>
+                        <input matInput class='inputField'  placeholder='here' [(ngModel)]='uTrans.quantity' name='quantity' id='quantity' required>
                     </mat-form-field>
                 </div>
-                <div class='form-group'>
-                    <mat-form-field appearance='legacy'>
-                        <mat-label for='product'>Product Name</mat-label>
-                        <input matInput class='inputField' placeholder='here' [(ngModel)]='trans.prodName' name='product' id='product' required>
-                    </mat-form-field>
-                </div> 
-                <div class='form-group'>
-                        <mat-form-field appearance='legacy'>
-                            <mat-label for='co'>Company Name</mat-label>
-                            <input matInput class='inputField' placeholder='here' [(ngModel)]='trans.company' name='co' id='co' required>
-                        </mat-form-field>
-                </div> 
+                <mat-form-field>
+                        <mat-select placeholder="Search Options" [(value)]='selected' [(ngModel)]='uTrans.product_id' name='product_id' id='product_id'>
+                                <mat-option *ngFor="let item of products" [value]="item.id" >
+                                  {{ item.name }}
+                                </mat-option>
+                        </mat-select>
+                        {{selected}}
+                </mat-form-field>
                 <div class='row btn-style'>
                         <button mat-raised-button color='primary' type='submit' class='btn  btn-success btn-lg'>SUBMIT</button>
                 </div>
             </form>
+            <p>{{updateTrans.value | json}}</p>
           </mat-card>
         </div>
     </div>
 </div>
-

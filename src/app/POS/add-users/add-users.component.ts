@@ -12,6 +12,10 @@ export class AddUsersComponent implements OnInit {
 
   userModel = new User(1,'','','');
 
+  positions:string[] = ['manager','employee','admin'];
+  
+  selected = 'None';
+
   ngOnInit() {
   }
 

@@ -3,7 +3,7 @@
        
         <div class='matCardCustom'>
           <mat-card >
-            <mat-toolbar color='primary'>Add Product</mat-toolbar>
+            <mat-toolbar color='primary'>Add User</mat-toolbar>
             <form #addUsers='ngForm' (ngSubmit)='onSubmit()'>
 
                 <div class='form-group'>
@@ -13,13 +13,14 @@
                     </mat-form-field>
                 </div>
               
-                <div class='form-group'>
-                        <mat-form-field appearance='legacy'>
-                            <mat-label for='price'>User Position</mat-label>
-                            <input matInput class='inputField' placeholder='here' [(ngModel)]='userModel.position' name='position' id='position' required>
-                        </mat-form-field>
-                </div>
-
+                <mat-form-field>
+                        <mat-select placeholder="Search Options" [(value)]='selected' [(ngModel)]='userModel.position' name='position'>
+                                <mat-option *ngFor="let item of positions" [value]="item" >
+                                  {{ item}}
+                                </mat-option>
+                        </mat-select>
+                </mat-form-field>
+                
                 <div class='form-group'>
                     <mat-form-field appearance='legacy'>
                         <mat-label for='price'>Password</mat-label>
