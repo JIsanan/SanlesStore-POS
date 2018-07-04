@@ -1,8 +1,8 @@
 export class Transaction {
     constructor(
-        public buyer:string,
-        public qty:number,
-        public prodName:string,
-        public company:string
+        public trans_id:number,
+        public buyer_name:string,
+        public quantity:number,
+        public product_id:number,
     ){}
 }

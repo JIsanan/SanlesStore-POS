@@ -24,6 +24,9 @@
 </mat-card>
 
   <mat-card class="mat-elevation-z8 cardBorders">
+        <!-- <div *ngIf="dataSource.loading$ | async">
+            <mat-spinner></mat-spinner>
+        </div> -->
         <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
 
             <!-- Id Column -->

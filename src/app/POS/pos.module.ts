@@ -13,7 +13,7 @@ import { DeleteProductComponent } from './delete-product/delete-product.componen
 import { UpdateTransactionComponent } from './update-transaction/update-transaction.component';
 import { DeleteTransactionComponent } from './delete-transaction/delete-transaction.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule,MatDialogModule,MatFormFieldModule,MatInputModule,MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatGridListModule, MatCardModule, MatMenuModule, MatTableModule, MatPaginatorModule, MatSortModule, MatOptionModule, MatSelectModule, MatAutocomplete } from '@angular/material';
+import { MatProgressSpinnerModule,MatAutocompleteModule,MatDialogModule,MatFormFieldModule,MatInputModule,MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatGridListModule, MatCardModule, MatMenuModule, MatTableModule, MatPaginatorModule, MatSortModule, MatOptionModule, MatSelectModule, MatAutocomplete } from '@angular/material';
 import { MyNavComponent } from './my-nav/my-nav.component';
 import { AddTransComponent } from './add-trans/add-trans.component';
 import { FormsModule } from '@angular/forms';
@@ -22,9 +22,13 @@ import { AddProductTypeComponent } from './add-product-type/add-product-type.com
 import { ViewProdtypeComponent } from './view-prodtype/view-prodtype.component';
 import { DeleteProductTypeComponent } from './delete-product-type/delete-product-type.component';
 import { UpdateProductTypeComponent } from './update-product-type/update-product-type.component';
+import { ViewUsersComponent } from './view-users/view-users.component';
+import { AddUsersComponent } from './add-users/add-users.component';
 
 @NgModule({
     imports: [
+      
+      MatProgressSpinnerModule,
       PosRoutingModule,
       MatSelectModule,
       CommonModule,
@@ -54,6 +58,8 @@ import { UpdateProductTypeComponent } from './update-product-type/update-product
       MatSelectModule,
     ],
     declarations: [
+      AddUsersComponent,
+      ViewUsersComponent,
       UpdateProductTypeComponent,    
       DeleteProductTypeComponent,
       ViewProdtypeComponent,

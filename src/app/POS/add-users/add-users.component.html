@@ -1,0 +1,40 @@
+<div class='container'>
+    <div class='row'>
+       
+        <div class='matCardCustom'>
+          <mat-card >
+            <mat-toolbar color='primary'>Add Product</mat-toolbar>
+            <form #addUsers='ngForm' (ngSubmit)='onSubmit()'>
+
+                <div class='form-group'>
+                    <mat-form-field appearance='legacy'>
+                        <mat-label for='product_name'>Username</mat-label>
+                        <input matInput class='inputField'  placeholder='here' [(ngModel)]='userModel.username' name='username' id='username' required>
+                    </mat-form-field>
+                </div>
+              
+                <div class='form-group'>
+                        <mat-form-field appearance='legacy'>
+                            <mat-label for='price'>User Position</mat-label>
+                            <input matInput class='inputField' placeholder='here' [(ngModel)]='userModel.position' name='position' id='position' required>
+                        </mat-form-field>
+                </div>
+
+                <div class='form-group'>
+                    <mat-form-field appearance='legacy'>
+                        <mat-label for='price'>Password</mat-label>
+                        <input matInput class='inputField' placeholder='here' [(ngModel)]='userModel.password' name='password' id='password' required>
+                    </mat-form-field>
+                </div>
+                    <div class='row btn-style'>
+                        <button mat-raised-button color='primary' type='submit' class='btn  btn-success btn-lg'>SUBMIT</button>
+                    </div>
+                  
+            </form>
+            
+          </mat-card>
+        </div>
+    </div>
+    
+</div>
+<p>HELLO: {{addUsers.value | json}}</p>

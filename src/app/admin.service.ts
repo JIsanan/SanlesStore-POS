@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { ViewProdItem } from './POS/view-prod/view-prod-datasource';
 import { product_type } from './POS/add-product-type/product_type';
 import { Product } from './POS/add-product/product';
+import { Transaction } from './POS/add-trans/transaction';
+import { User } from './POS/add-users/users';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +38,10 @@ export class AdminService {
 
   updatedProductTypeBody:product_type;
 
+  transactionBody:Transaction;
+
+  userBody:User;
+
   getProductsUrl = 'http://localhost:9000/product/';
 
   loginUrl = 'http://localhost:9000/login/';
@@ -58,6 +64,21 @@ export class AdminService {
 
   updateProductTypeURL = 'http://localhost:9000/editProductType/:id/';
 
+  addTransactionURL = 'http://localhost:9000/addTransaction/';
+
+  getUsersURL = 'http://localhost:9000/';
+
+  adduserURL = 'http://localhost:9000/adduser/';
+
+  addUserFunc():Observable<any>{
+    return this.http.post(this.adduserURL,this.userBody,this.httpOptions);
+  }
+  getUsersFunc():Observable<any>{
+    return this.http.get(this.getUsersURL,this.httpOptions);
+  }
+  addTransactionFunc():Observable<any>{
+    return this.http.post(this.addTransactionURL,this.transactionBody,this.httpOptions);
+  }
   updateProductTypeFunc():Observable<any>{
     return this.http.post(this.updateProductTypeURL,this.updatedProductTypeBody,this.httpOptions);
   }

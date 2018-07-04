@@ -63,10 +63,12 @@ export class MyNavComponent {
       new links("/mynav/dashb","Dashboard",'inactive'),
       new links("/mynav/addTrans","Add New Transaction",'inactive'),
       new links("/mynav/addProd","Add New Product",'inactive'),
+      new links('/mynav/addUser','Add New User','inactive'),
       new links("/mynav/addProdType","Add New Product Type",'inactive'),
       new links("/mynav/viewProd","View Products",'inactive'),
       new links("/mynav/viewTrans","View Transactions",'inactive'),
-      new links('/mynav/viewProdtype',"View Product Types",'inactive')
+      new links('/mynav/viewProdtype',"View Product Types",'inactive'),
+      new links('/mynav/viewUsers',"View Users",'inactive')
     ]
   }
   

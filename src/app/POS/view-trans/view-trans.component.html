@@ -34,17 +34,17 @@
           <!-- Name Column -->
           <ng-container matColumnDef="buyerName">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Name of Buyer</mat-header-cell>
-            <mat-cell *matCellDef="let row">{{row.buyer_name}}</mat-cell>
+            <mat-cell *matCellDef="let row">{{row.buyerName}}</mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="prodQty">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Product Qty.</mat-header-cell>
-                <mat-cell *matCellDef="let row">{{row.prodQty}}</mat-cell>
+                <mat-cell *matCellDef="let row">{{row.quantity}}</mat-cell>
           </ng-container>
       
           <ng-container matColumnDef="prodName">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Product Name</mat-header-cell>
-                  <mat-cell *matCellDef="let row">{{row.prodName}}</mat-cell>
+                  <mat-cell *matCellDef="let row">{{row.product.name}}</mat-cell>
           </ng-container>
       
           <ng-container matColumnDef='update'>

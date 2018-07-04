@@ -12,12 +12,14 @@
                         <input matInput class='inputField'  placeholder='here' [(ngModel)]='prod.product_name' name='product_name' id='prod_name' required>
                     </mat-form-field>
                 </div>
-
-                <mat-select placeholder="Search Options" [(value)]='selected'>
-                    <mat-option *ngFor="let item of prodTypes" [value]="item.id" >
-                      {{ item.typeName }}
-                    </mat-option>
-                </mat-select>
+                <mat-form-field>
+                        <mat-select placeholder="Search Options" [(value)]='selected'>
+                                <mat-option *ngFor="let item of prodTypes" [value]="item.id" >
+                                  {{ item.typeName }}
+                                </mat-option>
+                            </mat-select>
+                </mat-form-field>
+               
                 {{selected}}
                 <div class='form-group'>
                         <mat-form-field appearance='legacy'>

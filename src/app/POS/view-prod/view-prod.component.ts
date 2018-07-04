@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ViewProdDataSource } from './view-prod-datasource';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { UpdateProdComponent } from '../update-prod/update-prod.component';
 import { DeleteProductComponent } from '../delete-product/delete-product.component';
 import { FormControl } from '@angular/forms';
-import { startWith, map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { startWith, map,filter } from 'rxjs/operators';
+import { Observable, pipe } from 'rxjs';
 import { AdminService } from '../../admin.service';
 
 @Component({
@@ -20,6 +20,7 @@ export class ViewProdComponent implements OnInit {
   // @ViewChild(AdminService) admin:AdminService;
 
   dataSource =  new ViewProdDataSource(this.admin);
+
   data:Object[];
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'name','price','update','delete'];
@@ -108,4 +109,10 @@ export class ViewProdComponent implements OnInit {
       
     });
   }
+
+  // dataFilter(){
+  //     for(let i=0;i<this.dataSource;i++){
+  //       if(item.)
+  //     }
+  // }
 }

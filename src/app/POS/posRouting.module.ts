@@ -12,17 +12,21 @@ import { MyNavComponent } from './my-nav/my-nav.component';
 import { AddTransComponent } from './add-trans/add-trans.component';
 import { AddProductTypeComponent } from './add-product-type/add-product-type.component';
 import { ViewProdtypeComponent } from './view-prodtype/view-prodtype.component';
+import { ViewUsersComponent } from './view-users/view-users.component';
+import { AddUsersComponent } from './add-users/add-users.component';
 
 const appRoutes:Routes = [
     {path:'mynav',component:MyNavComponent,children:[
         {path:'dashb',component:DashboardComponent,data:{state:'dashb'}},
         {path:'addTrans',component:AddTransComponent,data:{state:'addTrans'}},
         {path:'addProd',component:AddProductComponent,data:{state:'addProd'}},
+        {path:'addUser',component:AddUsersComponent,data:{state:'addUser'}},
         {path:'updateProd',component:UpdateProdComponent},
         {path:'viewProd',component:ViewProdComponent,data:{state:'viewProd'}},
         {path:'viewTrans',component:ViewTransComponent,data:{state:'viewTrans'}},
         {path:'addProdType',component:AddProductTypeComponent,data:{state:'addProdType'}},
-        {path:'viewProdtype',component:ViewProdtypeComponent,data:{state:'viewProdType'}}
+        {path:'viewProdtype',component:ViewProdtypeComponent,data:{state:'viewProdType'}},
+        {path:'viewUsers',component:ViewUsersComponent,data:{state:'viewUsers'}}
         ]
     }
 ]
