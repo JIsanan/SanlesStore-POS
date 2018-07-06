@@ -49,12 +49,12 @@
       
           <ng-container matColumnDef='update'>
               <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
-              <mat-cell *matCellDef='let row'><button mat-raised-button color='primary' id={{row.id}} (click)='openUpdateDialog($event)'>UPDATE</button></mat-cell>
+              <mat-cell *matCellDef='let row'><button mat-raised-button color='primary' id={{row.id}} name={{row.id}} (click)='openUpdateDialog($event)'>UPDATE</button></mat-cell>
             </ng-container>
             
             <ng-container matColumnDef='delete'>
                 <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
-                <mat-cell *matCellDef='let row'><button mat-raised-button color='accent' id={{row.id}} (click)='openDeleteDialog($event)'>DELETE</button></mat-cell>
+                <mat-cell *matCellDef='let row'><button mat-raised-button color='accent' id={{row.id}} name={{row.id}} (click)='openDeleteDialog($event)'>DELETE</button></mat-cell>
             </ng-container>
       
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

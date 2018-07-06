@@ -48,11 +48,13 @@ export class UpdateProdComponent implements OnInit {
         res=>{
           console.log('Regine');
           console.log(res);
+          // this.uProd.prodID = res.id;
           this.uProd.product_name = res.product.name;
           this.uProd.price = res.product.price;
           this.uProd.type_id = res.product.type.id;
           this.selected = res.product.type.typeName;
           this.holdID = res.product.id;
+        
           console.log(this.uProd);
           console.log(this.selected);
         }

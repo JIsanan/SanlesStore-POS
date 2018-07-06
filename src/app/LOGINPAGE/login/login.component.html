@@ -1,24 +1,30 @@
 <div id='grad1'>
-    <mat-card id='cardStyle' class="mat-elevation-z24">
-     <div id='topSpace'>
-        <mat-icon id='userIcon'>account_circle</mat-icon>
-     </div>
-     <div id='user'>
-        <mat-form-field  class='fieldStyle' appearance="outline">
-            <mat-label>Enter Username</mat-label>
-            <input matInput placeholder="Placeholder">
-            
-          </mat-form-field>
-     </div>
-     <div id='pass'>
-        <mat-form-field class='fieldStyle' appearance="outline">
-            <mat-label>Enter Password</mat-label>
-            <input matInput placeholder="Placeholder" [type]="hide ? 'password' : 'text'">
-            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-          </mat-form-field>
-     </div>
-
-     <button (click)='nav()'class="btn btn-1 btn-1a">LOG IN</button>
-    </mat-card>
+    <form [formGroup]='companyForm' #userForm='ngForm' >
+            <mat-card id='cardStyle' class="mat-elevation-z24">
+                    <div id='topSpace'>
+                       <mat-icon id='userIcon'>account_circle</mat-icon>
+                    </div>
+                    <div id='user'>
+                       <mat-form-field  class='fieldStyle' appearance="outline">
+                           <mat-label>Enter Username</mat-label>
+                           <input matInput placeholder="Placeholder" formControlName='username'>
+                           <mat-error *ngIf="username.invalid  || username.dirty">User Input is required</mat-error>
+                         </mat-form-field>
+                    </div>
+                    <div id='pass'>
+                       <mat-form-field class='fieldStyle' appearance="outline">
+                           <mat-label>Enter Password</mat-label>
+                           <input matInput placeholder="Placeholder" formControlName='password' [type]="hide ? 'password' : 'text'">
+                           <mat-error *ngIf="username.invalid  || username.dirty">User Input is required</mat-error>
+                           <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                         </mat-form-field>
+                    </div>
+               
+                    <button (click)='validateForm()'class="btn btn-1 btn-1a">LOG IN</button>
+                    <p>{{companyForm.value | json}}</p>
+                   </mat-card>
+    </form>
+    
 </div>
+
 <router-outlet></router-outlet>

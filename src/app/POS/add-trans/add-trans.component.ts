@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Transaction } from './transaction';
 import { AdminService } from '../../admin.service';
+import { MatSnackBar } from '@angular/material';
 @Component({
   selector: 'app-add-trans',
   templateUrl: './add-trans.component.html',
@@ -8,7 +9,7 @@ import { AdminService } from '../../admin.service';
 })
 export class AddTransComponent implements OnInit {
 
-  constructor(public admin:AdminService) { }
+  constructor(public admin:AdminService,public snackBar:MatSnackBar) { }
 
   trans = new Transaction(1,'',0,0);
 
@@ -40,9 +41,15 @@ export class AddTransComponent implements OnInit {
       this.admin.transactionBody = this.trans;
       this.admin.addTransactionFunc().subscribe(
         res=>{
+          this.openSnackBar("Successfully Added");
           console.log(res);
         }
       );
     }
+  }
+  openSnackBar(message:string){
+    this.snackBar.open(message,"Dismiss",{
+      duration:2000,
+    });
   }
 }

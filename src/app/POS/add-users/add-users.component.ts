@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from './users';
 import { AdminService } from '../../admin.service';
+import { MatSnackBar } from '@angular/material';
 @Component({
   selector: 'app-add-users',
   templateUrl: './add-users.component.html',
@@ -8,7 +9,7 @@ import { AdminService } from '../../admin.service';
 })
 export class AddUsersComponent implements OnInit {
 
-  constructor(public admin:AdminService) { }
+  constructor(public admin:AdminService,public snackBar:MatSnackBar) { }
 
   userModel = new User(1,'','','');
 
@@ -30,8 +31,15 @@ export class AddUsersComponent implements OnInit {
       this.admin.addUserFunc().subscribe(
         res=>{
           console.log(res);
+          this.openSnackBar("Successfully Added!");
         }
       );
     }
+  }
+
+  openSnackBar(message:string){
+    this.snackBar.open(message,"Dismiss",{
+      duration:2000,
+    });
   }
 }

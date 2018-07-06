@@ -44,6 +44,8 @@ export class AdminService {
 
   userBody:User;
 
+  updatedUserBody:User;
+
   getProductsUrl = 'http://localhost:9000/product/';
 
   loginUrl = 'http://localhost:9000/login/';
@@ -80,6 +82,16 @@ export class AdminService {
 
   updateCertainTransURL = 'http://localhost:9000/editTransaction/:id/';
 
+  updateUserURL = 'http://localhost:9000/edit/:id/';
+
+  getCertainUserURL = 'http://localhost:9000/getuser/:id/';
+
+  getCertainUserFunc():Observable<any>{
+    return this.http.get(this.getCertainUserURL,this.httpOptions);
+  }
+  updateUserFunc():Observable<any>{
+    return this.http.post(this.updateUserURL,this.updatedUserBody,this.httpOptions);
+  }
   updateCertainTransFunc():Observable<any>{
     return this.http.post(this.updateCertainTransURL,this.updatedTransBody,this.httpOptions);
   }

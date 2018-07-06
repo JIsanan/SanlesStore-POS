@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from './product';
 import { AdminService } from '../../admin.service';
+import { MatSnackBar } from '@angular/material';
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
@@ -8,7 +9,7 @@ import { AdminService } from '../../admin.service';
 })
 export class AddProductComponent implements OnInit {
 
-  constructor(public admin:AdminService) { }
+  constructor(public admin:AdminService,public snackBar:MatSnackBar) { }
 
   prod = new Product(1,'',0,0);
 
@@ -38,10 +39,9 @@ export class AddProductComponent implements OnInit {
     console.log(this.admin.productBody);
     if(localStorage.getItem('token')){
       this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
-      console.log("Regine");
       this.admin.addProductFunc().subscribe(
         res=>{
-         
+          this.openSnackBar("Successfully Added!");
           console.log(res);
         }
       );
@@ -49,4 +49,9 @@ export class AddProductComponent implements OnInit {
     
   }
 
+  openSnackBar(message:string){
+    this.snackBar.open(message,"Dismiss",{
+      duration:2000,
+    });
+  }
 }

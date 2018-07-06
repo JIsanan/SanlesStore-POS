@@ -25,10 +25,10 @@ import { UpdateProductTypeComponent } from './update-product-type/update-product
 import { ViewUsersComponent } from './view-users/view-users.component';
 import { AddUsersComponent } from './add-users/add-users.component';
 import { DeleteUserComponent } from './delete-user/delete-user.component';
+import { UpdateUserComponent } from './update-user/update-user.component';
 
 @NgModule({
     imports: [
-      
       MatProgressSpinnerModule,
       PosRoutingModule,
       MatSelectModule,
@@ -59,6 +59,7 @@ import { DeleteUserComponent } from './delete-user/delete-user.component';
       MatSelectModule,
     ],
     declarations: [
+      UpdateUserComponent,
       DeleteUserComponent,
       AddUsersComponent,
       ViewUsersComponent,
@@ -82,6 +83,7 @@ import { DeleteUserComponent } from './delete-user/delete-user.component';
       
     ],
     entryComponents:[
+      UpdateUserComponent,
       UpdateProductTypeComponent,
       DeleteProductTypeComponent,
       UpdateTransactionComponent,

@@ -1,14 +1,34 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav
-    #drawer
-    class="sidenav"
-    fixedInViewport="true"
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="!(isHandset$ | async)">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"[mode]="(isHandset$ | async) ? 'over' : 'side'" >
     <mat-toolbar color="accent">Menu</mat-toolbar>
     <mat-nav-list>
-      <a *ngFor='let link of linkBatch' [@heroState]='link.state' (mouseover)='link.toggleState()' (mouseout)='link.toggleState()' routerLinkActive='active' mat-list-item routerLink={{link.route}}>{{link.linkName}}</a>
+      <!-- <a *ngFor='let link of linkBatch' [@heroState]='link.state' (mouseover)='link.toggleState()' (mouseout)='link.toggleState()' routerLinkActive='active' mat-list-item routerLink={{link.route}}>{{link.linkName}}</a> -->
+    <button mat-button (click)='toggleProduct()'>Manage Products</button>
+        <mat-list *ngIf='isProductVisible'>
+            <a *ngFor='let link of linkBatchProduct' [@heroState]='link.state' (mouseover)='link.toggleState()' (mouseout)='link.toggleState()' routerLinkActive='active' mat-list-item routerLink={{link.route}}>{{link.linkName}}</a>
+        </mat-list>
+    <button mat-button (click)='toggleUser()'>Manage Users</button>
+    <mat-list *ngIf='isUsersVisible'>
+        <a *ngFor='let link of linkBatchUser' [@heroState]='link.state' (mouseover)='link.toggleState()' (mouseout)='link.toggleState()' routerLinkActive='active' mat-list-item routerLink={{link.route}}>{{link.linkName}}</a>
+      <!-- <mat-list-item>
+        Rico
+      </mat-list-item>
+      <mat-list-item>
+          Jari
+      </mat-list-item>
+      <mat-list-item>
+          Nina
+      </mat-list-item> -->
+    </mat-list>
+    <button mat-button (click)='toggleProductTypes()'>Manage ProductTypes</button>
+        <mat-list *ngIf='isProductTypeVisible'>
+            <a *ngFor='let link of linkBatchProductTypes' [@heroState]='link.state' (mouseover)='link.toggleState()' (mouseout)='link.toggleState()' routerLinkActive='active' mat-list-item routerLink={{link.route}}>{{link.linkName}}</a>
+        </mat-list>
+    <button mat-button (click)='toggleTransactions()'>Manage Transactions</button>
+        <mat-list *ngIf='isTransVisible'>
+            <a *ngFor='let link of linkBatchTransaction' [@heroState]='link.state' (mouseover)='link.toggleState()' (mouseout)='link.toggleState()' routerLinkActive='active' mat-list-item routerLink={{link.route}}>{{link.linkName}}</a>
+        </mat-list>
+    <button mat-button (click)='showSubLinks()'>Manage UserTypes</button>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -18,7 +38,7 @@
         aria-label="Toggle sidenav"
         mat-icon-button
         (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+        >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span class='btnSpace'>Sanles Store</span>

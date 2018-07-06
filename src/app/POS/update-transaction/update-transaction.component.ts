@@ -18,6 +18,7 @@ export class UpdateTransactionComponent implements OnInit {
   constructor(public admin:AdminService,@Inject(MAT_DIALOG_DATA) public data:any) { 
     console.log(this.data.ID);
     this.admin.getCertainTransURL = 'http://localhost:9000/transaction/'+this.data.ID+'/';
+    
     this.showCertainTrans();
   }
 
@@ -38,10 +39,11 @@ export class UpdateTransactionComponent implements OnInit {
       this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
       this.admin.getCertainTransFunc().subscribe(
         res=>{
-          this.uTrans.buyer_name = res.product.buyerName;
-          this.uTrans.quantity = res.product.quantity;
-          this.uTrans.product_id = res.product.product.id;
-          this.holdID = res.product.id;
+          console.log(res);
+          this.uTrans.buyer_name = res.buyerName;
+          this.uTrans.quantity = res.quantity;
+          this.uTrans.product_id = res.product.id;
+          this.holdID = res.id;
         }
       );
     }
@@ -52,9 +54,13 @@ export class UpdateTransactionComponent implements OnInit {
       this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
       this.admin.updateCertainTransURL = 'http://localhost:9000/editTransaction/'+this.holdID+'/';
       this.admin.updatedTransBody = this.uTrans;
+      this.admin.updatedTransBody.trans_id = 1;
       this.admin.updateCertainTransFunc().subscribe(
         res=>{
           console.log('SUCCESS!');
+        },
+        err=>{
+          console.log(err);
         }
       );
     }

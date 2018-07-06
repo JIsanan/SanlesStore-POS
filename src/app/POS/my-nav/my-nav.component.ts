@@ -50,26 +50,49 @@ import {
 })
 export class MyNavComponent {
 
-  public linkBatch:links[];
+  public linkBatchUser:links[];
+  public linkBatchProduct:links[];
+  public linkBatchTransaction:links[];
+  public linkBatchProductTypes:links[];
+  public linkBatchUserTypes:links[];
 
-  
+  buttons =["Manage Products","Manage Users","Manage ProductTypes","Manage Transactoins","Manage UserTypes"];
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches)
     );
     
+    isUsersVisible:boolean = false;
+    isProductVisible:boolean = false;
+    isProductTypeVisible:boolean = false;
+    isTransVisible:boolean = false;
   constructor(private breakpointObserver: BreakpointObserver) {
-    this.linkBatch = [
-      new links("/mynav/dashb","Dashboard",'inactive'),
-      new links("/mynav/addTrans","Add New Transaction",'inactive'),
-      new links("/mynav/addProd","Add New Product",'inactive'),
+    this.linkBatchUser = [
       new links('/mynav/addUser','Add New User','inactive'),
-      new links("/mynav/addProdType","Add New Product Type",'inactive'),
-      new links("/mynav/viewProd","View Products",'inactive'),
+      new links('/mynav/viewUsers',"View Users",'inactive'),
+      new links("/mynav/dashb","Dashboard",'inactive'),
+    ];
+    this.linkBatchProduct = [
+      new links("/mynav/addProd","Add New Product",'inactive'),
+      new links('/mynav/viewProdtype',"View Product Types",'inactive')
+    ];
+    this.linkBatchTransaction = [
+      new links("/mynav/addTrans","Add New Transaction",'inactive'),
       new links("/mynav/viewTrans","View Transactions",'inactive'),
-      new links('/mynav/viewProdtype',"View Product Types",'inactive'),
-      new links('/mynav/viewUsers',"View Users",'inactive')
+
+    ];
+    this.linkBatchProductTypes = [
+      new links("/mynav/addProdType","Add New Product Type",'inactive'),
+      new links("/mynav/viewProd","View Products",'inactive')
     ]
+    // this.linkBatch = [
+     
+      
+      
+      
+      
+      
+    // ];
   }
   
   getState(outlet){
@@ -77,6 +100,22 @@ export class MyNavComponent {
     return outlet.activatedRouteData.state;
   }
   
+  toggleUser(){
+    this.isUsersVisible = this.isUsersVisible === true ? false : true;
+  }
+
+  toggleProduct(){
+    this.isProductVisible = this.isProductVisible === true ? false : true;
+  }
+
+  toggleProductTypes(){
+    this.isProductTypeVisible = this.isProductTypeVisible === true ? false : true;
+  }
+
+  toggleTransactions(){
+    this.isTransVisible = this.isTransVisible === true ? false : true;
+  
+  }
   
   }
 

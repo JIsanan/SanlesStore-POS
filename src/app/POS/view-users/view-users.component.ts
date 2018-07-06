@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { startWith,map } from 'rxjs/operators';
 import { AdminService } from '../../admin.service';
 import { DeleteUserComponent } from 'src/app/POS/delete-user/delete-user.component';
+import { UpdateUserComponent } from 'src/app/POS/update-user/update-user.component';
 
 @Component({
   selector: 'view-users',
@@ -69,19 +70,19 @@ export class ViewUsersComponent implements OnInit {
       option.toLowerCase().includes(val.toLowerCase()));
   }
 
-  // openUpdateDialog(e:any):void{
-  //   console.log(e);
-  //   let dialogRef = this.updateDialog.open(UpdateProdComponent, {
-  //     width: '80%',
-  //     height:'350',
-  //     data: {ID:e.target.name}
-  //   });
+  openUpdateDialog(e:any):void{
+    console.log(e);
+    let dialogRef = this.updateDialog.open(UpdateUserComponent, {
+      width: '80%',
+      height:'350',
+      data: {ID:e.target.name}
+    });
 
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('The dialog was closed');
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
       
-  //   });
-  // }
+    });
+  }
 
   openDeleteDialog(e:any):void{
     console.log(e.target.name);
