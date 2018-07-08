@@ -12,20 +12,13 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
-public class Transactions extends Model{
+public class UserType extends Model{
     @Id
     public Integer id;
 
     @NotNull
-    @Size(max = 10)
-    public Integer quantity;
-
-    @NotNull
-    @Size(max = 30)
-    public Integer totalPaid;
-
     @Size(max = 50)
-    public String buyerName;
+    public String typeName;
 
     @NotNull
     public boolean isdeleted;
@@ -33,23 +26,17 @@ public class Transactions extends Model{
     @ManyToOne
     public User updatedBy;
 
-    @NotNull
     @ManyToOne
-    public User issuedBy;
+    public User createdBy;
 
-    @NotNull
-    @ManyToOne
-    public Product product;
-
-    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     @Formats.DateTime(pattern = "yyyy-MM-dd")
-    public Date issuedDate;
+    public Date createdDate;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     @Formats.DateTime(pattern = "yyyy-MM-dd")
     public Date updatedDate;
 
-    public static Finder<Integer, Transactions> find = new Finder<>(Transactions.class);
+    public static Finder<Integer, UserType> find = new Finder<>(UserType.class);
 
 }

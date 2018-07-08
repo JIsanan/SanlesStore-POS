@@ -3,29 +3,38 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                           controllers.HomeController.retrieveUsers
+GET     /:id/                       controllers.HomeController.retrieveUsers(id: Integer)
 GET     /logout/                    controllers.HomeController.logout
 GET     /getuser/                   controllers.HomeController.getUser
 GET     /getuser/:id/               controllers.HomeController.getSpecificUser(id: Integer)
+GET     /getusername/:id/           controllers.HomeController.getSpecificName(id: String)
 GET     /delete/:id/                controllers.HomeController.deleteUser(id: Integer)
 POST    /edit/:id/                  controllers.HomeController.editUser(id: Integer)
 POST    /login/                     controllers.HomeController.login
 POST    /adduser/                   controllers.HomeController.createUser
 # An example controller showing how to use dependency injection
-GET     /productType/               controllers.ProductTypeController.retrieveProductType
+GET     /productType/:id/           controllers.ProductTypeController.retrieveProductType(id: Integer)
 GET     /deleteProductType/:id/     controllers.ProductTypeController.deleteProductType(id: Integer)
 POST    /editProductType/:id/       controllers.ProductTypeController.editProductType(id: Integer)
 POST    /addProductType/            controllers.ProductTypeController.createProductType
 
-GET     /product/                   controllers.ProductController.retrieveProduct
-GET     /product/:id/               controllers.ProductController.retrieveCertainProduct(id: Integer)
+GET     /userType/:id/           controllers.UserTypeController.retrieveUserType(id: Integer)
+GET     /deleteUserType/:id/     controllers.UserTypeController.deleteUserType(id: Integer)
+POST    /editUserType/:id/       controllers.UserTypeController.editUserType(id: Integer)
+POST    /addUserType/            controllers.UserTypeController.createUserType
+
+GET     /product/:id/               controllers.ProductController.retrieveProduct(id: Integer)
+GET     /getproductname/:id/               controllers.ProductController.retrieveCertainProductName(id: String)
+GET     /getproduct/:id/            controllers.ProductController.retrieveCertainProduct(id: Integer)
 GET     /deleteProduct/:id/         controllers.ProductController.deleteProduct(id: Integer)
 POST    /editProduct/:id/           controllers.ProductController.editProduct(id: Integer)
 POST    /addProduct/                controllers.ProductController.createProduct
 
-GET     /transaction/               controllers.TransactionController.retrieveTransaction
-GET     /transaction/:id/           controllers.TransactionController.retrieveCertainTransaction(id: Integer)
+GET     /transaction/:id/           controllers.TransactionController.retrieveTransaction(id: Integer)
+GET     /gettransaction/:id/        controllers.TransactionController.retrieveCertainTransaction(id: Integer)
+GET     /gettransactionbuyer/:id/        controllers.TransactionController.retrieveCertainTransactionBuyer(id: String)
 GET     /deleteTransaction/:id/     controllers.TransactionController.deleteTransaction(id: Integer)
+GET     /retrieveSales/:id/     controllers.TransactionController.retrieveSales(id: Integer)
 POST    /editTransaction/:id/       controllers.TransactionController.editTransaction(id: Integer)
 POST    /addTransaction/            controllers.TransactionController.createTransaction
 # An example controller showing how to write asynchronous code

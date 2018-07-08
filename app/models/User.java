@@ -8,10 +8,7 @@ import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import play.data.format.Formats;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -27,9 +24,8 @@ public class User extends Model{
     @NotNull
     public String authToken;
 
-    @NotNull
-    @Size(max = 50)
-    public String position;
+    @OneToOne
+    public UserType position;
 
     @NotNull
     @Size(max = 50)

@@ -16,19 +16,15 @@ import javax.inject.Inject;
 import java.util.Date;
 import java.util.List;
 
-public class ProductTypeController extends Controller {
+public class UserTypeController extends Controller {
     private final FormFactory formFactory;
 
     @Inject
-    public ProductTypeController(final FormFactory formFactory) {
+    public UserTypeController(final FormFactory formFactory) {
         this.formFactory = formFactory;
     }
 
-    public static Result createProduct() {
-        return play.mvc.Results.TODO;
-    }
-
-    public Result createProductType(){
+    public Result createUserType(){
         DynamicForm requestData = formFactory.form().bindFromRequest();
         User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
@@ -37,26 +33,26 @@ public class ProductTypeController extends Controller {
             return ok(node);
         }
         UserType check = user.getPosition();
-        if(check.getTypeName().equals("admin") || check.getTypeName().equals("manager")){
-            ProductType checker = ProductType.find.where().eq("typeName", requestData.get("type_name")).findUnique();
+        if(check.getTypeName().equals("admin")){
+            UserType checker = UserType.find.where().eq("typeName", requestData.get("type_name")).findUnique();
             if(checker==null){
-                ProductType L = new ProductType();
+                UserType L = new UserType();
                 L.setTypeName(requestData.get("type_name"));
                 L.setCreatedBy(user);
                 L.setIsdeleted(false);
-                L.setAddedDate(new Date());
-                node.put("message", "productType created successfully");
+                L.setCreatedDate(new Date());
+                node.put("message", "userType created successfully");
                 L.save();
             }else{
-                node.put("message", "product type exists already");
+                node.put("message", "user type exists already");
             }
         }else{
-            node.put("message", "not authorized to add productType");
+            node.put("message", "not authorized to add userType");
         }
         return ok(node);
     }
 
-    public Result editProductType(Integer x) {
+    public Result editUserType(Integer x) {
         DynamicForm requestData = formFactory.form().bindFromRequest();
         User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
@@ -65,8 +61,8 @@ public class ProductTypeController extends Controller {
             return ok(node);
         }
         UserType check = user.getPosition();
-        if(check.getTypeName().equals("admin") || check.getTypeName().equals("manager")){
-            ProductType checker = ProductType.find.byId(x);
+        if(check.getTypeName().equals("admin")){
+            UserType checker = UserType.find.byId(x);
             if(checker.getIsdeleted() == false && !requestData.get("type_name").equals("")){
                 node.put("message", "successfully edited");
                 checker.setTypeName(requestData.get("type_name"));
@@ -82,7 +78,7 @@ public class ProductTypeController extends Controller {
         return ok(node);
     }
 
-    public Result deleteProductType(Integer x) {
+    public Result deleteUserType(Integer x) {
         DynamicForm requestData = formFactory.form().bindFromRequest();
         User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
@@ -91,8 +87,8 @@ public class ProductTypeController extends Controller {
             return ok(node);
         }
         UserType check = user.getPosition();
-        if(check.getTypeName().equals("admin") || check.getTypeName().equals("manager")){
-            ProductType checker = ProductType.find.byId(x);
+        if(check.getTypeName().equals("admin")){
+            UserType checker = UserType.find.byId(x);
             if(checker.getIsdeleted() == false){
                 node.put("message", "successfully deleted");
                 checker.setIsdeleted(true);
@@ -100,7 +96,7 @@ public class ProductTypeController extends Controller {
                 checker.setUpdatedDate(new Date());
                 checker.update();
             }else{
-                node.put("message", "productType already deleted");
+                node.put("message", "userType already deleted");
             }
         }else{
             node.put("message", "not authorized to delete");
@@ -108,7 +104,7 @@ public class ProductTypeController extends Controller {
         return ok(node);
     }
 
-    public Result retrieveProductType(Integer pagenumber) {
+    public Result retrieveUserType(Integer pagenumber) {
         User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
         if(user==null){
@@ -116,8 +112,8 @@ public class ProductTypeController extends Controller {
             return ok(node);
         }
         int first = pagenumber * 10;
-        List<ProductType> products = ProductType.find.where().ne("isdeleted", true).setFirstRow(first).setMaxRows(10).findList();
-        JsonNode product = Json.toJson(products);
-        return ok(product);
+        List<UserType> types = UserType.find.where().ne("isdeleted", true).setFirstRow(first).setMaxRows(10).findList();
+        JsonNode type = Json.toJson(types);
+        return ok(type);
     }
 }

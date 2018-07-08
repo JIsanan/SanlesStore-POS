@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.User;
+import models.UserType;
 import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -52,22 +53,24 @@ public class HomeController extends Controller {
             node.put("message", "Not logged in");
             return ok(node);
         }
-        if(!requestData.get("username").equals("") && !requestData.get("password").equals("") && !requestData.get("position").equals("") && user.getPosition().equals("admin")){
+        if(!requestData.get("username").equals("") && !requestData.get("password").equals("") && !requestData.get("position").equals("") ){
             User checker = User.find.where().eq("user", requestData.get("username")).findUnique();
-            if(checker==null){
+            UserType check = user.getPosition();
+            UserType checker2 = UserType.find.where().eq("typeName", requestData.get("position")).findUnique();
+            if(checker==null && checker2 != null && check.getTypeName().equals("admin")){
                 if(requestData.get("position").equals("admin") || requestData.get("position").equals("manager") || requestData.get("position").equals("employee")){
                     User L = new User();
                     L.setUser(requestData.get("username"));
-                    L.setPosition(requestData.get("position"));
+                    L.setPosition(checker2);
                     L.setPassword(requestData.get("password"));
                     L.setCreatedBy(user);
                     L.setIsdeleted(false);
                     L.setAddedDate(new Date());
                     String authToken = UUID.randomUUID().toString();
-                    User check = User.find.where().eq("authToken", authToken).findUnique();
-                    while(check != null){
+                    User checker3 = User.find.where().eq("authToken", authToken).findUnique();
+                    while(checker3 != null){
                         authToken = UUID.randomUUID().toString();
-                        check = User.find.where().eq("authToken", authToken).findUnique();
+                        checker3 = User.find.where().eq("authToken", authToken).findUnique();
                     }
                     L.setAuthToken(authToken);
                     node.put("message", "user created successfully");
@@ -84,7 +87,7 @@ public class HomeController extends Controller {
         return ok(node);
     }
 
-    public Result retrieveUsers() {
+    public Result retrieveUsers(Integer pagenumber) {
         User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
         if(user==null){
@@ -92,10 +95,11 @@ public class HomeController extends Controller {
             return ok(node);
         }
 
-        if(user.getPosition().equals("admin")){
-            node.put("message", "successfully retrieved");
-            List<User> users = User.find.where().ne("isdeleted", true).findList();
-            node.put("users", Json.toJson(users));
+        UserType check = user.getPosition();
+        int first = pagenumber * 10;
+        if(check.getTypeName().equals("admin")){
+            List<User> users = User.find.where().ne("isdeleted", true).setFirstRow(first).setMaxRows(10).findList();
+            return ok(Json.toJson(users));
         }else{
             node.put("message", "not authorized to access");
         }
@@ -110,13 +114,15 @@ public class HomeController extends Controller {
             node.put("message", "Not logged in");
             return ok(node);
         }
-        if(user.getPosition().equals("admin")){
+        UserType check = user.getPosition();
+        UserType checker2 = UserType.find.where().eq("typeName", requestData.get("position")).findUnique();
+        if(check.getTypeName().equals("admin") && checker2 != null){
             User toedit = User.find.byId(x);
-            if(toedit.getIsdeleted() == false && !requestData.get("username").equals("") && !requestData.get("password").equals("") && (requestData.get("position").equals("admin") || requestData.get("position").equals("user"))){
+            if(toedit.getIsdeleted() == false && !requestData.get("username").equals("") && !requestData.get("password").equals("") && (requestData.get("position").equals("admin") || requestData.get("position").equals("employee") || requestData.get("position").equals("manager"))){
                 node.put("message", "successfully edited");
                 toedit.setUser(requestData.get("username"));
                 toedit.setPassword(requestData.get("password"));
-                toedit.setPosition(requestData.get("position"));
+                toedit.setPosition(checker2);
                 toedit.setUpdatedBy(user);
                 toedit.setUpdatedDate(new Date());
                 toedit.update();
@@ -137,7 +143,8 @@ public class HomeController extends Controller {
             node.put("message", "Not logged in");
             return ok(node);
         }
-        if(user.getPosition().equals("admin")){
+        UserType check = user.getPosition();
+        if(check.getTypeName().equals("admin")){
             User toedit = User.find.byId(x);
             if(toedit.getIsdeleted() == false){
                 node.put("message", "successfully deleted");
@@ -173,12 +180,39 @@ public class HomeController extends Controller {
             node.put("message", "Not logged in");
             return ok(node);
         }
-        User toOpen = User.find.where().eq("id", x).ne("isDeleted", true).findUnique();
-        if(toOpen != null){
-            node.put("message", "user found");
-            node.put("user", Json.toJson(toOpen));
+        UserType check = user.getPosition();
+        if(check.getTypeName().equals("admin")){
+            User toOpen = User.find.where().eq("id", x).ne("isDeleted", true).findUnique();
+            if(toOpen != null){
+                node.put("message", "user found");
+                node.put("user", Json.toJson(toOpen));
+            }else{
+                node.put("message", "user not found");
+            }
         }else{
-            node.put("message", "user not found");
+            node.put("message", "not authorized");
+        }
+        return ok(node);
+    }
+
+
+    public Result getSpecificName(String x) {
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
+        ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
+        UserType check = user.getPosition();
+        if(check.getTypeName().equals("admin")){
+            List<User> toOpen = User.find.where().contains("user", x).ne("isDeleted", true).findList();
+            if(toOpen != null){
+                return ok(Json.toJson(toOpen));
+            }else{
+                node.put("message", "user not found");
+            }
+        }else{
+            node.put("message", "not authorized");
         }
         return ok(node);
     }

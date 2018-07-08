@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Product;
 import models.ProductType;
 import models.User;
+import models.UserType;
 import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -28,7 +29,8 @@ public class ProductController extends Controller {
         DynamicForm requestData = formFactory.form().bindFromRequest();
         User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
-        if(user.getPosition().equals("admin") || user.getPosition().equals("manager")){
+        UserType check = user.getPosition();
+        if(check.getTypeName().equals("admin") || check.getTypeName().equals("manager")){
             ProductType typecheck = ProductType.find.where().eq("id", requestData.get("type_id")).ne("isdeleted", true).findUnique();
             Product checker = Product.find.where().eq("name", requestData.get("product_name")).findUnique();
             if(checker==null && typecheck!=null && Integer.parseInt(requestData.get("price")) > 0){
@@ -55,7 +57,8 @@ public class ProductController extends Controller {
         DynamicForm requestData = formFactory.form().bindFromRequest();
         User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
-        if(user.getPosition().equals("admin") || user.getPosition().equals("manager")){
+        UserType check = user.getPosition();
+        if(check.getTypeName().equals("admin") || check.getTypeName().equals("manager")){
             ProductType typecheck = ProductType.find.where().eq("id", requestData.get("type_id")).ne("isdeleted", true).findUnique();
             Product checker = Product.find.byId(x);
             if(checker.getIsdeleted() == false && !requestData.get("product_name").equals("") && Integer.parseInt(requestData.get("price")) > 0 && typecheck!=null){
@@ -83,7 +86,8 @@ public class ProductController extends Controller {
             return ok(node);
         }
         DynamicForm requestData = formFactory.form().bindFromRequest();
-        if(user.getPosition().equals("admin") || user.getPosition().equals("manager")){
+        UserType check = user.getPosition();
+        if(check.getTypeName().equals("admin") || check.getTypeName().equals("manager")){
             Product checker = Product.find.byId(x);
             if(checker.getIsdeleted() == false){
                 node.put("message", "successfully deleted");
@@ -101,14 +105,15 @@ public class ProductController extends Controller {
     }
 
 
-    public Result retrieveProduct() {
+    public Result retrieveProduct(Integer pagenumber) {
         User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
         if(user==null){
             node.put("message", "Not logged in");
             return ok(node);
         }
-        List<Product> products = Product.find.where().ne("isdeleted", true).findList();
+        int first = pagenumber * 10;
+        List<Product> products = Product.find.where().ne("isdeleted", true).setFirstRow(first).setMaxRows(10).findList();
         JsonNode product = Json.toJson(products);
         return ok(product);
     }
@@ -126,5 +131,18 @@ public class ProductController extends Controller {
         JsonNode product = Json.toJson(products);
         node.put("product", product);
         return ok(node);
+    }
+
+
+    public Result retrieveCertainProductName(String x) {
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
+        ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
+        DynamicForm requestData = formFactory.form().bindFromRequest();
+        List<Product> products = Product.find.where().ne("isdeleted", true).contains("name", x).findList();
+        return ok(Json.toJson(products));
     }
 }
