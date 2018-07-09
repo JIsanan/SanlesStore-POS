@@ -42,7 +42,7 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span class='btnSpace'>Sanles Store</span>
-      <a routerLink='/login' class='color'>LOG OUT</a>
+      <button mat-button color='primary' (click)='logout()'class='color'>LOG OUT</button>
     </mat-toolbar>
     <div [@routerTransition]='getState(o)'>
         <router-outlet #o='outlet'></router-outlet>

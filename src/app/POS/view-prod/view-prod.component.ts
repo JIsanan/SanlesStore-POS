@@ -20,15 +20,19 @@ export class ViewProdComponent implements OnInit {
   // @ViewChild(AdminService) admin:AdminService;
 
   dataSource =  new ViewProdDataSource(this.admin);
-
+  currentPage = 0;
   data:Object[];
+  prevUrl='';
+  nexturl='';
+
+  searchContent={
+    prodName:''
+  }
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'name','price','update','delete'];
   
   searchCategory = [
     {value: 'Product Name', viewValue: 'Product Name'},
-    {value: 'Product Category', viewValue: 'Product Category'},
-    {value: 'Product Name', viewValue: 'Product Price'}
   ];
 
   search = new FormControl();
@@ -41,28 +45,7 @@ export class ViewProdComponent implements OnInit {
       );
   }
 
-  options = [
-    'Hydrogen',
-   'Helium',
-   'Lithium',
-   'Beryllium',
-   'Boron',
-   'Carbon',
-  'Nitrogen',
-   'Oxygen',
-   'Fluorine',
-  'Neon',
-  'Sodium',
-  'Magnesium',
-  'Aluminum',
-  'Silicon',
-  'Phosphorus',
-  'Sulfur',
-  'Chlorine',
-  'Argon',
-  'Potassium',
-   'Calcium',
-  ];
+  options = [];
 
   filteredOptions: Observable<string[]>;
 
@@ -73,13 +56,17 @@ export class ViewProdComponent implements OnInit {
 
   constructor(public updateDialog:MatDialog,public deleteDialog:MatDialog,public admin:AdminService){
     this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
-    // this.admin.getProductsFunc().subscribe(
-    //   res=>{
-    //     this.data = res;
-    //     console.log(this.data);
-       
-    //   }
-    // );
+    console.log(this.dataSource);
+    this.admin.getProductsFunc().subscribe(
+      res=>{
+        
+        this.data = res;
+        console.log(this.data);
+        for(let i=0;i<res.length;i++){
+          this.options.push(res[i].name);
+        }
+      }
+    );
   }
 
   openUpdateDialog(e:any):void{
@@ -115,4 +102,27 @@ export class ViewProdComponent implements OnInit {
   //       if(item.)
   //     }
   // }
+
+
+  getMore(){
+    this.currentPage++;
+    this.admin.getProductsUrl = 'http://localhost:9000/product/'+this.currentPage+'/';
+    
+    this. dataSource =  new ViewProdDataSource(this.admin);
+    
+    console.log("IT WORKED");
+  }
+
+  getBack(){
+    this.currentPage--;
+    this.admin.getProductsUrl = 'http://localhost:9000/product/'+this.currentPage+'/';
+    this. dataSource =  new ViewProdDataSource(this.admin);
+
+  }
+
+  displaySearch(){
+    this.admin.getProductsUrl = 'http://localhost:9000/getproductname/'+this.search.value+'/';
+    this.dataSource = new ViewProdDataSource(this.admin);
+  }
+
 }

@@ -29,22 +29,42 @@ export class LoginComponent implements OnInit {
     this.admin.body.password =this.companyForm.value.password;
     this.admin.body.username = this.companyForm.value.username;
     
-     this.admin.loginFunc().subscribe(
-       res=>{
+    if(this.admin.message){
+      this.admin.loginFunc().subscribe(
+        res=>{
+          
+          if(res.message === "login successful"){
+           this.router.navigate([this.admin.redirectURL]);
+           localStorage.setItem('token',res.user.authToken);
+           this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
+          }else{
+           this.openSnackBar("Wrong Username or Password");
+          }
+        },
+        err=>{
          
-         if(res.message === "login successful"){
-          this.router.navigate(['/mynav/dashb']);
-          localStorage.setItem('token',res.user.authToken);
-         this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
-         }else{
-          this.openSnackBar("Wrong Username or Password");
-         }
-       },
-       err=>{
-        
-         console.log(err);
-       }
-     );
+          console.log(err);
+        }
+      );
+    }else{
+      this.admin.loginFunc().subscribe(
+        res=>{
+          
+          if(res.message === "login successful"){
+           this.router.navigate(['/mynav/dashb']);
+           localStorage.setItem('token',res.user.authToken);
+           this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
+          }else{
+           this.openSnackBar("Wrong Username or Password");
+          }
+        },
+        err=>{
+         
+          console.log(err);
+        }
+      );
+    }
+     
   }
   companyForm:FormGroup;
 

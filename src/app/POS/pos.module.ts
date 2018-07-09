@@ -26,9 +26,16 @@ import { ViewUsersComponent } from './view-users/view-users.component';
 import { AddUsersComponent } from './add-users/add-users.component';
 import { DeleteUserComponent } from './delete-user/delete-user.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
+import { NgxChartsModule} from '@swimlane/ngx-charts';
+import { CountUpModule } from 'countup.js-angular2';
+import { CountoModule }  from 'angular2-counto';
+
 
 @NgModule({
     imports: [
+      CountoModule,
+      CountUpModule,
+      NgxChartsModule,
       MatProgressSpinnerModule,
       PosRoutingModule,
       MatSelectModule,

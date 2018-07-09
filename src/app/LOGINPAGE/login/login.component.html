@@ -21,7 +21,8 @@
                     </div>
                
                     <button (click)='validateForm()'class="btn btn-1 btn-1a">LOG IN</button>
-                    <p>{{companyForm.value | json}}</p>
+
+                    <p class='red'>{{this.admin.message}}</p>
                    </mat-card>
     </form>
     

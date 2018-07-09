@@ -14,6 +14,7 @@ import { AddProductTypeComponent } from './add-product-type/add-product-type.com
 import { ViewProdtypeComponent } from './view-prodtype/view-prodtype.component';
 import { ViewUsersComponent } from './view-users/view-users.component';
 import { AddUsersComponent } from './add-users/add-users.component';
+import { AuthGuardService } from '../auth-guard.service';
 
 const appRoutes:Routes = [
     {path:'mynav',component:MyNavComponent,children:[
@@ -26,7 +27,7 @@ const appRoutes:Routes = [
         {path:'viewTrans',component:ViewTransComponent,data:{state:'viewTrans'}},
         {path:'addProdType',component:AddProductTypeComponent,data:{state:'addProdType'}},
         {path:'viewProdtype',component:ViewProdtypeComponent,data:{state:'viewProdType'}},
-        {path:'viewUsers',component:ViewUsersComponent,data:{state:'viewUsers'}}
+        {path:'viewUsers',component:ViewUsersComponent,canActivate:[AuthGuardService],data:{state:'viewUsers'}}
         ]
     }
 ]

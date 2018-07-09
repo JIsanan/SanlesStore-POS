@@ -13,12 +13,18 @@ import { POSModule } from './POS/pos.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AdminService } from './admin.service';
 import { AuthService } from './interceptors/auth.service';
+import { NgxChartsModule} from '@swimlane/ngx-charts';
+import { CountUpModule } from 'countup.js-angular2';
+import { CountoModule } from 'angular2-counto';
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
+    CountoModule,
+    CountUpModule,
+    NgxChartsModule,
     MatSnackBarModule,
     HttpClientModule,
     MatAutocompleteModule,

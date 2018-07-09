@@ -17,6 +17,8 @@ export class AdminService {
     this.http = http;
   }
 
+  message:String;
+  redirectURL:string;
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -46,7 +48,9 @@ export class AdminService {
 
   updatedUserBody:User;
 
-  getProductsUrl = 'http://localhost:9000/product/';
+  getYearlyUrl = 'http://localhost:9000/retrieveSales/0/';
+
+  getProductsUrl = 'http://localhost:9000/product/0/';
 
   loginUrl = 'http://localhost:9000/login/';
 
@@ -62,7 +66,7 @@ export class AdminService {
 
   addProdTypeURL = 'http://localhost:9000/addProductType/';
 
-  getProductTypeUrl = 'http://localhost:9000/productType/';
+  getProductTypeUrl = 'http://localhost:9000/productType/0/';
   
   addProductUrl = 'http://localhost:9000/addProduct/';
 
@@ -86,6 +90,15 @@ export class AdminService {
 
   getCertainUserURL = 'http://localhost:9000/getuser/:id/';
 
+  getCurrUserURL = 'http://localhost:9000/getuser/';
+
+  getYearlyFunc():Observable<any>{
+    return this.http.get(this.getYearlyUrl,this.httpOptions);
+  }
+  getCurrUserFunc():Observable<any>{
+    return this.http.get(this.getCurrUserURL,this.httpOptions);
+  }
+  
   getCertainUserFunc():Observable<any>{
     return this.http.get(this.getCertainUserURL,this.httpOptions);
   }

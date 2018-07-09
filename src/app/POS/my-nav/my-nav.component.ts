@@ -11,6 +11,8 @@ import {
   query,
   group
 } from '@angular/animations';
+import { Router } from '@angular/router';
+import { AdminService } from '../../admin.service';
 
 @Component({
   selector: 'my-nav',
@@ -66,7 +68,7 @@ export class MyNavComponent {
     isProductVisible:boolean = false;
     isProductTypeVisible:boolean = false;
     isTransVisible:boolean = false;
-  constructor(private breakpointObserver: BreakpointObserver) {
+  constructor(private breakpointObserver: BreakpointObserver,public router:Router,public admin:AdminService) {
     this.linkBatchUser = [
       new links('/mynav/addUser','Add New User','inactive'),
       new links('/mynav/viewUsers',"View Users",'inactive'),
@@ -74,7 +76,7 @@ export class MyNavComponent {
     ];
     this.linkBatchProduct = [
       new links("/mynav/addProd","Add New Product",'inactive'),
-      new links('/mynav/viewProdtype',"View Product Types",'inactive')
+      new links("/mynav/viewProd","View Products",'inactive')
     ];
     this.linkBatchTransaction = [
       new links("/mynav/addTrans","Add New Transaction",'inactive'),
@@ -83,7 +85,8 @@ export class MyNavComponent {
     ];
     this.linkBatchProductTypes = [
       new links("/mynav/addProdType","Add New Product Type",'inactive'),
-      new links("/mynav/viewProd","View Products",'inactive')
+      new links('/mynav/viewProdtype',"View Product Types",'inactive')
+      
     ]
     // this.linkBatch = [
      
@@ -115,6 +118,12 @@ export class MyNavComponent {
   toggleTransactions(){
     this.isTransVisible = this.isTransVisible === true ? false : true;
   
+  }
+
+  logout(){
+    console.log("HOI");
+    this.admin.message='';
+    this.router.navigate(['/login']);
   }
   
   }

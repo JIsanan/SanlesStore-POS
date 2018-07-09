@@ -1,6 +1,6 @@
 <mat-card >
   <div class='center '>
-    <mat-form-field appearance="outline" class='length'>
+    <mat-form-field appearance="outline" class='length' >
       <mat-label >Search here</mat-label>
       <input type="text" matInput [formControl]='search' [matAutocomplete]="auto"><mat-icon matSuffix>search</mat-icon>
       <mat-autocomplete #auto='matAutocomplete'>
@@ -10,16 +10,21 @@
       </mat-autocomplete>
     </mat-form-field>
     &nbsp;
-    <button mat-raised-button color='primary'>Search!</button>
+    <button mat-raised-button color='primary' (click)='displaySearch()'>Search!</button>
     &nbsp;
     <mat-form-field>
         <mat-label>Search By:</mat-label>
-        <mat-select placeholder="Search Options">
+        <mat-select placeholder="Search Options" [(value)]='searchCategory[0].value'>
           <mat-option *ngFor="let item of searchCategory" [value]="item.value" >
             {{ item.viewValue }}
           </mat-option>
         </mat-select>
       </mat-form-field>
+      &nbsp;
+      &nbsp;
+      <button mat-raised-button color='primary' (click)='getBack()'>Previous</button>
+      <button mat-raised-button color='primary' (click)='getMore()'>See More</button>
+
   </div>
 </mat-card>
 
