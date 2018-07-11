@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { product_type } from 'src/app/POS/add-product-type/product_type';
 import { AdminService } from '../../admin.service';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -13,9 +13,7 @@ import { FormControl } from '@angular/forms';
 export class UpdateProductTypeComponent implements OnInit {
 
   uProdType = new product_type(1,'');
-  constructor(public admin:AdminService,@Inject(MAT_DIALOG_DATA) public data:any) {
-    
-    console.log("BAYANG MAGILIW");
+  constructor(public admin:AdminService,@Inject(MAT_DIALOG_DATA) public data:any,public snackBar:MatSnackBar) {
     console.log(this.data.productTypeName);
     this.uProdType.type_name = this.data.productTypeName;
     this.uProdType.type_id = this.data.ID;
@@ -38,9 +36,18 @@ export class UpdateProductTypeComponent implements OnInit {
       console.log(this.admin.updateProductTypeURL);
       this.admin.updateProductTypeFunc().subscribe(
         res=>{
-          console.log(res);
+          this.openSnackBar("Successfully Updated!");
+        },
+        err=>{
+          this.openSnackBar("Update Unsuccessful!");
         }
       );
     }
+  }
+
+  openSnackBar(message:string){
+    this.snackBar.open(message,"Dismiss",{
+      duration:2000,
+    });
   }
 }

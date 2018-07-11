@@ -24,6 +24,7 @@ export class AddProductComponent implements OnInit {
         res=>{
           console.log(res);
           this.prodTypes = res;
+         
         },
         err=>{
           console.log(err);
@@ -41,7 +42,11 @@ export class AddProductComponent implements OnInit {
       this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
       this.admin.addProductFunc().subscribe(
         res=>{
-          this.openSnackBar("Successfully Added!");
+          if(res.message=="product exists already or product type does not exist or price is an incorrect value"){
+            this.openSnackBar("Either Product Type does not Exist or Product Exists or Incorrect Value!");
+          }else{
+            this.openSnackBar("Successfully Added!");
+          }
           console.log(res);
         }
       );

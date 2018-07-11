@@ -15,19 +15,27 @@ import { ViewProdtypeComponent } from './view-prodtype/view-prodtype.component';
 import { ViewUsersComponent } from './view-users/view-users.component';
 import { AddUsersComponent } from './add-users/add-users.component';
 import { AuthGuardService } from '../auth-guard.service';
+import { ViewUserTypeComponent } from './view-user-type/view-user-type.component';
+import { AddUserTypeComponent } from './add-user-type/add-user-type.component';
+import { IsManagerGuardService } from '../is-manager-guard.service';
+import { IsEmployeeGuardService } from '../is-employee-guard.service';
+import { ArchiveProdComponent } from './archive-prod/archive-prod.component';
 
 const appRoutes:Routes = [
     {path:'mynav',component:MyNavComponent,children:[
-        {path:'dashb',component:DashboardComponent,data:{state:'dashb'}},
+        {path:'dashb',component:DashboardComponent,canActivate:[IsEmployeeGuardService],data:{state:'dashb'}},
         {path:'addTrans',component:AddTransComponent,data:{state:'addTrans'}},
-        {path:'addProd',component:AddProductComponent,data:{state:'addProd'}},
-        {path:'addUser',component:AddUsersComponent,data:{state:'addUser'}},
+        {path:'addProd',component:AddProductComponent,canActivate:[IsManagerGuardService],data:{state:'addProd'}},
+        {path:'addUser',component:AddUsersComponent,canActivate:[AuthGuardService],data:{state:'addUser'}},
         {path:'updateProd',component:UpdateProdComponent},
         {path:'viewProd',component:ViewProdComponent,data:{state:'viewProd'}},
         {path:'viewTrans',component:ViewTransComponent,data:{state:'viewTrans'}},
-        {path:'addProdType',component:AddProductTypeComponent,data:{state:'addProdType'}},
+        {path:'addProdType',component:AddProductTypeComponent,canActivate:[IsManagerGuardService],data:{state:'addProdType'}},
         {path:'viewProdtype',component:ViewProdtypeComponent,data:{state:'viewProdType'}},
-        {path:'viewUsers',component:ViewUsersComponent,canActivate:[AuthGuardService],data:{state:'viewUsers'}}
+        {path:'viewUsers',component:ViewUsersComponent,canActivate:[AuthGuardService],data:{state:'viewUsers'}},
+        {path:'viewUserType',component:ViewUserTypeComponent,canActivate:[AuthGuardService],data:{state:'viewUserType'}},
+        {path:'addUserType',component:AddUserTypeComponent,canActivate:[AuthGuardService],data:{state:'addUserType'}},
+        {path:'archiveProd',component:ArchiveProdComponent,data:{state:'archiveProd'}}
         ]
     }
 ]

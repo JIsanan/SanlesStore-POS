@@ -41,8 +41,13 @@ export class AddTransComponent implements OnInit {
       this.admin.transactionBody = this.trans;
       this.admin.addTransactionFunc().subscribe(
         res=>{
-          this.openSnackBar("Successfully Added");
-          console.log(res);
+          if(res.message == "product does not exist or quantity is invalid"){
+            this.openSnackBar("Input invalid check your fields and try again!");
+            console.log(res);
+          }else{
+            this.openSnackBar("Successfully Added");
+            console.log(res);
+          }
         }
       );
     }

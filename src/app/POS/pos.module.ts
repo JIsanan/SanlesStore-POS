@@ -29,10 +29,21 @@ import { UpdateUserComponent } from './update-user/update-user.component';
 import { NgxChartsModule} from '@swimlane/ngx-charts';
 import { CountUpModule } from 'countup.js-angular2';
 import { CountoModule }  from 'angular2-counto';
+import { ViewUserTypeComponent } from './view-user-type/view-user-type.component';
+import { UpdateUserTypeComponent } from './update-user-type/update-user-type.component';
+import { DeleteUserTypeComponent } from './delete-user-type/delete-user-type.component';
+import { AddUserTypeComponent } from './add-user-type/add-user-type.component';
+import { ProdDetailsComponent } from './prod-details/prod-details.component';
+import { ProdTypeDetailsComponent } from './prod-type-details/prod-type-details.component';
+import { TransDetailsComponent } from './trans-details/trans-details.component';
+import { UserDetailsComponent } from './user-details/user-details.component';
+import { ArchiveProdComponent } from './archive-prod/archive-prod.component';
+import { ArchiveUsersComponent } from './archive-users/archive-users.component';
 
 
 @NgModule({
     imports: [
+      
       CountoModule,
       CountUpModule,
       NgxChartsModule,
@@ -66,6 +77,16 @@ import { CountoModule }  from 'angular2-counto';
       MatSelectModule,
     ],
     declarations: [
+      ArchiveUsersComponent,
+      ArchiveProdComponent,
+      UserDetailsComponent,
+      TransDetailsComponent,
+      ProdTypeDetailsComponent,
+      ProdDetailsComponent,
+      AddUserTypeComponent,
+      UpdateUserTypeComponent,
+      DeleteUserTypeComponent,
+      ViewUserTypeComponent,
       UpdateUserComponent,
       DeleteUserComponent,
       AddUsersComponent,
@@ -90,6 +111,12 @@ import { CountoModule }  from 'angular2-counto';
       
     ],
     entryComponents:[
+      UserDetailsComponent,
+      TransDetailsComponent,
+      ProdTypeDetailsComponent,
+      ProdDetailsComponent,
+      UpdateUserTypeComponent,
+      DeleteUserTypeComponent,
       UpdateUserComponent,
       UpdateProductTypeComponent,
       DeleteProductTypeComponent,

@@ -17,9 +17,13 @@ import { NgxChartsModule} from '@swimlane/ngx-charts';
 import { CountUpModule } from 'countup.js-angular2';
 import { CountoModule } from 'angular2-counto';
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
+   
+    
   ],
   imports: [
     CountoModule,

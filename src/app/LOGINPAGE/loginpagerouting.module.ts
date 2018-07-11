@@ -10,6 +10,7 @@ import { MatAutocompleteModule,MatDialogModule,MatFormFieldModule,MatInputModule
 import { FormsModule } from '@angular/forms';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
+import { IsEmployeeGuardService } from '../is-employee-guard.service';
 
 const appRoutes:Routes = [
     {path:'login',component:LoginComponent}

@@ -57,7 +57,7 @@ export class MyNavComponent {
   public linkBatchTransaction:links[];
   public linkBatchProductTypes:links[];
   public linkBatchUserTypes:links[];
-
+  
   buttons =["Manage Products","Manage Users","Manage ProductTypes","Manage Transactoins","Manage UserTypes"];
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -68,11 +68,13 @@ export class MyNavComponent {
     isProductVisible:boolean = false;
     isProductTypeVisible:boolean = false;
     isTransVisible:boolean = false;
+    isUTypeVisible:boolean = false;
+    
   constructor(private breakpointObserver: BreakpointObserver,public router:Router,public admin:AdminService) {
     this.linkBatchUser = [
       new links('/mynav/addUser','Add New User','inactive'),
       new links('/mynav/viewUsers',"View Users",'inactive'),
-      new links("/mynav/dashb","Dashboard",'inactive'),
+      // new links("/mynav/dashb","Dashboard",'inactive'),
     ];
     this.linkBatchProduct = [
       new links("/mynav/addProd","Add New Product",'inactive'),
@@ -87,7 +89,11 @@ export class MyNavComponent {
       new links("/mynav/addProdType","Add New Product Type",'inactive'),
       new links('/mynav/viewProdtype',"View Product Types",'inactive')
       
-    ]
+    ];
+    this.linkBatchUserTypes = [
+      new links('/mynav/viewUserType',"View User Types",'inactive'),
+      new links('/mynav/addUserType','Add User Type','inactive')
+    ];
     // this.linkBatch = [
      
       
@@ -99,31 +105,68 @@ export class MyNavComponent {
   }
   
   getState(outlet){
-    console.log(outlet.activatedRouteData.state);
+    // console.log(outlet.activatedRouteData.state);
     return outlet.activatedRouteData.state;
   }
   
   toggleUser(){
     this.isUsersVisible = this.isUsersVisible === true ? false : true;
+    if(this.isUsersVisible == true){
+      this.isProductVisible = false;
+      this.isProductTypeVisible = false;
+      this.isTransVisible = false;
+      this.isUTypeVisible = false;
+    }
   }
 
   toggleProduct(){
     this.isProductVisible = this.isProductVisible === true ? false : true;
+    if(this.isProductVisible == true){
+      this.isUsersVisible = false;
+      this.isProductTypeVisible = false;
+      this.isTransVisible = false;
+      this.isUTypeVisible = false;
+    }
   }
 
   toggleProductTypes(){
     this.isProductTypeVisible = this.isProductTypeVisible === true ? false : true;
+    if(this.isProductTypeVisible == true){
+      this.isUsersVisible = false;
+      this.isProductVisible = false;
+      this.isTransVisible = false;
+      this.isUTypeVisible = false;
+    }
   }
 
   toggleTransactions(){
     this.isTransVisible = this.isTransVisible === true ? false : true;
-  
+    if(this.isTransVisible == true){
+      this.isUsersVisible = false;
+      this.isProductTypeVisible = false;
+      this.isProductVisible = false;
+      this.isUTypeVisible = false;
+    }
+  }
+
+  toggleUserTypes(){
+    this.isUTypeVisible = this.isUTypeVisible === true ? false : true;
+    if(this.isUTypeVisible == true){
+      this.isUsersVisible = false;
+      this.isProductTypeVisible = false;
+      this.isTransVisible = false;
+      this.isProductVisible = false;
+    }
   }
 
   logout(){
     console.log("HOI");
     this.admin.message='';
     this.router.navigate(['/login']);
+  }
+
+  navToDash(){
+    this.router.navigate(["/mynav/dashb"]);
   }
   
   }

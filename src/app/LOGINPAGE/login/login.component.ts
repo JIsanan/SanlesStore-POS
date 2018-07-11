@@ -4,7 +4,7 @@ import { AdminService } from '../../admin.service';
 import { loginBody } from './login';
 import { FormControl,FormGroup,FormBuilder,Validators,FormArray} from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
-
+declare var particlesJS: any;
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -21,6 +21,8 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    
+
   }
   user:loginBody= new loginBody('10','');
   

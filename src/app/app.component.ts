@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { fadeAnimation } from './animation';
 
 @Component({
@@ -9,4 +9,5 @@ import { fadeAnimation } from './animation';
 })
 export class AppComponent {
   title = 'app';
+
 }

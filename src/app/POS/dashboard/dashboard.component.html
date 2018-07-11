@@ -47,8 +47,8 @@
             </mat-menu>
           </mat-card-title>
         </mat-card-header>
-        <mat-card-content class="dashboard-card-content">
-          <div counto [step]="30" [countTo]="10000" [countFrom]="0" [duration]="4" (countoChange)="counto = $event" >{{counto | currency:'PHP':'symbol':'1.2-2'}}</div>
+        <mat-card-content class="dashboard-card-content rev">
+          <div counto [step]="30" [countTo]="currRev" [countFrom]="0" [duration]="4" (countoChange)="counto = $event" >{{counto | currency:'PHP':'symbol':'1.2-2'}}</div>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
@@ -67,10 +67,20 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
-            
-
-
-         
+            <ngx-charts-bar-horizontal *ngIf='hasContent'
+              [view]="barview"
+              [scheme]="colorScheme"
+              [results]="monthRev"
+              [gradient]="gradient"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="showLegend"
+              [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="showYAxisLabel"
+              [xAxisLabel]="xAxisLabel"
+              [yAxisLabel]="yAxisLabel"
+              (select)="onSelect($event)">
+            </ngx-charts-bar-horizontal>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>

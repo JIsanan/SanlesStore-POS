@@ -6,6 +6,7 @@ import { product_type } from './POS/add-product-type/product_type';
 import { Product } from './POS/add-product/product';
 import { Transaction } from './POS/add-trans/transaction';
 import { User } from './POS/add-users/users';
+import { uType } from './POS/add-user-type/userType';
 
 @Injectable({
   providedIn: 'root'
@@ -48,13 +49,21 @@ export class AdminService {
 
   updatedUserBody:User;
 
+  updatedUserTypeBody:uType;
+
+  userTypeBody:uType;
+
+  getUserTypesURL='http://localhost:9000/userType/0/';
+
+  getTodayRevenu = 'http://localhost:9000/retrieveSales/2/';
+
   getYearlyUrl = 'http://localhost:9000/retrieveSales/0/';
 
   getProductsUrl = 'http://localhost:9000/product/0/';
 
   loginUrl = 'http://localhost:9000/login/';
 
-  getTransactionsUrl = 'http://localhost:9000/transaction/';
+  getTransactionsUrl = 'http://localhost:9000/transaction/0/';
 
   deleteTransactionsURL = 'http://localhost:9000/deleteTransaction/:id/';
 
@@ -70,7 +79,7 @@ export class AdminService {
   
   addProductUrl = 'http://localhost:9000/addProduct/';
 
-  getCertainProductUrl = 'http://localhost:9000/product/:id/';
+  getCertainProductUrl = 'http://localhost:9000/getproduct/:id/';
 
   updateProductURL = 'http://localhost:9000/editProduct/:id/';
 
@@ -78,11 +87,11 @@ export class AdminService {
 
   addTransactionURL = 'http://localhost:9000/addTransaction/';
 
-  getUsersURL = 'http://localhost:9000/';
+  getUsersURL = 'http://localhost:9000/0/';
 
   adduserURL = 'http://localhost:9000/adduser/';
 
-  getCertainTransURL = 'http://localhost:9000/transaction/:id/';
+  getCertainTransURL = 'http://localhost:9000/gettransaction/:id/';
 
   updateCertainTransURL = 'http://localhost:9000/editTransaction/:id/';
 
@@ -90,8 +99,45 @@ export class AdminService {
 
   getCertainUserURL = 'http://localhost:9000/getuser/:id/';
 
-  getCurrUserURL = 'http://localhost:9000/getuser/';
+  getCurrUserURL = 'http://localhost:9000/getuser';
 
+  getMonthSaleURL = 'http://localhost:9000/retrieveSales/1/';
+
+  updateUserTypeURL = 'http://localhost:9000/editUserType/:id/';
+
+  deleteUserTypeURL = 'http://localhost:9000/deleteUserType/:id/';
+
+  addUserTypeURL = 'http://localhost:9000/addUserType/';
+
+  getDetailsURL = 'http://localhost:9000/getdetails/:id/';
+
+  retrieveDeletedProductsURL = 'http://localhost:9000/product/deleted/0/';
+
+  retrieveDeletedProductsFunc():Observable<any>{
+    return this.http.get(this.retrieveDeletedProductsURL,this.httpOptions);
+  }
+  getDetailsFunc():Observable<any>{
+    return this.http.get(this.getDetailsURL,this.httpOptions);
+  }
+  addUserTypeFunc():Observable<any>{
+    return this.http.post(this.addUserTypeURL,this.userTypeBody,this.httpOptions);
+  }
+  deleteUserTypeFunc():Observable<any>{
+    return this.http.get(this.deleteUserTypeURL,this.httpOptions);
+  }
+  updateUserTypeFunc():Observable<any>{
+    return this.http.post(this.updateUserTypeURL,this.updatedUserTypeBody,this.httpOptions);
+  }
+  getUserTypeFunc():Observable<any>{
+    return this.http.get(this.getUserTypesURL,this.httpOptions);
+  }
+
+  getMonthSaleFunc():Observable<any>{
+    return this.http.get(this.getMonthSaleURL,this.httpOptions);
+  }
+  getTodayFunc():Observable<any>{
+    return this.http.get(this.getTodayRevenu,this.httpOptions);
+  }
   getYearlyFunc():Observable<any>{
     return this.http.get(this.getYearlyUrl,this.httpOptions);
   }

@@ -10,16 +10,20 @@
           </mat-autocomplete>
       </mat-form-field>
       &nbsp;
-      <button mat-raised-button color='primary'>Search!</button>
+      <button mat-raised-button color='primary' (click)='displaySearch()'>Search!</button>
       &nbsp;
       <mat-form-field>
           <mat-label>Search By:</mat-label>
-          <mat-select placeholder="Search Options">
+          <mat-select placeholder="Search Options" [(value)]='searchCategory[0].value'>
             <mat-option *ngFor="let item of searchCategory" [value]="item.value" >
               {{ item.viewValue }}
             </mat-option>
           </mat-select>
       </mat-form-field>
+      &nbsp;
+      &nbsp;
+      <button mat-raised-button color='primary' (click)='getBack()'>Previous</button>
+      <button mat-raised-button color='primary' (click)='getMore()'>See More</button>
     </div>
 </mat-card>
 
@@ -40,7 +44,7 @@
 
     <ng-container matColumnDef="position">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Position</mat-header-cell>
-        <mat-cell *matCellDef="let row">{{row.position}}</mat-cell>
+        <mat-cell *matCellDef="let row">{{row.position.typeName}}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="password">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Password</mat-header-cell>
@@ -56,8 +60,12 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
             <mat-cell *matCellDef='let row'><button mat-raised-button color='accent' id={{row.id}} name={{row.id}} (click)='openDeleteDialog($event)'>DELETE</button></mat-cell>
         </ng-container>
+        
+        <ng-container matColumnDef='showDetails'>
+            <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+            <mat-cell *matCellDef='let row'><button mat-raised-button id={{row.id}} name={{row.id}} (click)='openDetailDialog($event)'>SHOW DETAILS</button></mat-cell>
+        </ng-container>
     
-
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>

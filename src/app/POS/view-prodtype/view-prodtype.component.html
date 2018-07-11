@@ -20,6 +20,10 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      &nbsp;
+      &nbsp;
+      <button mat-raised-button color='primary' (click)='getBack()'>Previous</button>
+      <button mat-raised-button color='primary' (click)='getMore()'>See More</button>
   </div>
 </mat-card>
 
@@ -48,6 +52,11 @@
         <mat-cell *matCellDef='let row'><button mat-raised-button color='accent' id={{row.id}} name={{row.id}} (click)='openDeleteDialog($event)'>DELETE</button></mat-cell>
     </ng-container>
     
+    <ng-container matColumnDef='showDetails'>
+        <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+        <mat-cell *matCellDef='let row'><button mat-raised-button id={{row.id}} name={{row.id}} (click)='openDetailDialog($event)'>SHOW DETAILS</button></mat-cell>
+    </ng-container>
+
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>

@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Transaction } from '../add-trans/transaction';
 import { AdminService } from '../../admin.service';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-update-transaction',
@@ -15,9 +15,9 @@ export class UpdateTransactionComponent implements OnInit {
   products;
 
   holdID;
-  constructor(public admin:AdminService,@Inject(MAT_DIALOG_DATA) public data:any) { 
+  constructor(public admin:AdminService,@Inject(MAT_DIALOG_DATA) public data:any,public snackBar:MatSnackBar) { 
     console.log(this.data.ID);
-    this.admin.getCertainTransURL = 'http://localhost:9000/transaction/'+this.data.ID+'/';
+    this.admin.getCertainTransURL = 'http://localhost:9000/gettransaction/'+this.data.ID+'/';
     
     this.showCertainTrans();
   }
@@ -58,11 +58,20 @@ export class UpdateTransactionComponent implements OnInit {
       this.admin.updateCertainTransFunc().subscribe(
         res=>{
           console.log('SUCCESS!');
+          this.openSnackBar("Successfully Updated!");
+
         },
         err=>{
           console.log(err);
+          this.openSnackBar("Update Unsuccessful!");
         }
       );
     }
+  }
+
+  openSnackBar(message:string){
+    this.snackBar.open(message,"Dismiss",{
+      duration:2000,
+    });
   }
 }

@@ -24,16 +24,15 @@ export class AuthGuardService implements CanActivate{
    }
 
   checkLogin(url:string):boolean{
-   
-
        if(localStorage.getItem('token')){
         this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
         this.admin.getCurrUserFunc().subscribe(
           res=>{
             console.log(res);
-            if(res.user.position == "admin"){
+            if(res.user.position.typeName == "admin"){
               console.log("TRUE");
               this.retval = true;
+              this.router.navigate([url]);
             }else{
               console.log("FALSE");
               this.retval = false;

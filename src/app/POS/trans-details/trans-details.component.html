@@ -1,0 +1,17 @@
+<div class='container'>
+    <div class='row'>
+       
+        <div class='matCardCustom'>
+          <mat-card >
+            <mat-toolbar color='primary'>Transaction Details</mat-toolbar>
+            <mat-card-content>
+                <mat-dialog-content *ngIf='trans'>
+                  <p>Issued by: {{this.trans.issuedBy.user}}</p>
+                  <p>Date Issued: {{this.trans.issuedDate}}</p>
+                  <p>Updated By:{{this.trans.updatedBy.user}}</p>
+                </mat-dialog-content>
+            </mat-card-content>
+          </mat-card>
+        </div>
+    </div>
+</div>

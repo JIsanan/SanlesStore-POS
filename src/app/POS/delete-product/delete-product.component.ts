@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AdminService } from '../../admin.service';
 
@@ -20,7 +20,7 @@ export class DeleteProductComponent implements OnInit {
     })
   };
   
-  constructor(public http:HttpClient,public admin:AdminService,@Inject(MAT_DIALOG_DATA) public data:any) { 
+  constructor(public http:HttpClient,public admin:AdminService,@Inject(MAT_DIALOG_DATA) public data:any,public snackBar:MatSnackBar) { 
     
   }
   ngOnInit(){
@@ -32,11 +32,18 @@ export class DeleteProductComponent implements OnInit {
     this.admin.deleteProdFunc().subscribe(
       res=>{
         console.log(res);
+        this.openSnackBar("Delete Successful");
       },
       err=>{
         console.log(err);
+        this.openSnackBar("Error:Delete Unsuccessful");
       }
     );
   }
 
+  openSnackBar(message:string){
+    this.snackBar.open(message,"Dismiss",{
+      duration:2000,
+    });
+  }
 }

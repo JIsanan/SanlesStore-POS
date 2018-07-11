@@ -3,6 +3,7 @@
     <mat-toolbar color="accent">Menu</mat-toolbar>
     <mat-nav-list>
       <!-- <a *ngFor='let link of linkBatch' [@heroState]='link.state' (mouseover)='link.toggleState()' (mouseout)='link.toggleState()' routerLinkActive='active' mat-list-item routerLink={{link.route}}>{{link.linkName}}</a> -->
+    <button mat-button (click)='navToDash()'>Dashboard</button>
     <button mat-button (click)='toggleProduct()'>Manage Products</button>
         <mat-list *ngIf='isProductVisible'>
             <a *ngFor='let link of linkBatchProduct' [@heroState]='link.state' (mouseover)='link.toggleState()' (mouseout)='link.toggleState()' routerLinkActive='active' mat-list-item routerLink={{link.route}}>{{link.linkName}}</a>
@@ -28,7 +29,10 @@
         <mat-list *ngIf='isTransVisible'>
             <a *ngFor='let link of linkBatchTransaction' [@heroState]='link.state' (mouseover)='link.toggleState()' (mouseout)='link.toggleState()' routerLinkActive='active' mat-list-item routerLink={{link.route}}>{{link.linkName}}</a>
         </mat-list>
-    <button mat-button (click)='showSubLinks()'>Manage UserTypes</button>
+    <button mat-button (click)='toggleUserTypes()'>Manage UserTypes</button>
+        <mat-list *ngIf='isUTypeVisible'>
+            <a *ngFor='let link of linkBatchUserTypes' [@heroState]='link.state' (mouseover)='link.toggleState()' (mouseout)='link.toggleState()' routerLinkActive='active' mat-list-item routerLink={{link.route}}>{{link.linkName}}</a>
+        </mat-list>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

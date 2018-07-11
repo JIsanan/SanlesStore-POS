@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Product } from 'src/app/POS/add-product/product';
 import { AdminService } from '../../admin.service';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { FormControl } from '@angular/forms';
 
 
@@ -12,8 +12,8 @@ import { FormControl } from '@angular/forms';
 })
 export class UpdateProdComponent implements OnInit {
 
-  constructor(public admin:AdminService,@Inject(MAT_DIALOG_DATA) public data:any) { 
-    this.admin.getCertainProductUrl = 'http://localhost:9000/product/'+this.data.ID+'/';
+  constructor(public admin:AdminService,@Inject(MAT_DIALOG_DATA) public data:any,public snackBar:MatSnackBar) { 
+    this.admin.getCertainProductUrl = 'http://localhost:9000/getproduct/'+this.data.ID+'/';
     console.log("HELLLLLLLOOOOOOOOOOOOOOOOO");
     this.showCertainProd();
     this.panelColor.setValue(this.selected);
@@ -70,16 +70,21 @@ export class UpdateProdComponent implements OnInit {
       this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
       this.admin.updateProductFunc().subscribe(
         res=>{
-          console.log("SUCCESS!!!");
-          console.log(res);
+          this.openSnackBar("Successfully Updated!");
         },
         err=>{
-          console.log(err);
+          this.openSnackBar("Update Unsuccessful!");
+
         }
       );
     }
     
     
+  }
+  openSnackBar(message:string){
+    this.snackBar.open(message,"Dismiss",{
+      duration:2000,
+    });
   }
 }
 
