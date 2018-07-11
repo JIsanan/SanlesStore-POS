@@ -120,4 +120,45 @@ public class ProductTypeController extends Controller {
         JsonNode product = Json.toJson(products);
         return ok(product);
     }
+
+
+    public Result getSpecificProductType(Integer x) {
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
+        ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
+        UserType check = user.getPosition();
+        if(check.getTypeName().equals("admin") || check.getTypeName().equals("manager")){
+            ProductType toOpen = ProductType.find.where().eq("id", x).ne("isDeleted", true).findUnique();
+            if(toOpen != null){
+                node.put("message", "user found");
+                node.put("user", Json.toJson(toOpen));
+            }else{
+                node.put("message", "user not found");
+            }
+        }else{
+            node.put("message", "not authorized");
+        }
+        return ok(node);
+    }
+
+    public Result retrieveDeletedProductType(Integer pagenumber) {
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
+        ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
+        UserType check = user.getPosition();
+        int first = pagenumber * 10;
+        if(check.getTypeName().equals("admin")){
+            List<ProductType> users = ProductType.find.where().eq("isdeleted", true).setFirstRow(first).setMaxRows(10).findList();
+            return ok(Json.toJson(users));
+        }else{
+            node.put("message", "not authorized to access");
+        }
+        return ok(node);
+    }
 }

@@ -9,6 +9,8 @@ import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.*;
+import java.security.*;
+import java.math.*;
 
 import views.html.*;
 
@@ -25,11 +27,14 @@ public class HomeController extends Controller {
         this.formFactory = formFactory;
     }
 
-    public Result login(){
+    public Result login() throws NoSuchAlgorithmException {
         DynamicForm requestData = formFactory.form().bindFromRequest();
         User users = User.find.where().eq("user", requestData.get("username")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
-        if(users != null && users.getPassword().equals(requestData.get("password")) && users.getIsdeleted() == false){
+        MessageDigest m=MessageDigest.getInstance("MD5");
+        m.update(requestData.get("password").getBytes(),0,requestData.get("password").length());
+        String password = new BigInteger(1,m.digest()).toString(16);
+        if(users != null && users.getPassword().equals(password) && users.getIsdeleted() == false){
             node.put("message", "login successful");
             node.put("user", Json.toJson(users));
         }else{
@@ -45,7 +50,7 @@ public class HomeController extends Controller {
         return ok(node);
     }
 
-    public Result createUser(){
+    public Result createUser() throws NoSuchAlgorithmException {
         DynamicForm requestData = formFactory.form().bindFromRequest();
         User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
@@ -62,7 +67,10 @@ public class HomeController extends Controller {
                     User L = new User();
                     L.setUser(requestData.get("username"));
                     L.setPosition(checker2);
-                    L.setPassword(requestData.get("password"));
+                    MessageDigest m=MessageDigest.getInstance("MD5");
+                    m.update(requestData.get("password").getBytes(),0,requestData.get("password").length());
+                    String password = new BigInteger(1,m.digest()).toString(16);
+                    L.setPassword(password);
                     L.setCreatedBy(user);
                     L.setIsdeleted(false);
                     L.setAddedDate(new Date());
@@ -106,7 +114,25 @@ public class HomeController extends Controller {
         return ok(node);
     }
 
-    public Result editUser(Integer x) {
+    public Result retrieveDeletedUser(Integer pagenumber) {
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
+        ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
+        UserType check = user.getPosition();
+        int first = pagenumber * 10;
+        if(check.getTypeName().equals("admin")){
+            List<User> users = User.find.where().eq("isdeleted", true).setFirstRow(first).setMaxRows(10).findList();
+            return ok(Json.toJson(users));
+        }else{
+            node.put("message", "not authorized to access");
+        }
+        return ok(node);
+    }
+
+    public Result editUser(Integer x) throws NoSuchAlgorithmException {
         DynamicForm requestData = formFactory.form().bindFromRequest();
         User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
@@ -118,10 +144,15 @@ public class HomeController extends Controller {
         UserType checker2 = UserType.find.where().eq("typeName", requestData.get("position")).findUnique();
         if(check.getTypeName().equals("admin") && checker2 != null){
             User toedit = User.find.byId(x);
-            if(toedit.getIsdeleted() == false && !requestData.get("username").equals("") && !requestData.get("password").equals("") && (requestData.get("position").equals("admin") || requestData.get("position").equals("employee") || requestData.get("position").equals("manager"))){
+            if(toedit.getIsdeleted() == false && !requestData.get("username").equals("")  && (requestData.get("position").equals("admin") || requestData.get("position").equals("employee") || requestData.get("position").equals("manager"))){
                 node.put("message", "successfully edited");
                 toedit.setUser(requestData.get("username"));
-                toedit.setPassword(requestData.get("password"));
+                if(!requestData.get("password").equals("")){
+                    MessageDigest m=MessageDigest.getInstance("MD5");
+                    m.update(requestData.get("password").getBytes(),0,requestData.get("password").length());
+                    String password = new BigInteger(1,m.digest()).toString(16);
+                    toedit.setPassword(password);
+                }
                 toedit.setPosition(checker2);
                 toedit.setUpdatedBy(user);
                 toedit.setUpdatedDate(new Date());
@@ -130,6 +161,7 @@ public class HomeController extends Controller {
                 node.put("message", "information inputted maybe lacking or incorrect");
             }
         }else{
+            node.put("debug", Json.toJson(checker2));
             node.put("message", "not authorized to edit");
         }
         return ok(node);
@@ -161,7 +193,32 @@ public class HomeController extends Controller {
         return ok(node);
     }
 
-    public Result getUser() {
+
+    public Result getUpdatedCreatedUser(Integer x) {
+        DynamicForm requestData = formFactory.form().bindFromRequest();
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
+        ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
+        UserType check = user.getPosition();
+        if(check.getTypeName().equals("admin")){
+            User toedit = User.find.byId(x);
+            if(toedit.getIsdeleted() == false){
+                node.put("message", "successfully retrieved");
+                node.put("updatedBy", Json.toJson(toedit.getUpdatedBy()));
+                node.put("createdBy", Json.toJson(toedit.getCreatedBy()));
+            }else{
+                node.put("message", "user does not exist");
+            }
+        }else{
+            node.put("message", "not authorized to access");
+        }
+        return ok(node);
+    }
+
+    public Result getLoggedUser() {
         User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
         if(user==null){

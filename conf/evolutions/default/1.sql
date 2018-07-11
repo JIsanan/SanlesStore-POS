@@ -52,7 +52,6 @@ create table user (
   created_by_id                 integer,
   added_date                    datetime(6),
   updated_date                  datetime(6),
-  constraint uq_user_position_id unique (position_id),
   constraint pk_user primary key (id)
 );
 
@@ -92,6 +91,7 @@ alter table transactions add constraint fk_transactions_product_id foreign key (
 create index ix_transactions_product_id on transactions (product_id);
 
 alter table user add constraint fk_user_position_id foreign key (position_id) references user_type (id) on delete restrict on update restrict;
+create index ix_user_position_id on user (position_id);
 
 alter table user add constraint fk_user_updated_by_id foreign key (updated_by_id) references user (id) on delete restrict on update restrict;
 create index ix_user_updated_by_id on user (updated_by_id);
@@ -133,6 +133,7 @@ alter table transactions drop foreign key fk_transactions_product_id;
 drop index ix_transactions_product_id on transactions;
 
 alter table user drop foreign key fk_user_position_id;
+drop index ix_user_position_id on user;
 
 alter table user drop foreign key fk_user_updated_by_id;
 drop index ix_user_updated_by_id on user;

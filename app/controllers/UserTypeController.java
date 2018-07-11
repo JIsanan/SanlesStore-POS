@@ -116,4 +116,45 @@ public class UserTypeController extends Controller {
         JsonNode type = Json.toJson(types);
         return ok(type);
     }
+
+
+    public Result getSpecificUserType(Integer x) {
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
+        ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
+        UserType check = user.getPosition();
+        if(check.getTypeName().equals("admin")){
+            UserType toOpen = UserType.find.where().eq("id", x).ne("isDeleted", true).findUnique();
+            if(toOpen != null){
+                node.put("message", "usertype found");
+                node.put("user", Json.toJson(toOpen));
+            }else{
+                node.put("message", "usertype not found");
+            }
+        }else{
+            node.put("message", "not authorized");
+        }
+        return ok(node);
+    }
+
+    public Result retrieveDeletedUserType(Integer pagenumber) {
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
+        ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
+        UserType check = user.getPosition();
+        int first = pagenumber * 10;
+        if(check.getTypeName().equals("admin")){
+            List<UserType> users = UserType.find.where().eq("isdeleted", true).setFirstRow(first).setMaxRows(10).findList();
+            return ok(Json.toJson(users));
+        }else{
+            node.put("message", "not authorized to access");
+        }
+        return ok(node);
+    }
 }

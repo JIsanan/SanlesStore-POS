@@ -35,7 +35,8 @@ public class TransactionController extends Controller {
             node.put("message", "Not logged in");
             return ok(node);
         }
-        if(user.getPosition().equals("admin") || user.getPosition().equals("manager") || user.getPosition().equals("employee")){
+        UserType check = user.getPosition();
+        if(check.getTypeName().equals("admin") || check.getTypeName().equals("manager") || check.getTypeName().equals("employee")){
             Product productcheck = Product.find.where().eq("id", requestData.get("product_id")).ne("isdeleted", true).findUnique();
             if(productcheck!=null && Integer.parseInt(requestData.get("quantity")) > 0 ){
                 Transactions L = new Transactions();
@@ -81,6 +82,7 @@ public class TransactionController extends Controller {
                 checker.setProduct(productcheck);
                 checker.setUpdatedDate(new Date());
                 checker.update();
+                node.put("message", "transaction updated successfully");
             }else{
                 node.put("message", "information inputted maybe lacking or incorrect");
             }
@@ -100,13 +102,15 @@ public class TransactionController extends Controller {
             return ok(node);
         }
         Transactions checker = Transactions.find.where().eq("id", x).ne("isdeleted", true).findUnique();
-        if(user.getPosition().equals("admin") || user.getPosition().equals("manager") || (user.getPosition().equals("employee") && checker.getIssuedBy().getId() == user.getId())){
+        UserType check = user.getPosition();
+        if(check.getTypeName().equals("admin") || check.getTypeName().equals("manager") || (check.getTypeName().equals("employee") && checker.getIssuedBy().getId() == user.getId())){
             if(checker.getIsdeleted() == false){
                 node.put("message", "successfully deleted");
                 checker.setIsdeleted(true);
                 checker.setUpdatedBy(user);
                 checker.setUpdatedDate(new Date());
                 checker.update();
+                node.put("message", "transaction deleted successfully");
             }else{
                 node.put("message", "transaction already deleted");
             }
@@ -125,14 +129,33 @@ public class TransactionController extends Controller {
             return ok(node);
         }
         int first = pagenumber * 10;
-        if(user.getPosition().equals("admin") || user.getPosition().equals("manager")){
+        UserType check = user.getPosition();
+        if(check.getTypeName().equals("admin") || check.getTypeName().equals("manager")){
             List<Transactions> transactions = Transactions.find.where().ne("isdeleted", true).setFirstRow(first).setMaxRows(10).findList();
             return ok(Json.toJson(transactions));
-        }else if(user.getPosition().equals("employee")){
+        }else if(check.getTypeName().equals("employee")){
             List<Transactions> transactions = Transactions.find.where().eq("issuedBy", user).ne("isdeleted", true).setFirstRow(first).setMaxRows(10).findList();
             return ok(Json.toJson(transactions));
         }else{
             node.put("message","not authorized");
+        }
+        return ok(node);
+    }
+
+    public Result retrieveDeletedTransaction(Integer pagenumber) {
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
+        ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
+        UserType check = user.getPosition();
+        int first = pagenumber * 10;
+        if(check.getTypeName().equals("admin")){
+            List<Transactions> transactions = Transactions.find.where().eq("isdeleted", true).setFirstRow(first).setMaxRows(10).findList();
+            return ok(Json.toJson(transactions));
+        }else{
+            node.put("message", "not authorized to access");
         }
         return ok(node);
     }
@@ -145,6 +168,8 @@ public class TransactionController extends Controller {
             node.put("message", "Not logged in");
             return ok(node);
         }
+        UserType check = user.getPosition();
+        if(check.getTypeName().equals("admin") && check.getTypeName().equals("admin")){
             Transactions products = Transactions.find.where().ne("isdeleted", true).eq("id", x).findUnique();
             if(products.getIssuedBy().getId() == user.getId()){
                 JsonNode product = Json.toJson(products);
@@ -152,6 +177,15 @@ public class TransactionController extends Controller {
             }else{
                 node.put("message", "not authorized");
             }
+        }else{
+            Transactions products = Transactions.find.where().ne("isdeleted", true).eq("id", x).eq("issuedBy", user).findUnique();
+            if(products.getIssuedBy().getId() == user.getId()){
+                JsonNode product = Json.toJson(products);
+                return ok(product);
+            }else{
+                node.put("message", "not authorized");
+            }
+        }
         return ok(node);
     }
 
@@ -163,7 +197,13 @@ public class TransactionController extends Controller {
             node.put("message", "Not logged in");
             return ok(node);
         }
-        List<Transactions> products = Transactions.find.where().ne("isdeleted", true).contains("id", x).eq("issuedBy", user).findList();
+        UserType check = user.getPosition();
+        List<Transactions> products;
+        if(check.getTypeName().equals("admin") && check.getTypeName().equals("admin")){
+            products = Transactions.find.where().ne("isdeleted", true).contains("buyerName", x).findList();
+        }else{
+            products = Transactions.find.where().ne("isdeleted", true).contains("buyerName", x).eq("issuedBy", user).findList();
+        }
         return ok(Json.toJson(products));
     }
 
@@ -172,53 +212,59 @@ public class TransactionController extends Controller {
         DynamicForm requestData = formFactory.form().bindFromRequest();
         User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();
-        List<Transactions> products = Transactions.find.where().orderBy("issuedDate desc").findList();
-        if(type == 0 && products.size() > 0){
-            DateTime currmonth = new DateTime();
-            int[] sales = new int[12];
-            int monthbetween = 0;
-            for(int x = 0; x < products.size(); x++){
-                Transactions newProduct = products.get(x);
-                DateTime newMonth = new DateTime(newProduct.getIssuedDate());
-                monthbetween = Months.monthsBetween(currmonth, newMonth).getMonths();
-                if(monthbetween >= 12) {
-                    break;
+        List<Transactions> products = Transactions.find.where().eq("isdeleted", "true").orderBy("issuedDate desc").findList();
+        UserType check = user.getPosition();
+        if(check.getTypeName().equals("manager") || check.getTypeName().equals("admin")){
+            if(type == 0 && products.size() > 0){
+                DateTime currmonth = new DateTime();
+                int[] sales = new int[12];
+                int monthbetween = 0;
+                for(int x = 0; x < products.size(); x++){
+                    Transactions newProduct = products.get(x);
+                    DateTime newMonth = new DateTime(newProduct.getIssuedDate());
+                    monthbetween = Months.monthsBetween(currmonth, newMonth).getMonths();
+                    if(monthbetween >= 11){
+                        break;
+                    }
+                    sales[Math.abs(monthbetween)] += newProduct.getTotalPaid();
                 }
-                sales[monthbetween] += newProduct.getTotalPaid();
-            }
-            node.put("data", Json.toJson(sales));
-            return ok(node);
-        }else if(type==1 && products.size() > 0){
-            DateTime currDay = new DateTime();
-            int[] sales = new int[30];
-            int daysbetween = 0;
-            for(int x = 0; x < products.size(); x++){
-                Transactions newProduct = products.get(x);
-                DateTime newDay = new DateTime(newProduct.getIssuedDate());
-                daysbetween = Days.daysBetween(newDay, currDay).getDays();
-                if(daysbetween >= 30){
-                    break;
+                node.put("data", Json.toJson(sales));
+                return ok(node);
+            }else if(type==1 && products.size() > 0){
+                DateTime currDay = new DateTime();
+                int[] sales = new int[30];
+                int daysbetween = 0;
+                for(int x = 0; x < products.size(); x++){
+                    Transactions newProduct = products.get(x);
+                    DateTime newDay = new DateTime(newProduct.getIssuedDate());
+                    daysbetween = Days.daysBetween(newDay, currDay).getDays();
+                    if(daysbetween >= 29){
+                        break;
+                    }
+                    sales[Math.abs(daysbetween)] += newProduct.getTotalPaid();
                 }
-                sales[daysbetween] += newProduct.getTotalPaid();
-            }
-            node.put("data", Json.toJson(sales));
-            return ok(node);
-        }else if(type==2 && products.size() > 0){
-            DateTime currDay = new DateTime();
-            int sales = 0;
-            int daysbetween = 0;
-            for(int x = 0; x < products.size(); x++){
-                Transactions newProduct = products.get(x);
-                DateTime newDay = new DateTime(newProduct.getIssuedDate());
-                daysbetween = Days.daysBetween(newDay, currDay).getDays();
-                if(daysbetween > 0){
-                    break;
+                node.put("data", Json.toJson(sales));
+                return ok(node);
+            }else if(type==2 && products.size() > 0){
+                DateTime currDay = new DateTime();
+                int sales = 0;
+                int daysbetween = 0;
+                for(int x = 0; x < products.size(); x++){
+                    Transactions newProduct = products.get(x);
+                    DateTime newDay = new DateTime(newProduct.getIssuedDate());
+                    daysbetween = Days.daysBetween(newDay, currDay).getDays();
+                    if(daysbetween > 0){
+                        break;
+                    }
+                    sales += newProduct.getTotalPaid();
                 }
-                sales += newProduct.getTotalPaid();
+                node.put("data", Json.toJson(sales));
+                return ok(node);
             }
-            node.put("data", Json.toJson(sales));
-            return ok(node);
+        }else{
+            node.put("message", "not authorized");
         }
+
         node.put("message", "not enough data");
         return ok(node);
     }

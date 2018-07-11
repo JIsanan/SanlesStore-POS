@@ -105,6 +105,25 @@ public class ProductController extends Controller {
     }
 
 
+    public Result retrieveDeletedProduct(Integer pagenumber) {
+        User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
+        ObjectNode node = JsonNodeFactory.instance.objectNode();
+        if(user==null){
+            node.put("message", "Not logged in");
+            return ok(node);
+        }
+        UserType check = user.getPosition();
+        int first = pagenumber * 10;
+        if(check.getTypeName().equals("admin")){
+            List<Product> products = Product.find.where().eq("isdeleted", true).setFirstRow(first).setMaxRows(10).findList();
+            JsonNode product = Json.toJson(products);
+            return ok(product);
+        }else {
+            node.put("message", "not authorized to access");
+        }
+        return ok(node);
+    }
+
     public Result retrieveProduct(Integer pagenumber) {
         User user = User.find.where().eq("authToken", request().getHeader("AUTHORIZATION")).findUnique();
         ObjectNode node = JsonNodeFactory.instance.objectNode();

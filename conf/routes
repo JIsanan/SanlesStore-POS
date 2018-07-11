@@ -4,8 +4,10 @@
 
 # An example controller showing a sample home page
 GET     /:id/                       controllers.HomeController.retrieveUsers(id: Integer)
-GET     /logout/                    controllers.HomeController.logout
-GET     /getuser/                   controllers.HomeController.getUser
+GET     /deleted/:id/                       controllers.HomeController.retrieveDeletedUser(id: Integer)
+GET     /logout                    controllers.HomeController.logout
+GET     /getdetails/:id/            controllers.HomeController.getUpdatedCreatedUser(id: Integer)
+GET     /getuser                    controllers.HomeController.getLoggedUser
 GET     /getuser/:id/               controllers.HomeController.getSpecificUser(id: Integer)
 GET     /getusername/:id/           controllers.HomeController.getSpecificName(id: String)
 GET     /delete/:id/                controllers.HomeController.deleteUser(id: Integer)
@@ -14,16 +16,21 @@ POST    /login/                     controllers.HomeController.login
 POST    /adduser/                   controllers.HomeController.createUser
 # An example controller showing how to use dependency injection
 GET     /productType/:id/           controllers.ProductTypeController.retrieveProductType(id: Integer)
+GET     /retrieveproductType/:id/           controllers.ProductTypeController.getSpecificProductType(id: Integer)
+GET     /productType/deleted/:id/           controllers.ProductTypeController.retrieveDeletedProductType(id: Integer)
 GET     /deleteProductType/:id/     controllers.ProductTypeController.deleteProductType(id: Integer)
 POST    /editProductType/:id/       controllers.ProductTypeController.editProductType(id: Integer)
 POST    /addProductType/            controllers.ProductTypeController.createProductType
 
 GET     /userType/:id/           controllers.UserTypeController.retrieveUserType(id: Integer)
+GET     /retrieveuserType/:id/           controllers.UserTypeController.getSpecificUserType(id: Integer)
+GET     /userType/deleted/:id/           controllers.UserTypeController.retrieveDeletedUserType(id: Integer)
 GET     /deleteUserType/:id/     controllers.UserTypeController.deleteUserType(id: Integer)
 POST    /editUserType/:id/       controllers.UserTypeController.editUserType(id: Integer)
 POST    /addUserType/            controllers.UserTypeController.createUserType
 
 GET     /product/:id/               controllers.ProductController.retrieveProduct(id: Integer)
+GET     /product/deleted/:id/               controllers.ProductController.retrieveDeletedProduct(id: Integer)
 GET     /getproductname/:id/               controllers.ProductController.retrieveCertainProductName(id: String)
 GET     /getproduct/:id/            controllers.ProductController.retrieveCertainProduct(id: Integer)
 GET     /deleteProduct/:id/         controllers.ProductController.deleteProduct(id: Integer)
@@ -31,6 +38,7 @@ POST    /editProduct/:id/           controllers.ProductController.editProduct(id
 POST    /addProduct/                controllers.ProductController.createProduct
 
 GET     /transaction/:id/           controllers.TransactionController.retrieveTransaction(id: Integer)
+GET     /transaction/deleted/:id/           controllers.TransactionController.retrieveDeletedTransaction(id: Integer)
 GET     /gettransaction/:id/        controllers.TransactionController.retrieveCertainTransaction(id: Integer)
 GET     /gettransactionbuyer/:id/        controllers.TransactionController.retrieveCertainTransactionBuyer(id: String)
 GET     /deleteTransaction/:id/     controllers.TransactionController.deleteTransaction(id: Integer)

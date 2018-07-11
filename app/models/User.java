@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import play.data.format.Formats;
 
@@ -24,7 +25,7 @@ public class User extends Model{
     @NotNull
     public String authToken;
 
-    @OneToOne
+    @ManyToOne
     public UserType position;
 
     @NotNull
@@ -34,9 +35,11 @@ public class User extends Model{
     @NotNull
     public boolean isdeleted;
 
+    @JsonBackReference
     @ManyToOne
     public User updatedBy;
 
+    @JsonBackReference
     @ManyToOne
     public User createdBy;
 
