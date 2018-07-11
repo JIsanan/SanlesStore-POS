@@ -1,27 +1,27 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
-import { ArchiveUsersDataSource } from './archive-users-datasource';
+import { ArchiveUserTypeDataSource } from './archive-user-type-datasource';
 import { AdminService } from '../../admin.service';
 
 @Component({
-  selector: 'archive-users',
-  templateUrl: './archive-users.component.html',
-  styleUrls: ['./archive-users.component.css']
+  selector: 'archive-user-type',
+  templateUrl: './archive-user-type.component.html',
+  styleUrls: ['./archive-user-type.component.css']
 })
-export class ArchiveUsersComponent implements OnInit {
+export class ArchiveUserTypeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  dataSource: ArchiveUsersDataSource;
+  dataSource: ArchiveUserTypeDataSource;
 
+  
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'user','position','password'];
+  displayedColumns = ['id', 'typename'];
 
   constructor(public admin:AdminService){
     this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
+  }
 
-  }
   ngOnInit() {
-    this.dataSource = new ArchiveUsersDataSource(this.admin);
+    this.dataSource = new ArchiveUserTypeDataSource(this.admin);
   }
-  
 }

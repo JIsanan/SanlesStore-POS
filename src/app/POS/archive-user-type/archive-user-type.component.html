@@ -1,0 +1,37 @@
+<mat-card><mat-toolbar color='primary'>Archived User Types</mat-toolbar></mat-card>
+<mat-card class="mat-elevation-z8 cardBorders">
+<mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+
+<!-- Id Column -->
+<ng-container matColumnDef="id">
+<mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+<mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
+</ng-container>
+
+<!-- Name Column -->
+<ng-container matColumnDef="typename">
+<mat-header-cell *matHeaderCellDef mat-sort-header>Type Name</mat-header-cell>
+<mat-cell *matCellDef="let row">{{row.typeName}}</mat-cell>
+</ng-container>
+
+<ng-container matColumnDef='update'>
+  <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+  <mat-cell *matCellDef='let row'><button mat-raised-button color='primary' id={{row.typeName}} name={{row.id}} (click)='openUpdateDialog($event)'>UPDATE</button></mat-cell>
+</ng-container>
+
+<ng-container matColumnDef='delete'>
+    <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+    <mat-cell *matCellDef='let row'><button mat-raised-button color='accent' id={{row.id}} name={{row.id}} (click)='openDeleteDialog($event)'>DELETE</button></mat-cell>
+</ng-container>
+
+<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<!-- <mat-paginator #paginator
+[length]="dataSource.data.length"
+[pageIndex]="0"
+[pageSize]="50"
+[pageSizeOptions]="[25, 50, 100, 250]">
+</mat-paginator> -->
+</mat-card>

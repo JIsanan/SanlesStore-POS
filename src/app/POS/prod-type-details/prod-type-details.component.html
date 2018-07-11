@@ -5,10 +5,10 @@
           <mat-card >
             <mat-toolbar color='primary'>Product Details</mat-toolbar>
             <mat-card-content>
-                <mat-dialog-content>
-                  <p>Created by: {{this.prod.product.createdBy.user}}</p>
-                  <p>Date Added: {{this.prod.product.addedDate}}</p>
-                  <p>Updated By:{{this.prod.product.updatedBy.user}}</p>
+                <mat-dialog-content *ngIf='prodType'>
+                  <p>Created by: {{this.prodType.user.createdBy.user}}</p>
+                  <p>Date Added: {{this.prodType.user.addedDate}}</p>
+                  <p>Updated By:{{this.prodType.user.updatedBy.user}}</p>
                 </mat-dialog-content>
             </mat-card-content>
           </mat-card>

@@ -20,6 +20,10 @@ import { AddUserTypeComponent } from './add-user-type/add-user-type.component';
 import { IsManagerGuardService } from '../is-manager-guard.service';
 import { IsEmployeeGuardService } from '../is-employee-guard.service';
 import { ArchiveProdComponent } from './archive-prod/archive-prod.component';
+import { ArchiveUsersComponent } from 'src/app/POS/archive-users/archive-users.component';
+import { ArchiveProdTypeComponent } from './archive-prod-type/archive-prod-type.component';
+import { ArchiveTransComponent } from './archive-trans/archive-trans.component';
+import { ArchiveUserTypeComponent } from './archive-user-type/archive-user-type.component';
 
 const appRoutes:Routes = [
     {path:'mynav',component:MyNavComponent,children:[
@@ -35,7 +39,11 @@ const appRoutes:Routes = [
         {path:'viewUsers',component:ViewUsersComponent,canActivate:[AuthGuardService],data:{state:'viewUsers'}},
         {path:'viewUserType',component:ViewUserTypeComponent,canActivate:[AuthGuardService],data:{state:'viewUserType'}},
         {path:'addUserType',component:AddUserTypeComponent,canActivate:[AuthGuardService],data:{state:'addUserType'}},
-        {path:'archiveProd',component:ArchiveProdComponent,data:{state:'archiveProd'}}
+        {path:'archiveProd',component:ArchiveProdComponent,data:{state:'archiveProd'}},
+        {path:'archiveUser',component:ArchiveUsersComponent,data:{state:'archiveUser'}},
+        {path:'archiveProdType',component:ArchiveProdTypeComponent,data:{state:'archiveProdType'}},
+        {path:'archiveTrans',component:ArchiveTransComponent,data:{state:'archiveTrans'}},
+        {path:'archiveUserType',component:ArchiveUserTypeComponent,data:{state:'archiveUserType'}},
         ]
     }
 ]

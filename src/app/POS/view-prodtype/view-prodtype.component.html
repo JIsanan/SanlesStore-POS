@@ -1,29 +1,9 @@
 <mat-card >
   <div class='center '>
-    <mat-form-field appearance="outline" class='length'>
-      <mat-label >Search here</mat-label>
-      <input type="text" matInput [formControl]='search' [matAutocomplete]="auto"><mat-icon matSuffix>search</mat-icon>
-      <mat-autocomplete #auto='matAutocomplete'>
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-            {{ option }}
-          </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-    &nbsp;
-    <button mat-raised-button color='primary'>Search!</button>
-    &nbsp;
-    <mat-form-field>
-        <mat-label>Search By:</mat-label>
-        <mat-select placeholder="Search Options">
-          <mat-option *ngFor="let item of searchCategory" [value]="item.value" >
-            {{ item.viewValue }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      &nbsp;
-      &nbsp;
       <button mat-raised-button color='primary' (click)='getBack()'>Previous</button>
       <button mat-raised-button color='primary' (click)='getMore()'>See More</button>
+      &nbsp;
+      <button *ngIf='isAllowed'mat-raised-button color='primary' (click)='navToArchive()'>View Archives</button>
   </div>
 </mat-card>
 

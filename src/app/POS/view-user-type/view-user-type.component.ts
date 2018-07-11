@@ -5,6 +5,8 @@ import { AdminService } from '../../admin.service';
 import { UpdateUserTypeComponent } from 'src/app/POS/update-user-type/update-user-type.component';
 import { DeleteTransactionComponent } from 'src/app/POS/delete-transaction/delete-transaction.component';
 import { DeleteUserTypeComponent } from 'src/app/POS/delete-user-type/delete-user-type.component';
+import { Router } from '@angular/router';
+import { UserTypeDetailsComponent } from 'src/app/POS/user-type-details/user-type-details.component';
 
 @Component({
   selector: 'view-user-type',
@@ -18,10 +20,11 @@ export class ViewUserTypeComponent implements OnInit {
 
   currentPage=0;
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'typename','update','delete'];
-
-  constructor(public updateDialog:MatDialog,public deleteDialog:MatDialog,public admin:AdminService){
+  displayedColumns = ['id', 'typename','update','delete','showDetails'];
+  pos;
+  constructor(public updateDialog:MatDialog,public deleteDialog:MatDialog,public admin:AdminService,public router:Router){
     if(localStorage.getItem('token')){
+      this.checkIfEmployee();
       this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
       // this.admin.getTransactionsFunc().subscribe(
       //   res=>{
@@ -36,7 +39,25 @@ export class ViewUserTypeComponent implements OnInit {
   ngOnInit() {
     // this.dataSource = new ViewUserTypeDataSource(this.admin);
   }
+  
+  isAllowed:boolean;
+  checkIfEmployee(){
 
+    if(localStorage.getItem('token')){
+      this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
+      this.admin.getCurrUserFunc().subscribe(
+        res=>{
+          if(res.user.position.typeName == 'employee' || res.user.position.typeName == 'manager'){
+           this.isAllowed = false;
+          }else{
+            this.isAllowed = true; 
+          }
+        }
+      );
+    }
+    
+  }
+  
   openUpdateDialog(e:any):void{
     console.log(e);
     let dialogRef = this.updateDialog.open(UpdateUserTypeComponent, {
@@ -90,5 +111,25 @@ export class ViewUserTypeComponent implements OnInit {
     }else{
       
     }
+  }
+
+  navToArchive(){
+    this.router.navigate(['/mynav/archiveUserType']);
+  }
+
+  openDetailDialog(e:any):void{
+    
+    
+          let dialogRef = this.updateDialog.open(UserTypeDetailsComponent, {
+            width: '80%',
+            height:'350',
+            data: {ID:e.target.id}
+          });
+      
+          dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+            
+          });
+       
   }
 }

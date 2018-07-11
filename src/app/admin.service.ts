@@ -113,6 +113,37 @@ export class AdminService {
 
   retrieveDeletedProductsURL = 'http://localhost:9000/product/deleted/0/';
 
+  retrieveDeletedUsersURL = 'http://localhost:9000/deleted/0/';
+
+  retrieveDeletedProdTypesURL = 'http://localhost:9000/productType/deleted/0/';
+
+  retrieveDeletedTransURL = 'http://localhost:9000/transaction/deleted/0/';
+
+  retrieveDeletedUserTypeURL = 'http://localhost:9000/userType/deleted/0/';
+
+  retrieveCertainProdTypeURL = 'http://localhost:9000/retrieveproductType/:id/';
+
+  retrieveCertainUserTypeURL = 'http://localhost:9000/retrieveuserType/:id/';
+
+  retrieveCertainUserTypeFunc():Observable<any>{
+    return this.http.get(this.retrieveCertainUserTypeURL,this.httpOptions);
+  }
+
+  retrieveCertainProdTypeFunc():Observable<any>{
+    return this.http.get(this.retrieveCertainProdTypeURL,this.httpOptions);
+  }
+  retrieveDeletedUserTypeFunc():Observable<any>{
+    return this.http.get(this.retrieveDeletedUserTypeURL,this.httpOptions);
+  }
+  retrieveDeletedTransFunc():Observable<any>{
+    return this.http.get(this.retrieveDeletedTransURL,this.httpOptions);
+  }
+  retrieveDeletedProdTypesFunc():Observable<any>{
+    return this.http.get(this.retrieveDeletedProdTypesURL,this.httpOptions);
+  }
+  retreiveDeletedUsersFunc():Observable<any>{
+    return this.http.get(this.retrieveDeletedUsersURL,this.httpOptions);
+  }
   retrieveDeletedProductsFunc():Observable<any>{
     return this.http.get(this.retrieveDeletedProductsURL,this.httpOptions);
   }

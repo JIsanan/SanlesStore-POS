@@ -8,6 +8,7 @@ import { AdminService } from '../../admin.service';
 import { DeleteUserComponent } from 'src/app/POS/delete-user/delete-user.component';
 import { UpdateUserComponent } from 'src/app/POS/update-user/update-user.component';
 import { UserDetailsComponent } from 'src/app/POS/user-details/user-details.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'view-users',
@@ -26,11 +27,11 @@ export class ViewUsersComponent implements OnInit {
   ];
   pos;
 
-  constructor(public snackBar:MatSnackBar,public admin:AdminService,public updateDialog:MatDialog,public deleteDialog:MatDialog){
+  constructor(public snackBar:MatSnackBar,public admin:AdminService,public updateDialog:MatDialog,public deleteDialog:MatDialog,public router:Router){
     this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
     this.admin.getUsersURL = 'http://localhost:9000/0/';
     this.dataSource = new ViewUsersDataSource(this.admin);
-
+    this.checkIfEmployee();
     this.admin.getUsersFunc().subscribe(
       res=>{
         console.log(res);
@@ -54,6 +55,24 @@ export class ViewUsersComponent implements OnInit {
   
   filteredOptions: Observable<string[]>;
 
+  isAllowed:boolean;
+  checkIfEmployee(){
+
+    if(localStorage.getItem('token')){
+      this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
+      this.admin.getCurrUserFunc().subscribe(
+        res=>{
+          if(res.user.position.typeName == 'employee' || res.user.position.typeName == 'manager'){
+           this.isAllowed = false;
+          }else{
+            this.isAllowed = true; 
+          }
+        }
+      );
+    }
+    
+  }
+  
   filter(val: string): string[] {
     return this.options.filter(option =>
       option.toLowerCase().includes(val.toLowerCase()));
@@ -150,5 +169,8 @@ export class ViewUsersComponent implements OnInit {
     this.snackBar.open(message,"Dismiss",{
       duration:2000,
     });
+  }
+  navToArchive(){
+    this.router.navigate(['/mynav/archiveUser']);
   }
 }

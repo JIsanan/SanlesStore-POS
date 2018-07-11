@@ -12,6 +12,7 @@ import { ViewProdDataSource } from '../view-prod/view-prod-datasource';
 import { DeleteProductTypeComponent } from 'src/app/POS/delete-product-type/delete-product-type.component';
 import { UpdateProductTypeComponent } from 'src/app/POS/update-product-type/update-product-type.component';
 import { ProdTypeDetailsComponent } from 'src/app/POS/prod-type-details/prod-type-details.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -47,9 +48,9 @@ export class ViewProdtypeComponent implements OnInit {
       );
   }
 
-  constructor(public admin:AdminService,public deleteDialog:MatDialog,public updateDialog:MatDialog,public snackBar:MatSnackBar){
+  constructor(public admin:AdminService,public deleteDialog:MatDialog,public updateDialog:MatDialog,public snackBar:MatSnackBar,public router:Router){
     this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
-    
+    this.checkIfEmployee();
     // this.dataSource = new ViewProdtypeDataSource(this.admin);
     this.admin.getProductsFunc().subscribe(
       res=>{
@@ -58,6 +59,24 @@ export class ViewProdtypeComponent implements OnInit {
        
       }
     );
+  }
+
+  isAllowed:boolean;
+  checkIfEmployee(){
+
+    if(localStorage.getItem('token')){
+      this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
+      this.admin.getCurrUserFunc().subscribe(
+        res=>{
+          if(res.user.position.typeName == 'employee' || res.user.position.typeName == 'manager'){
+           this.isAllowed = false;
+          }else{
+            this.isAllowed = true; 
+          }
+        }
+      );
+    }
+    
   }
 
   options = [
@@ -198,5 +217,9 @@ export class ViewProdtypeComponent implements OnInit {
       
     }
 
+  }
+
+  navToArchive(){
+    this.router.navigate(['/mynav/archiveProdType']);
   }
 }

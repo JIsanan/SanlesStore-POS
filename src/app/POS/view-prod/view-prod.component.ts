@@ -31,6 +31,24 @@ export class ViewProdComponent implements OnInit {
   searchContent={
     prodName:''
   }
+
+  isAllowed:boolean;
+  checkIfEmployee(){
+
+    if(localStorage.getItem('token')){
+      this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
+      this.admin.getCurrUserFunc().subscribe(
+        res=>{
+          if(res.user.position.typeName == 'employee' || res.user.position.typeName == 'manager'){
+           this.isAllowed = false;
+          }else{
+            this.isAllowed = true; 
+          }
+        }
+      );
+    }
+    
+  }
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'name','price','update','delete','showDetails'];
   
@@ -60,6 +78,7 @@ export class ViewProdComponent implements OnInit {
   constructor(public updateDialog:MatDialog,public deleteDialog:MatDialog,public admin:AdminService,public snackBar:MatSnackBar,public detailDialog:MatDialog,public router:Router){
     this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
     // console.log(this.dataSource);
+    this.checkIfEmployee();
     this.admin.getProductsUrl = 'http://localhost:9000/product/0/';
     this.dataSource =  new ViewProdDataSource(this.admin);
     this.admin.getProductsFunc().subscribe(

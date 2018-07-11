@@ -16,7 +16,10 @@ export class ArchiveProdComponent implements OnInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'name','price'];
 
-  constructor(public admin:AdminService){}
+  constructor(public admin:AdminService){
+    this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
+
+  }
 
   ngOnInit() {
     this.dataSource = new ArchiveProdDataSource(this.admin);

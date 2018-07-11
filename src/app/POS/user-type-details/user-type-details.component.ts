@@ -3,33 +3,32 @@ import { AdminService } from '../../admin.service';
 import { MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
-  selector: 'app-trans-details',
-  templateUrl: './trans-details.component.html',
-  styleUrls: ['./trans-details.component.scss']
+  selector: 'app-user-type-details',
+  templateUrl: './user-type-details.component.html',
+  styleUrls: ['./user-type-details.component.scss']
 })
-export class TransDetailsComponent implements OnInit {
+export class UserTypeDetailsComponent implements OnInit {
 
   constructor(public admin:AdminService,@Inject(MAT_DIALOG_DATA) public data:any) {
-   
-    this.showCertainTrans();
-  }
+    
+   }
 
   ngOnInit() {
+    this.showCertainUserType();
   }
 
-  trans:any;
+  userType;
 
-  showCertainTrans(){
+  showCertainUserType(){
     if(localStorage.getItem('token')){
-      this.admin.getCertainTransURL = 'http://localhost:9000/gettransaction/'+this.data.ID+'/';
+      this.admin.retrieveCertainUserTypeURL = 'http://localhost:9000/retrieveuserType/'+this.data.ID+'/';
       this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
-      this.admin.getCertainTransFunc().subscribe(
+      this.admin.retrieveCertainUserTypeFunc().subscribe(
         res=>{
           console.log(res);
-          this.trans= res;
+          this.userType= res;
         }
       );
     }
   }
-
 }

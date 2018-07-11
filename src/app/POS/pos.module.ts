@@ -39,6 +39,10 @@ import { TransDetailsComponent } from './trans-details/trans-details.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { ArchiveProdComponent } from './archive-prod/archive-prod.component';
 import { ArchiveUsersComponent } from './archive-users/archive-users.component';
+import { ArchiveProdTypeComponent } from './archive-prod-type/archive-prod-type.component';
+import { ArchiveTransComponent } from './archive-trans/archive-trans.component';
+import { ArchiveUserTypeComponent } from './archive-user-type/archive-user-type.component';
+import { UserTypeDetailsComponent } from './user-type-details/user-type-details.component';
 
 
 @NgModule({
@@ -77,6 +81,10 @@ import { ArchiveUsersComponent } from './archive-users/archive-users.component';
       MatSelectModule,
     ],
     declarations: [
+      UserTypeDetailsComponent,
+      ArchiveUserTypeComponent,
+      ArchiveTransComponent,
+      ArchiveProdTypeComponent,
       ArchiveUsersComponent,
       ArchiveProdComponent,
       UserDetailsComponent,
@@ -111,6 +119,7 @@ import { ArchiveUsersComponent } from './archive-users/archive-users.component';
       
     ],
     entryComponents:[
+      UserTypeDetailsComponent,
       UserDetailsComponent,
       TransDetailsComponent,
       ProdTypeDetailsComponent,

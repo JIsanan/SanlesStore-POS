@@ -8,6 +8,7 @@ import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AdminService } from '../../admin.service';
 import { TransDetailsComponent } from 'src/app/POS/trans-details/trans-details.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'view-trans',
@@ -42,13 +43,32 @@ export class ViewTransComponent implements OnInit {
     );
   }
   
+  isAllowed:boolean;
+  checkIfEmployee(){
+
+    if(localStorage.getItem('token')){
+      this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
+      this.admin.getCurrUserFunc().subscribe(
+        res=>{
+          if(res.user.position.typeName == 'employee' || res.user.position.typeName == 'manager'){
+           this.isAllowed = false;
+          }else{
+            this.isAllowed = true; 
+          }
+        }
+      );
+    }
+    
+  }
+  
   filter(val: string): string[] {
     return this.options.filter(option =>
       option.toLowerCase().includes(val.toLowerCase()));
   }
 
-  constructor(public snackBar:MatSnackBar,public updateDialog:MatDialog,public deleteDialog:MatDialog,public admin:AdminService){
+  constructor(public snackBar:MatSnackBar,public updateDialog:MatDialog,public deleteDialog:MatDialog,public admin:AdminService,public router:Router){
     if(localStorage.getItem('token')){
+      this.checkIfEmployee();
       this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
       this.admin.getTransactionsUrl = 'http://localhost:9000/transaction/0/';
       this.dataSource = new ViewTransDataSource(this.admin);
@@ -159,5 +179,8 @@ export class ViewTransComponent implements OnInit {
     console.log("Current Page NUmber"+this.currentPage);
   }
   
+  navToArchive(){
+    this.router.navigate(['/mynav/archiveTrans']);
+  }
   
 }

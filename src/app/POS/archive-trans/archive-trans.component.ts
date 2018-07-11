@@ -1,27 +1,27 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
-import { ArchiveUsersDataSource } from './archive-users-datasource';
+import { ArchiveTransDataSource } from './archive-trans-datasource';
 import { AdminService } from '../../admin.service';
 
 @Component({
-  selector: 'archive-users',
-  templateUrl: './archive-users.component.html',
-  styleUrls: ['./archive-users.component.css']
+  selector: 'archive-trans',
+  templateUrl: './archive-trans.component.html',
+  styleUrls: ['./archive-trans.component.css']
 })
-export class ArchiveUsersComponent implements OnInit {
+export class ArchiveTransComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  dataSource: ArchiveUsersDataSource;
+  dataSource: ArchiveTransDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'user','position','password'];
+  displayedColumns = ['id', 'buyerName','prodQty','prodName','Total Price'];
 
   constructor(public admin:AdminService){
     this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
 
   }
+
   ngOnInit() {
-    this.dataSource = new ArchiveUsersDataSource(this.admin);
+    this.dataSource = new ArchiveTransDataSource(this.admin);
   }
-  
 }

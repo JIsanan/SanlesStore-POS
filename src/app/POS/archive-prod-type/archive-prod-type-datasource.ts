@@ -5,15 +5,13 @@ import { Observable, of as observableOf, merge } from 'rxjs';
 import { AdminService } from '../../admin.service';
 
 // TODO: Replace this with your own data model type
-export interface ArchiveUsersItem {
-  user: string;
+export interface ArchiveProdTypeItem {
+  typeName: string;
   id: number;
-  position:string;
-  password:string;
 }
 
 // TODO: replace this with real data from your application
-// const EXAMPLE_DATA: ArchiveUsersItem[] = [
+// const EXAMPLE_DATA: ArchiveProdTypeItem[] = [
 //   {id: 1, name: 'Hydrogen'},
 //   {id: 2, name: 'Helium'},
 //   {id: 3, name: 'Lithium'},
@@ -37,12 +35,12 @@ export interface ArchiveUsersItem {
 // ];
 
 /**
- * Data source for the ArchiveUsers view. This class should
+ * Data source for the ArchiveProdType view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class ArchiveUsersDataSource extends DataSource<ArchiveUsersItem> {
-  // data: ArchiveUsersItem[] = EXAMPLE_DATA;
+export class ArchiveProdTypeDataSource extends DataSource<ArchiveProdTypeItem> {
+  // data: ArchiveProdTypeItem[] = EXAMPLE_DATA;
 
   constructor(public admin:AdminService) {
     super();
@@ -53,7 +51,7 @@ export class ArchiveUsersDataSource extends DataSource<ArchiveUsersItem> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<ArchiveUsersItem[]> {
+  connect(): Observable<ArchiveProdTypeItem[]> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
     // const dataMutations = [
@@ -68,8 +66,7 @@ export class ArchiveUsersDataSource extends DataSource<ArchiveUsersItem> {
     // return merge(...dataMutations).pipe(map(() => {
     //   return this.getPagedData(this.getSortedData([...this.data]));
     // }));
-    
-    return this.admin.retreiveDeletedUsersFunc();
+    return this.admin.retrieveDeletedProdTypesFunc();
   }
 
   /**
@@ -82,7 +79,7 @@ export class ArchiveUsersDataSource extends DataSource<ArchiveUsersItem> {
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  // private getPagedData(data: ArchiveUsersItem[]) {
+  // private getPagedData(data: ArchiveProdTypeItem[]) {
   //   const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
   //   return data.splice(startIndex, this.paginator.pageSize);
   // }
@@ -91,7 +88,7 @@ export class ArchiveUsersDataSource extends DataSource<ArchiveUsersItem> {
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  // private getSortedData(data: ArchiveUsersItem[]) {
+  // private getSortedData(data: ArchiveProdTypeItem[]) {
   //   if (!this.sort.active || this.sort.direction === '') {
   //     return data;
   //   }
