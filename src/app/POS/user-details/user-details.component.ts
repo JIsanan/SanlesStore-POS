@@ -10,7 +10,7 @@ import { MAT_DIALOG_DATA } from '@angular/material';
 export class UserDetailsComponent implements OnInit {
 
   constructor(public admin:AdminService,@Inject(MAT_DIALOG_DATA) public data:any) {
-    this.admin.getCertainUserURL = 'http://localhost:9000/getuser/'+this.data.ID+'/'; 
+    this.admin.getUserDeetsURL = 'http://localhost:9000/getdetails/'+this.data.ID+'/'; 
     this.showCertainTrans();
   }
 
@@ -21,7 +21,7 @@ export class UserDetailsComponent implements OnInit {
   showCertainTrans(){
     if(localStorage.getItem('token')){
       this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
-      this.admin.getCertainUserFunc().subscribe(
+      this.admin.getUserDeetsFunc().subscribe(
         res=>{
           console.log(res);
           this.user = res;

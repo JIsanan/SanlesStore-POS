@@ -3,6 +3,7 @@ import { Product } from 'src/app/POS/add-product/product';
 import { AdminService } from '../../admin.service';
 import { MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { FormControl } from '@angular/forms';
+import { ViewProdDataSource } from '../view-prod/view-prod-datasource';
 
 
 @Component({
@@ -71,6 +72,7 @@ export class UpdateProdComponent implements OnInit {
       this.admin.updateProductFunc().subscribe(
         res=>{
           this.openSnackBar("Successfully Updated!");
+          this.admin.prodDataSource = new ViewProdDataSource(this.admin);
         },
         err=>{
           this.openSnackBar("Update Unsuccessful!");

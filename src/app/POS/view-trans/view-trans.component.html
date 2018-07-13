@@ -29,7 +29,7 @@
     </div>
 </mat-card>
     <mat-card class="mat-elevation-z8 cardBorders">
-        <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+        <mat-table #table [dataSource]="this.admin.transDataSource" matSort aria-label="Elements">
       
           <!-- Id Column -->
           <ng-container matColumnDef="id">

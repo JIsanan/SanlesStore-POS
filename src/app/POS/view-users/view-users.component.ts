@@ -18,9 +18,11 @@ import { Router } from '@angular/router';
 export class ViewUsersComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  dataSource: ViewUsersDataSource = new ViewUsersDataSource(this.admin);
+  
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'user','position','password','update','delete','showDetails'];
+  displayedColumns = ['id', 'user','position','update','delete','showDetails'];
+  pageNumbers;
+  pageEnd;
   currentPage:number = 0;
   searchCategory = [
     {value: 'Username', viewValue: 'Username'},
@@ -30,7 +32,14 @@ export class ViewUsersComponent implements OnInit {
   constructor(public snackBar:MatSnackBar,public admin:AdminService,public updateDialog:MatDialog,public deleteDialog:MatDialog,public router:Router){
     this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
     this.admin.getUsersURL = 'http://localhost:9000/0/';
-    this.dataSource = new ViewUsersDataSource(this.admin);
+    this.admin.userDataSource = new ViewUsersDataSource(this.admin);
+    this.admin.userPageEndFunc().subscribe(
+      res=>{
+        this.pageEnd = res.message+1;
+        this.pageNumbers = Array(this.pageEnd).fill(0).map((x,i)=>i);
+        console.log(this.pageEnd);
+      }
+    );
     this.checkIfEmployee();
     this.admin.getUsersFunc().subscribe(
       res=>{
@@ -133,7 +142,7 @@ export class ViewUsersComponent implements OnInit {
   displaySearch(){
     console.log("GOT IN");
     this.admin.getUsersURL = 'http://localhost:9000/getusername/'+this.search.value+'/';
-    this.dataSource = new ViewUsersDataSource(this.admin);
+    this.admin.userDataSource = new ViewUsersDataSource(this.admin);
   }
 
   getMore(){
@@ -147,7 +156,7 @@ export class ViewUsersComponent implements OnInit {
        if(res.length == 0 ){
          this.currentPage--;
        }else if(res.length <= 10){
-        this.dataSource = new ViewUsersDataSource(this.admin);
+        this.admin.userDataSource = new ViewUsersDataSource(this.admin);
        }
       }
     );
@@ -158,7 +167,7 @@ export class ViewUsersComponent implements OnInit {
     if(this.currentPage>0){
       this.currentPage--;
       this.admin.getUsersURL = 'http://localhost:9000/'+this.currentPage+'/';
-      this. dataSource =  new ViewUsersDataSource(this.admin);
+      this.admin.userDataSource =  new ViewUsersDataSource(this.admin);
     }else{
       
     }
@@ -172,5 +181,20 @@ export class ViewUsersComponent implements OnInit {
   }
   navToArchive(){
     this.router.navigate(['/mynav/archiveUser']);
+  }
+
+  setPage(pageNum:number){
+    console.log(pageNum);
+    this.admin.getUsersURL = 'http://localhost:9000/'+pageNum+'/';
+    this.admin.getUsersFunc().subscribe(
+      res=>{
+       console.log("Response Length"+res.length);
+       if(res.length == 0 ){
+         this.currentPage--;
+       }else if(res.length <= 10){
+        this.admin.userDataSource = new ViewUsersDataSource(this.admin);
+       }
+      }
+    );
   }
 }

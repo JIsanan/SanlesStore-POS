@@ -33,7 +33,7 @@
         <!-- <div *ngIf="dataSource.loading$ | async">
             <mat-spinner></mat-spinner>
         </div> -->
-        <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+        <mat-table #table [dataSource]="this.admin.prodDataSource" matSort aria-label="Elements">
 
             <!-- Id Column -->
             <ng-container matColumnDef="id">
@@ -49,7 +49,7 @@
         
             <ng-container matColumnDef="price">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Product Price</mat-header-cell>
-                <mat-cell *matCellDef="let row">{{row.price}}</mat-cell>
+                <mat-cell *matCellDef="let row">PHP {{row.price}}</mat-cell>
             </ng-container>
         
             <ng-container matColumnDef='update'>
@@ -77,4 +77,7 @@
             [pageSize]="10"
             [pageSizeOptions]="[5, 10, 25, 50]">
           </mat-paginator> -->
+  </mat-card>
+  <mat-card>
+    <div class='pagination'><ul><button mat-raised-button color='primary' *ngFor="let number of pageNumbers; let i = index" (click)='setPage(i)'>{{number+1}}</button></ul></div>
   </mat-card>

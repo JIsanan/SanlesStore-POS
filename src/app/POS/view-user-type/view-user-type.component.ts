@@ -16,7 +16,7 @@ import { UserTypeDetailsComponent } from 'src/app/POS/user-type-details/user-typ
 export class ViewUserTypeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  dataSource: ViewUserTypeDataSource = new ViewUserTypeDataSource(this.admin);
+ 
 
   currentPage=0;
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
@@ -26,6 +26,7 @@ export class ViewUserTypeComponent implements OnInit {
     if(localStorage.getItem('token')){
       this.checkIfEmployee();
       this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
+      this.admin.userTypeDataSource = new ViewUserTypeDataSource(this.admin);
       // this.admin.getTransactionsFunc().subscribe(
       //   res=>{
       //     console.log(res);
@@ -96,7 +97,7 @@ export class ViewUserTypeComponent implements OnInit {
        if(res.length == 0 ){
          this.currentPage--;
        }else if(res.length <= 10){
-        this.dataSource = new ViewUserTypeDataSource(this.admin);
+        this.admin.userTypeDataSource = new ViewUserTypeDataSource(this.admin);
        }
       }
     );
@@ -107,7 +108,7 @@ export class ViewUserTypeComponent implements OnInit {
     if(this.currentPage>0){
       this.currentPage--;
       this.admin.getProductsUrl = 'http://localhost:9000/userType/'+this.currentPage+'/';
-      this. dataSource =  new ViewUserTypeDataSource(this.admin);
+      this.admin.userTypeDataSource =  new ViewUserTypeDataSource(this.admin);
     }else{
       
     }

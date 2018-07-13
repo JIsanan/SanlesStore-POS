@@ -8,7 +8,6 @@ import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AdminService } from '../../admin.service';
 import { ViewProdtypeDataSource } from './view-prodtype-datasource';
-import { ViewProdDataSource } from '../view-prod/view-prod-datasource';
 import { DeleteProductTypeComponent } from 'src/app/POS/delete-product-type/delete-product-type.component';
 import { UpdateProductTypeComponent } from 'src/app/POS/update-product-type/update-product-type.component';
 import { ProdTypeDetailsComponent } from 'src/app/POS/prod-type-details/prod-type-details.component';
@@ -24,9 +23,10 @@ export class ViewProdtypeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  dataSource: ViewProdtypeDataSource= new ViewProdtypeDataSource(this.admin);
+  // dataSource: ViewProdtypeDataSource= new ViewProdtypeDataSource(this.admin);
   pos;
-  
+  pageNumbers;
+  pageEnd;
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'type_name','update','delete','showDetails'];
   currentPage:number=0;
@@ -51,6 +51,7 @@ export class ViewProdtypeComponent implements OnInit {
   constructor(public admin:AdminService,public deleteDialog:MatDialog,public updateDialog:MatDialog,public snackBar:MatSnackBar,public router:Router){
     this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
     this.checkIfEmployee();
+    this.admin.prodTypeDataSource = new ViewProdtypeDataSource(this.admin);
     // this.dataSource = new ViewProdtypeDataSource(this.admin);
     this.admin.getProductsFunc().subscribe(
       res=>{
@@ -197,11 +198,12 @@ export class ViewProdtypeComponent implements OnInit {
 
     this.admin.getProductTypeFunc().subscribe(
       res=>{
+        console.log(res);
        console.log("Response Length"+res.length);
        if(res.length == 0 ){
          this.currentPage--;
        }else if(res.length <= 10){
-        this.dataSource = new ViewProdtypeDataSource(this.admin);
+        this.admin.prodTypeDataSource = new ViewProdtypeDataSource(this.admin);
        }
       }
     );
@@ -210,9 +212,10 @@ export class ViewProdtypeComponent implements OnInit {
 
   getBack(){
     if(this.currentPage>0){
+      console.log("GET IN");
       this.currentPage--;
-      this.admin.getProductsUrl = 'http://localhost:9000/productType/'+this.currentPage+'/';
-      this. dataSource =  new ViewProdtypeDataSource(this.admin);
+      this.admin.getProductTypeUrl = 'http://localhost:9000/productType/'+this.currentPage+'/';
+      this.admin.prodTypeDataSource =  new ViewProdtypeDataSource(this.admin);
     }else{
       
     }

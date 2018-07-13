@@ -27,6 +27,11 @@ export class AdminService {
     })
   };
 
+  prodDataSource;
+  prodTypeDataSource;
+  transDataSource;
+  userTypeDataSource;
+  userDataSource;
   
   body={
     username:'admin',
@@ -52,6 +57,12 @@ export class AdminService {
   updatedUserTypeBody:uType;
 
   userTypeBody:uType;
+
+  productPageEndURL = 'http://localhost:9000/product/page';
+
+  userPageEndURL = 'http://localhost:9000/page';
+
+  prodTypePageEndURL = 'http://localhost:9000/productType/page';
 
   getUserTypesURL='http://localhost:9000/userType/0/';
 
@@ -125,6 +136,21 @@ export class AdminService {
 
   retrieveCertainUserTypeURL = 'http://localhost:9000/retrieveuserType/:id/';
 
+  getUserDeetsURL = 'http://localhost:9000/getdetails/:id/';
+
+  productTypePageEndFunc():Observable<any>{
+    return this.http.get(this.prodTypePageEndURL,this.httpOptions);
+  }
+
+  userPageEndFunc():Observable<any>{
+    return this.http.get(this.userPageEndURL,this.httpOptions);
+  }
+  productPageEndFunc():Observable<any>{
+    return this.http.get(this.productPageEndURL,this.httpOptions);
+  }
+  getUserDeetsFunc():Observable<any>{
+    return this.http.get(this.getUserDeetsURL,this.httpOptions);
+  }
   retrieveCertainUserTypeFunc():Observable<any>{
     return this.http.get(this.retrieveCertainUserTypeURL,this.httpOptions);
   }

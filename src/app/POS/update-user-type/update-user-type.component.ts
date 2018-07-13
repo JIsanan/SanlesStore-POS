@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { uType } from '../add-user-type/userType';
 import { AdminService } from '../../admin.service';
 import { MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+import { ViewUserTypeDataSource } from 'src/app/POS/view-user-type/view-user-type-datasource';
 
 @Component({
   selector: 'app-update-user-type',
@@ -34,6 +35,7 @@ export class UpdateUserTypeComponent implements OnInit {
       this.admin.updateUserTypeFunc().subscribe(
         res=>{
           console.log(res);
+          this.admin.userTypeDataSource = new ViewUserTypeDataSource(this.admin);
           this.openSnackBar("Successfully Updated!");
         }
       );

@@ -5,9 +5,9 @@
           <mat-toolbar color='primary'>User Details</mat-toolbar>
           <mat-card-content>
               <mat-dialog-content *ngIf='user'>
-                <!-- <p>Added by: {{this.userType.user}}</p> -->
-                <p>Date Added: {{this.user.user.addedDate}}</p>
-                <!-- <p>Updated By:{{this.userType.updatedBy.user}}</p> -->
+                <p>Added by: {{this.user.createdBy.user}}</p>
+                <p>Date Added: {{this.user.createdBy.addedDate}}</p>
+                <p>Updated By:{{this.user.updatedBy.user}}</p>
               </mat-dialog-content>
           </mat-card-content>
         </mat-card>

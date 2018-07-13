@@ -18,16 +18,20 @@ export class AddProductTypeComponent implements OnInit {
 
   onSubmit(){
     this.admin.prodTypeBody = this.prodType;
-    if(localStorage.getItem('token')){
-      this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
-      this.admin.addProductTypeFunc().subscribe(
-        res=>{
-          this.openSnackBar("Successfully Added!");
-          console.log(res);
-        }
-      );
+    if(this.prodType.type_name == ''){
+      this.openSnackBar("Blank Input");
+    }else{
+      if(localStorage.getItem('token')){
+        this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
+        this.admin.addProductTypeFunc().subscribe(
+          res=>{
+            this.openSnackBar("Successfully Added!");
+            console.log(res);
+          }
+        );
+      }
     }
-    
+  
   }
 
   openSnackBar(message:string){

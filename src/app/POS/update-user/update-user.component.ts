@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { User } from 'src/app/POS/add-users/users';
 import { AdminService } from '../../admin.service';
 import { MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+import { ViewUsersDataSource } from 'src/app/POS/view-users/view-users-datasource';
 
 @Component({
   selector: 'app-update-user',
@@ -52,6 +53,7 @@ export class UpdateUserComponent implements OnInit {
       this.admin.updateUserFunc().subscribe(
         res=>{
           console.log(res);
+          this.admin.userDataSource =  new ViewUsersDataSource(this.admin);
           this.openSnackBar("Successfully Updated!");
         },
         err=>{

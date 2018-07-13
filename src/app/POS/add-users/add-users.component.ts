@@ -25,16 +25,21 @@ export class AddUsersComponent implements OnInit {
   }
 
   addUser(){
-    if(localStorage.getItem('token')){
-      this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
-      this.admin.userBody = this.userModel;
-      this.admin.addUserFunc().subscribe(
-        res=>{
-          console.log(res);
-          this.openSnackBar("Successfully Added!");
-        }
-      );
+    if(this.userModel.password == '' || this.userModel.username=='' || this.userModel.position == ''){
+      this.openSnackBar("Blank Input");
+    }else{
+      if(localStorage.getItem('token')){
+        this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
+        this.admin.userBody = this.userModel;
+        this.admin.addUserFunc().subscribe(
+          res=>{
+            console.log(res);
+            this.openSnackBar("Successfully Added!");
+          }
+        );
+      }
     }
+    
   }
 
   openSnackBar(message:string){

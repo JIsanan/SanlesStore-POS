@@ -3,6 +3,7 @@ import { product_type } from 'src/app/POS/add-product-type/product_type';
 import { AdminService } from '../../admin.service';
 import { MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { FormControl } from '@angular/forms';
+import { ViewProdtypeDataSource } from 'src/app/POS/view-prodtype/view-prodtype-datasource';
 
 @Component({
   selector: 'app-update-product-type',
@@ -36,6 +37,8 @@ export class UpdateProductTypeComponent implements OnInit {
       console.log(this.admin.updateProductTypeURL);
       this.admin.updateProductTypeFunc().subscribe(
         res=>{
+         
+          this.admin.prodTypeDataSource = new ViewProdtypeDataSource(this.admin);
           this.openSnackBar("Successfully Updated!");
         },
         err=>{

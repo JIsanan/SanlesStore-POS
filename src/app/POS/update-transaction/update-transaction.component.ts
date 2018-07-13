@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Transaction } from '../add-trans/transaction';
 import { AdminService } from '../../admin.service';
 import { MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+import { ViewTransDataSource } from 'src/app/POS/view-trans/view-trans-datasource';
 
 @Component({
   selector: 'app-update-transaction',
@@ -58,6 +59,7 @@ export class UpdateTransactionComponent implements OnInit {
       this.admin.updateCertainTransFunc().subscribe(
         res=>{
           console.log('SUCCESS!');
+          this.admin.transDataSource = new ViewTransDataSource(this.admin);
           this.openSnackBar("Successfully Updated!");
 
         },

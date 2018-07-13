@@ -2,6 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AdminService } from '../../admin.service';
+import { ViewProdDataSource } from '../view-prod/view-prod-datasource';
+// import { dataSource } from '../view-prod/view-prod.component';
 
 
 @Component({
@@ -33,12 +35,14 @@ export class DeleteProductComponent implements OnInit {
       res=>{
         console.log(res);
         this.openSnackBar("Delete Successful");
+        this.admin.prodDataSource = new ViewProdDataSource(this.admin);
       },
       err=>{
         console.log(err);
         this.openSnackBar("Error:Delete Unsuccessful");
       }
     );
+    
   }
 
   openSnackBar(message:string){

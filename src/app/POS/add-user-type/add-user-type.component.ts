@@ -20,14 +20,19 @@ export class AddUserTypeComponent implements OnInit {
 
   onSubmit(){
     this.admin.userTypeBody = this.userType;
-    if(localStorage.getItem('token')){
-      this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
-      this.admin.addUserTypeFunc().subscribe(
-        res=>{
-          this.openSnackBar("Successfully Added!");
-        }
-      );
+    if(this.userType.type_name == ''){
+      this.openSnackBar("Blank Input");
+    }else{
+      if(localStorage.getItem('token')){
+        this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
+        this.admin.addUserTypeFunc().subscribe(
+          res=>{
+            this.openSnackBar("Successfully Added!");
+          }
+        );
+      }
     }
+    
   }
 
   openSnackBar(message:string){

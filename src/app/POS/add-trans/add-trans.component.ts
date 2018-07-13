@@ -39,17 +39,22 @@ export class AddTransComponent implements OnInit {
     if(localStorage.getItem('token')){
       this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
       this.admin.transactionBody = this.trans;
-      this.admin.addTransactionFunc().subscribe(
-        res=>{
-          if(res.message == "product does not exist or quantity is invalid"){
-            this.openSnackBar("Input invalid check your fields and try again!");
-            console.log(res);
-          }else{
-            this.openSnackBar("Successfully Added");
-            console.log(res);
+      if(this.trans.quantity < 0){
+        this.openSnackBar("Cannot accept negative input!");
+      }else{
+        this.admin.addTransactionFunc().subscribe(
+          res=>{
+            if(res.message == "product does not exist or quantity is invalid"){
+              this.openSnackBar("Input invalid check your fields and try again!");
+              console.log(res);
+            }else{
+              this.openSnackBar("Successfully Added");
+              console.log(res);
+            }
           }
-        }
-      );
+        );
+      }
+      
     }
   }
   openSnackBar(message:string){

@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AdminService } from '../../admin.service';
+import { ViewTransDataSource } from 'src/app/POS/view-trans/view-trans-datasource';
 
 @Component({
   selector: 'app-delete-transaction',
@@ -20,7 +21,9 @@ export class DeleteTransactionComponent implements OnInit {
     this.admin.deleteTransFunc().subscribe(
       res=>{
         console.log(res);
+        this.admin.transDataSource = new ViewTransDataSource(this.admin);
         this.openSnackBar("Succecssfully Deleted!");
+        
       },
       err=>{
         console.log(err);

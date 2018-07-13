@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AdminService } from '../../admin.service';
 import { MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+import { ViewUserTypeDataSource } from 'src/app/POS/view-user-type/view-user-type-datasource';
 
 @Component({
   selector: 'app-delete-user-type',
@@ -24,6 +25,7 @@ export class DeleteUserTypeComponent implements OnInit {
   delete(){
     this.admin.deleteUserTypeFunc().subscribe(
       res=>{
+        this.admin.userTypeDataSource = new ViewUserTypeDataSource(this.admin);
         this.openSnackBar("Successfully Deleted!");
       },
       err=>{

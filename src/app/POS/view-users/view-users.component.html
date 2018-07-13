@@ -25,12 +25,12 @@
       <button mat-raised-button color='primary' (click)='getBack()'>Previous</button>
       <button mat-raised-button color='primary' (click)='getMore()'>See More</button>
       &nbsp;
-      <button *ngIf mat-raised-button color='primary' (click)='navToArchive()'>View Archives</button>
+      <button *ngIf='isAllowed' mat-raised-button color='primary' (click)='navToArchive()'>View Archives</button>
     </div>
 </mat-card>
 
 <mat-card class="mat-elevation-z8 cardBorders">
-  <mat-table [dataSource]="dataSource" #table matSort aria-label="Elements">
+  <mat-table [dataSource]="this.admin.userDataSource" #table matSort aria-label="Elements">
 
     <!-- Id Column -->
     <ng-container matColumnDef="id">
@@ -48,10 +48,10 @@
         <mat-header-cell *matHeaderCellDef mat-sort-header>Position</mat-header-cell>
         <mat-cell *matCellDef="let row">{{row.position.typeName}}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="password">
+      <!-- <ng-container matColumnDef="password">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Password</mat-header-cell>
           <mat-cell *matCellDef="let row">{{row.password}}</mat-cell>
-      </ng-container>
+      </ng-container> -->
 
       <ng-container matColumnDef='update'>
           <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
@@ -78,4 +78,7 @@
     [pageSize]="50"
     [pageSizeOptions]="[25, 50, 100, 250]">
   </mat-paginator> -->
+</mat-card>
+<mat-card>
+  <div class='pagination'><ul><button mat-raised-button color='primary' *ngFor="let number of pageNumbers; let i = index" (click)='setPage(i)'>{{number+1}}</button></ul></div>
 </mat-card>

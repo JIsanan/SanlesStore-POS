@@ -19,7 +19,7 @@ export class ViewTransComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  dataSource: ViewTransDataSource;
+ 
   currentPage=0;
   pos;
 
@@ -71,7 +71,7 @@ export class ViewTransComponent implements OnInit {
       this.checkIfEmployee();
       this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
       this.admin.getTransactionsUrl = 'http://localhost:9000/transaction/0/';
-      this.dataSource = new ViewTransDataSource(this.admin);
+      this.admin.transDataSource = new ViewTransDataSource(this.admin);
       this.admin.getTransactionsFunc().subscribe(
         res=>{
           console.log(res);
@@ -147,14 +147,14 @@ export class ViewTransComponent implements OnInit {
 
   displaySearch(){
     this.admin.getTransactionsUrl = 'http://localhost:9000/gettransactionbuyer/'+this.search.value+'/';
-    this.dataSource = new ViewTransDataSource(this.admin);
+    this.admin.transDataSource = new ViewTransDataSource(this.admin);
   }
 
   getBack(){
     if(this.currentPage>0){
       this.currentPage--;
       this.admin.getProductsUrl = 'http://localhost:9000/transaction/'+this.currentPage+'/';
-      this. dataSource =  new ViewTransDataSource(this.admin);
+      this.admin.transDataSource =  new ViewTransDataSource(this.admin);
     }else{
       
     }
@@ -172,7 +172,7 @@ export class ViewTransComponent implements OnInit {
        if(res.length == 0 ){
          this.currentPage--;
        }else if(res.length <= 10){
-        this.dataSource = new ViewTransDataSource(this.admin);
+        this.admin.transDataSource = new ViewTransDataSource(this.admin);
        }
       }
     );

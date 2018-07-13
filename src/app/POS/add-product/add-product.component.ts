@@ -37,20 +37,28 @@ export class AddProductComponent implements OnInit {
   onSubmit(){
     this.prod.type_id = this.selected;
     this.admin.productBody = this.prod;
-    console.log(this.admin.productBody);
-    if(localStorage.getItem('token')){
-      this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
-      this.admin.addProductFunc().subscribe(
-        res=>{
-          if(res.message=="product exists already or product type does not exist or price is an incorrect value"){
-            this.openSnackBar("Either Product Type does not Exist or Product Exists or Incorrect Value!");
-          }else{
-            this.openSnackBar("Successfully Added!");
+    if(this.prod.price<0){
+      this.openSnackBar("Cannot Accept Negative Input for Price or 0");
+    }else if(this.prod.price ==0 || this.prod.product_name=='' ){
+      this.openSnackBar("Invalid Input");
+    }else{
+      if(localStorage.getItem('token')){
+        this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
+        
+        this.admin.addProductFunc().subscribe(
+          res=>{
+            if(res.message=="product exists already or product type does not exist or price is an incorrect value"){
+              this.openSnackBar("Either Product Type does not Exist or Product Exists or Incorrect Value!");
+            }else{
+              this.openSnackBar("Successfully Added!");
+            }
+            console.log(res);
           }
-          console.log(res);
-        }
-      );
+        );
+      }
     }
+    console.log(this.admin.productBody);
+    
     
   }
 

@@ -10,3 +10,13 @@
     margin-left:50px;
     margin-top:40px;
 }
+.pagination {
+    display: inline-block;
+}
+
+.pagination button {
+    color: white;
+    float: left;
+    /* padding: 8px 16px; */
+    text-decoration: none;
+}

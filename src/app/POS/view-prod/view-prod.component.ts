@@ -21,7 +21,8 @@ export class ViewProdComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   // @ViewChild(AdminService) admin:AdminService;
 
-  dataSource =  new ViewProdDataSource(this.admin);
+  pageNumbers;
+  pageEnd;
   currentPage = 0;
   data:Object[];
   prevUrl='';
@@ -76,11 +77,20 @@ export class ViewProdComponent implements OnInit {
   }
 
   constructor(public updateDialog:MatDialog,public deleteDialog:MatDialog,public admin:AdminService,public snackBar:MatSnackBar,public detailDialog:MatDialog,public router:Router){
+    
     this.admin.httpOptions.headers = this.admin.httpOptions.headers.set('Authorization',localStorage.getItem('token'));
+    this.admin.productPageEndFunc().subscribe(
+      res=>{
+        this.pageEnd = res.message+1;
+        this.pageNumbers = Array(this.pageEnd).fill(0).map((x,i)=>i);
+        console.log(this.pageEnd);
+      }
+    );
     // console.log(this.dataSource);
+    this.admin.prodDataSource =  new ViewProdDataSource(this.admin);
     this.checkIfEmployee();
     this.admin.getProductsUrl = 'http://localhost:9000/product/0/';
-    this.dataSource =  new ViewProdDataSource(this.admin);
+    // this.dataSource =  new ViewProdDataSource(this.admin);
     this.admin.getProductsFunc().subscribe(
       res=>{
         this.data = res;
@@ -182,7 +192,7 @@ export class ViewProdComponent implements OnInit {
        if(res.length == 0 ){
          this.currentPage--;
        }else if(res.length <= 10){
-        this.dataSource = new ViewProdDataSource(this.admin);
+        this.admin.prodDataSource = new ViewProdDataSource(this.admin);
        }
       }
     );
@@ -193,7 +203,7 @@ export class ViewProdComponent implements OnInit {
     if(this.currentPage>0){
       this.currentPage--;
       this.admin.getProductsUrl = 'http://localhost:9000/product/'+this.currentPage+'/';
-      this. dataSource =  new ViewProdDataSource(this.admin);
+      this.admin.prodDataSource =  new ViewProdDataSource(this.admin);
     }else{
       
     }
@@ -202,7 +212,7 @@ export class ViewProdComponent implements OnInit {
 
   displaySearch(){
     this.admin.getProductsUrl = 'http://localhost:9000/getproductname/'+this.search.value+'/';
-    this.dataSource = new ViewProdDataSource(this.admin);
+    this.admin.prodDataSource = new ViewProdDataSource(this.admin);
   }
 
   openSnackBar(message:string){
@@ -213,5 +223,20 @@ export class ViewProdComponent implements OnInit {
   
   navToArchive(){
     this.router.navigate(['/mynav/archiveProd']);
+  }
+
+  setPage(pageNum:number){
+    console.log(pageNum);
+    this.admin.getProductsUrl = 'http://localhost:9000/product/'+pageNum+'/';
+    this.admin.getProductsFunc().subscribe(
+      res=>{
+       console.log("Response Length"+res.length);
+       if(res.length == 0 ){
+         this.currentPage--;
+       }else if(res.length <= 10){
+        this.admin.prodDataSource = new ViewProdDataSource(this.admin);
+       }
+      }
+    );
   }
 }

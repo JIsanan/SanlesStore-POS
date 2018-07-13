@@ -8,7 +8,7 @@
 </mat-card>
 
 <mat-card class="mat-elevation-z8 cardBorders">
-  <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+  <mat-table #table [dataSource]="this.admin.prodTypeDataSource" matSort aria-label="Elements">
 
     <!-- Id Column -->
     <ng-container matColumnDef="id">
@@ -49,4 +49,7 @@
     [pageSize]="50"
     [pageSizeOptions]="[25, 50, 100, 250]">
   </mat-paginator> -->
+</mat-card>
+<mat-card>
+  <div class='pagination'><ul><button mat-raised-button color='primary' *ngFor="let number of pageNumbers; let i = index" (click)='setPage(i)'>{{number+1}}</button></ul></div>
 </mat-card>
